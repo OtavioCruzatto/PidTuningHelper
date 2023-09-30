@@ -1,0 +1,11 @@
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.csproj.AssemblyReference.cache
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.csproj.SuggestedBindingRedirects.cache
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.Properties.Resources.resources
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.csproj.GenerateResource.cache
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.csproj.CoreCompileInputs.cache
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.PidTuningHelper.resources
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\bin\Debug\PidTuningHelper.exe.config
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\bin\Debug\PidTuningHelper.exe
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\bin\Debug\PidTuningHelper.pdb
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.exe
+C:\Users\Otavi\Documents\SW\CS\PidTuningHelper\obj\Debug\PidTuningHelper.pdb
