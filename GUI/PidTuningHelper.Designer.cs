@@ -59,6 +59,38 @@
             this.baudrateCb = new System.Windows.Forms.ComboBox();
             this.comPortCb = new System.Windows.Forms.ComboBox();
             this.tabPageGraph = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.currentSamplingDelayLbl = new System.Windows.Forms.Label();
+            this.currentPidDelayLbl = new System.Windows.Forms.Label();
+            this.currentPidSetpointLbl = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.currentKdLbl = new System.Windows.Forms.Label();
+            this.currentKiLbl = new System.Windows.Forms.Label();
+            this.currentKpLbl = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.readConfigDataBtn = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.startPidBtn = new System.Windows.Forms.Button();
+            this.stopPidBtn = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.setConfigDataBtn = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.pidSetpointTxtBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.pidDelayTxtBox = new System.Windows.Forms.TextBox();
+            this.setKsBtn = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.kiTxtBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.kdTxtBox = new System.Windows.Forms.TextBox();
+            this.kpTxtBox = new System.Windows.Forms.TextBox();
+            this.samplingDelayTxtBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.resizeBtn = new System.Windows.Forms.Button();
             this.maxXLbl = new System.Windows.Forms.Label();
@@ -76,18 +108,24 @@
             this.stopBtn = new System.Windows.Forms.Button();
             this.clearBtn = new System.Windows.Forms.Button();
             this.graphGb = new System.Windows.Forms.GroupBox();
+            this.lineChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.serialPort = new System.IO.Ports.SerialPort(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.lineChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPageSerialPort.SuspendLayout();
             this.settingsGb.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.controlGb.SuspendLayout();
             this.graphGb.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lineChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -97,7 +135,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(985, 613);
+            this.tabControl1.Size = new System.Drawing.Size(1254, 613);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageSerialPort
@@ -106,7 +144,7 @@
             this.tabPageSerialPort.Location = new System.Drawing.Point(4, 22);
             this.tabPageSerialPort.Name = "tabPageSerialPort";
             this.tabPageSerialPort.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSerialPort.Size = new System.Drawing.Size(977, 587);
+            this.tabPageSerialPort.Size = new System.Drawing.Size(1246, 587);
             this.tabPageSerialPort.TabIndex = 0;
             this.tabPageSerialPort.Text = "Serial Port";
             this.tabPageSerialPort.UseVisualStyleBackColor = true;
@@ -128,7 +166,7 @@
             this.settingsGb.Controls.Add(this.comPortLbl);
             this.settingsGb.Controls.Add(this.baudrateCb);
             this.settingsGb.Controls.Add(this.comPortCb);
-            this.settingsGb.Location = new System.Drawing.Point(305, 101);
+            this.settingsGb.Location = new System.Drawing.Point(420, 93);
             this.settingsGb.Name = "settingsGb";
             this.settingsGb.Size = new System.Drawing.Size(396, 379);
             this.settingsGb.TabIndex = 1;
@@ -304,16 +342,325 @@
             // 
             // tabPageGraph
             // 
+            this.tabPageGraph.Controls.Add(this.groupBox4);
+            this.tabPageGraph.Controls.Add(this.groupBox3);
+            this.tabPageGraph.Controls.Add(this.groupBox2);
             this.tabPageGraph.Controls.Add(this.groupBox1);
             this.tabPageGraph.Controls.Add(this.controlGb);
             this.tabPageGraph.Controls.Add(this.graphGb);
             this.tabPageGraph.Location = new System.Drawing.Point(4, 22);
             this.tabPageGraph.Name = "tabPageGraph";
             this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGraph.Size = new System.Drawing.Size(977, 587);
+            this.tabPageGraph.Size = new System.Drawing.Size(1246, 587);
             this.tabPageGraph.TabIndex = 1;
-            this.tabPageGraph.Text = "Graph";
+            this.tabPageGraph.Text = "PID";
             this.tabPageGraph.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.currentSamplingDelayLbl);
+            this.groupBox4.Controls.Add(this.currentPidDelayLbl);
+            this.groupBox4.Controls.Add(this.currentPidSetpointLbl);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.currentKdLbl);
+            this.groupBox4.Controls.Add(this.currentKiLbl);
+            this.groupBox4.Controls.Add(this.currentKpLbl);
+            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.readConfigDataBtn);
+            this.groupBox4.Location = new System.Drawing.Point(789, 386);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(451, 195);
+            this.groupBox4.TabIndex = 24;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "PID Monitor";
+            // 
+            // currentSamplingDelayLbl
+            // 
+            this.currentSamplingDelayLbl.AutoSize = true;
+            this.currentSamplingDelayLbl.Location = new System.Drawing.Point(273, 141);
+            this.currentSamplingDelayLbl.Name = "currentSamplingDelayLbl";
+            this.currentSamplingDelayLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentSamplingDelayLbl.TabIndex = 29;
+            this.currentSamplingDelayLbl.Text = "...";
+            // 
+            // currentPidDelayLbl
+            // 
+            this.currentPidDelayLbl.AutoSize = true;
+            this.currentPidDelayLbl.Location = new System.Drawing.Point(273, 98);
+            this.currentPidDelayLbl.Name = "currentPidDelayLbl";
+            this.currentPidDelayLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentPidDelayLbl.TabIndex = 31;
+            this.currentPidDelayLbl.Text = "...";
+            // 
+            // currentPidSetpointLbl
+            // 
+            this.currentPidSetpointLbl.AutoSize = true;
+            this.currentPidSetpointLbl.Location = new System.Drawing.Point(273, 54);
+            this.currentPidSetpointLbl.Name = "currentPidSetpointLbl";
+            this.currentPidSetpointLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentPidSetpointLbl.TabIndex = 30;
+            this.currentPidSetpointLbl.Text = "...";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(200, 54);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "PID Setpoint:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(214, 98);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "PID delay:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(189, 141);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 13);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Sampling delay:";
+            // 
+            // currentKdLbl
+            // 
+            this.currentKdLbl.AutoSize = true;
+            this.currentKdLbl.Location = new System.Drawing.Point(376, 141);
+            this.currentKdLbl.Name = "currentKdLbl";
+            this.currentKdLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentKdLbl.TabIndex = 23;
+            this.currentKdLbl.Text = "...";
+            // 
+            // currentKiLbl
+            // 
+            this.currentKiLbl.AutoSize = true;
+            this.currentKiLbl.Location = new System.Drawing.Point(376, 98);
+            this.currentKiLbl.Name = "currentKiLbl";
+            this.currentKiLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentKiLbl.TabIndex = 25;
+            this.currentKiLbl.Text = "...";
+            // 
+            // currentKpLbl
+            // 
+            this.currentKpLbl.AutoSize = true;
+            this.currentKpLbl.Location = new System.Drawing.Point(376, 54);
+            this.currentKpLbl.Name = "currentKpLbl";
+            this.currentKpLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentKpLbl.TabIndex = 24;
+            this.currentKpLbl.Text = "...";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(350, 141);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Kd:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(354, 98);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(19, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Ki:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(350, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(23, 13);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Kp:";
+            // 
+            // readConfigDataBtn
+            // 
+            this.readConfigDataBtn.Location = new System.Drawing.Point(6, 41);
+            this.readConfigDataBtn.Name = "readConfigDataBtn";
+            this.readConfigDataBtn.Size = new System.Drawing.Size(156, 123);
+            this.readConfigDataBtn.TabIndex = 20;
+            this.readConfigDataBtn.Text = "Read Config Data";
+            this.readConfigDataBtn.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.startPidBtn);
+            this.groupBox3.Controls.Add(this.stopPidBtn);
+            this.groupBox3.Location = new System.Drawing.Point(8, 386);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(197, 195);
+            this.groupBox3.TabIndex = 23;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "PID Control";
+            // 
+            // startPidBtn
+            // 
+            this.startPidBtn.Location = new System.Drawing.Point(19, 19);
+            this.startPidBtn.Name = "startPidBtn";
+            this.startPidBtn.Size = new System.Drawing.Size(156, 82);
+            this.startPidBtn.TabIndex = 21;
+            this.startPidBtn.Text = "Start PID";
+            this.startPidBtn.UseVisualStyleBackColor = true;
+            // 
+            // stopPidBtn
+            // 
+            this.stopPidBtn.Location = new System.Drawing.Point(19, 107);
+            this.stopPidBtn.Name = "stopPidBtn";
+            this.stopPidBtn.Size = new System.Drawing.Size(156, 82);
+            this.stopPidBtn.TabIndex = 22;
+            this.stopPidBtn.Text = "Stop PID";
+            this.stopPidBtn.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.setConfigDataBtn);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.pidSetpointTxtBox);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.pidDelayTxtBox);
+            this.groupBox2.Controls.Add(this.setKsBtn);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.kiTxtBox);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.kdTxtBox);
+            this.groupBox2.Controls.Add(this.kpTxtBox);
+            this.groupBox2.Controls.Add(this.samplingDelayTxtBox);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Location = new System.Drawing.Point(211, 386);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(572, 195);
+            this.groupBox2.TabIndex = 18;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "PID Settings";
+            // 
+            // setConfigDataBtn
+            // 
+            this.setConfigDataBtn.Location = new System.Drawing.Point(130, 41);
+            this.setConfigDataBtn.Name = "setConfigDataBtn";
+            this.setConfigDataBtn.Size = new System.Drawing.Size(156, 123);
+            this.setConfigDataBtn.TabIndex = 19;
+            this.setConfigDataBtn.Text = "Set Config Data";
+            this.setConfigDataBtn.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 41);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(67, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "PID Setpoint";
+            // 
+            // pidSetpointTxtBox
+            // 
+            this.pidSetpointTxtBox.Location = new System.Drawing.Point(18, 57);
+            this.pidSetpointTxtBox.Name = "pidSetpointTxtBox";
+            this.pidSetpointTxtBox.Size = new System.Drawing.Size(106, 20);
+            this.pidSetpointTxtBox.TabIndex = 17;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(15, 85);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 13);
+            this.label11.TabIndex = 16;
+            this.label11.Text = "PID delay";
+            // 
+            // pidDelayTxtBox
+            // 
+            this.pidDelayTxtBox.Location = new System.Drawing.Point(18, 101);
+            this.pidDelayTxtBox.Name = "pidDelayTxtBox";
+            this.pidDelayTxtBox.Size = new System.Drawing.Size(106, 20);
+            this.pidDelayTxtBox.TabIndex = 15;
+            // 
+            // setKsBtn
+            // 
+            this.setKsBtn.Location = new System.Drawing.Point(393, 41);
+            this.setKsBtn.Name = "setKsBtn";
+            this.setKsBtn.Size = new System.Drawing.Size(156, 123);
+            this.setKsBtn.TabIndex = 6;
+            this.setKsBtn.Text = "Set Ks";
+            this.setKsBtn.UseVisualStyleBackColor = true;
+            this.setKsBtn.Click += new System.EventHandler(this.setKsBtn_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(322, 85);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(16, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Ki";
+            // 
+            // kiTxtBox
+            // 
+            this.kiTxtBox.Location = new System.Drawing.Point(325, 101);
+            this.kiTxtBox.Name = "kiTxtBox";
+            this.kiTxtBox.Size = new System.Drawing.Size(62, 20);
+            this.kiTxtBox.TabIndex = 8;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(15, 128);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(78, 13);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Sampling delay";
+            // 
+            // kdTxtBox
+            // 
+            this.kdTxtBox.Location = new System.Drawing.Point(325, 144);
+            this.kdTxtBox.Name = "kdTxtBox";
+            this.kdTxtBox.Size = new System.Drawing.Size(62, 20);
+            this.kdTxtBox.TabIndex = 10;
+            // 
+            // kpTxtBox
+            // 
+            this.kpTxtBox.Location = new System.Drawing.Point(325, 57);
+            this.kpTxtBox.Name = "kpTxtBox";
+            this.kpTxtBox.Size = new System.Drawing.Size(62, 20);
+            this.kpTxtBox.TabIndex = 6;
+            // 
+            // samplingDelayTxtBox
+            // 
+            this.samplingDelayTxtBox.Location = new System.Drawing.Point(18, 144);
+            this.samplingDelayTxtBox.Name = "samplingDelayTxtBox";
+            this.samplingDelayTxtBox.Size = new System.Drawing.Size(106, 20);
+            this.samplingDelayTxtBox.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(322, 128);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(20, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Kd";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(322, 41);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(20, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Kp";
             // 
             // groupBox1
             // 
@@ -326,18 +673,18 @@
             this.groupBox1.Controls.Add(this.maxYTxtBox);
             this.groupBox1.Controls.Add(this.minYLbl);
             this.groupBox1.Controls.Add(this.minXLbl);
-            this.groupBox1.Location = new System.Drawing.Point(543, 386);
+            this.groupBox1.Location = new System.Drawing.Point(977, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 195);
+            this.groupBox1.Size = new System.Drawing.Size(263, 150);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Chart config";
+            this.groupBox1.Text = "Axes config";
             // 
             // resizeBtn
             // 
-            this.resizeBtn.Location = new System.Drawing.Point(108, 106);
+            this.resizeBtn.Location = new System.Drawing.Point(28, 111);
             this.resizeBtn.Name = "resizeBtn";
-            this.resizeBtn.Size = new System.Drawing.Size(206, 78);
+            this.resizeBtn.Size = new System.Drawing.Size(206, 31);
             this.resizeBtn.TabIndex = 6;
             this.resizeBtn.Text = "Resize";
             this.resizeBtn.UseVisualStyleBackColor = true;
@@ -346,7 +693,7 @@
             // maxXLbl
             // 
             this.maxXLbl.AutoSize = true;
-            this.maxXLbl.Location = new System.Drawing.Point(211, 21);
+            this.maxXLbl.Location = new System.Drawing.Point(131, 26);
             this.maxXLbl.Name = "maxXLbl";
             this.maxXLbl.Size = new System.Drawing.Size(37, 13);
             this.maxXLbl.TabIndex = 9;
@@ -354,7 +701,7 @@
             // 
             // maxXTxtBox
             // 
-            this.maxXTxtBox.Location = new System.Drawing.Point(214, 37);
+            this.maxXTxtBox.Location = new System.Drawing.Point(134, 42);
             this.maxXTxtBox.Name = "maxXTxtBox";
             this.maxXTxtBox.Size = new System.Drawing.Size(100, 20);
             this.maxXTxtBox.TabIndex = 8;
@@ -362,7 +709,7 @@
             // maxYLbl
             // 
             this.maxYLbl.AutoSize = true;
-            this.maxYLbl.Location = new System.Drawing.Point(211, 64);
+            this.maxYLbl.Location = new System.Drawing.Point(131, 69);
             this.maxYLbl.Name = "maxYLbl";
             this.maxYLbl.Size = new System.Drawing.Size(37, 13);
             this.maxYLbl.TabIndex = 13;
@@ -370,21 +717,21 @@
             // 
             // minYTxtBox
             // 
-            this.minYTxtBox.Location = new System.Drawing.Point(108, 80);
+            this.minYTxtBox.Location = new System.Drawing.Point(28, 85);
             this.minYTxtBox.Name = "minYTxtBox";
             this.minYTxtBox.Size = new System.Drawing.Size(100, 20);
             this.minYTxtBox.TabIndex = 10;
             // 
             // minXTxtBox
             // 
-            this.minXTxtBox.Location = new System.Drawing.Point(108, 37);
+            this.minXTxtBox.Location = new System.Drawing.Point(28, 42);
             this.minXTxtBox.Name = "minXTxtBox";
             this.minXTxtBox.Size = new System.Drawing.Size(100, 20);
             this.minXTxtBox.TabIndex = 6;
             // 
             // maxYTxtBox
             // 
-            this.maxYTxtBox.Location = new System.Drawing.Point(214, 80);
+            this.maxYTxtBox.Location = new System.Drawing.Point(134, 85);
             this.maxYTxtBox.Name = "maxYTxtBox";
             this.maxYTxtBox.Size = new System.Drawing.Size(100, 20);
             this.maxYTxtBox.TabIndex = 12;
@@ -392,7 +739,7 @@
             // minYLbl
             // 
             this.minYLbl.AutoSize = true;
-            this.minYLbl.Location = new System.Drawing.Point(105, 64);
+            this.minYLbl.Location = new System.Drawing.Point(25, 69);
             this.minYLbl.Name = "minYLbl";
             this.minYLbl.Size = new System.Drawing.Size(34, 13);
             this.minYLbl.TabIndex = 11;
@@ -401,7 +748,7 @@
             // minXLbl
             // 
             this.minXLbl.AutoSize = true;
-            this.minXLbl.Location = new System.Drawing.Point(105, 21);
+            this.minXLbl.Location = new System.Drawing.Point(25, 26);
             this.minXLbl.Name = "minXLbl";
             this.minXLbl.Size = new System.Drawing.Size(34, 13);
             this.minXLbl.TabIndex = 7;
@@ -414,18 +761,18 @@
             this.controlGb.Controls.Add(this.saveDataBtn);
             this.controlGb.Controls.Add(this.stopBtn);
             this.controlGb.Controls.Add(this.clearBtn);
-            this.controlGb.Location = new System.Drawing.Point(8, 386);
+            this.controlGb.Location = new System.Drawing.Point(977, 162);
             this.controlGb.Name = "controlGb";
-            this.controlGb.Size = new System.Drawing.Size(529, 195);
+            this.controlGb.Size = new System.Drawing.Size(263, 218);
             this.controlGb.TabIndex = 16;
             this.controlGb.TabStop = false;
-            this.controlGb.Text = "Control";
+            this.controlGb.Text = "Plotting control";
             // 
             // loadDataBtn
             // 
-            this.loadDataBtn.Location = new System.Drawing.Point(360, 107);
+            this.loadDataBtn.Location = new System.Drawing.Point(134, 159);
             this.loadDataBtn.Name = "loadDataBtn";
-            this.loadDataBtn.Size = new System.Drawing.Size(163, 78);
+            this.loadDataBtn.Size = new System.Drawing.Size(122, 53);
             this.loadDataBtn.TabIndex = 5;
             this.loadDataBtn.Text = "Load Data";
             this.loadDataBtn.UseVisualStyleBackColor = true;
@@ -435,17 +782,17 @@
             // 
             this.startBtn.Location = new System.Drawing.Point(6, 23);
             this.startBtn.Name = "startBtn";
-            this.startBtn.Size = new System.Drawing.Size(163, 78);
+            this.startBtn.Size = new System.Drawing.Size(122, 53);
             this.startBtn.TabIndex = 1;
-            this.startBtn.Text = "Start";
+            this.startBtn.Text = "Start Plot";
             this.startBtn.UseVisualStyleBackColor = true;
             this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
             // 
             // saveDataBtn
             // 
-            this.saveDataBtn.Location = new System.Drawing.Point(360, 23);
+            this.saveDataBtn.Location = new System.Drawing.Point(6, 159);
             this.saveDataBtn.Name = "saveDataBtn";
-            this.saveDataBtn.Size = new System.Drawing.Size(163, 78);
+            this.saveDataBtn.Size = new System.Drawing.Size(122, 53);
             this.saveDataBtn.TabIndex = 4;
             this.saveDataBtn.Text = "Save Data";
             this.saveDataBtn.UseVisualStyleBackColor = true;
@@ -453,19 +800,19 @@
             // 
             // stopBtn
             // 
-            this.stopBtn.Location = new System.Drawing.Point(175, 23);
+            this.stopBtn.Location = new System.Drawing.Point(134, 23);
             this.stopBtn.Name = "stopBtn";
-            this.stopBtn.Size = new System.Drawing.Size(163, 78);
+            this.stopBtn.Size = new System.Drawing.Size(123, 53);
             this.stopBtn.TabIndex = 2;
-            this.stopBtn.Text = "Stop";
+            this.stopBtn.Text = "Stop Plot";
             this.stopBtn.UseVisualStyleBackColor = true;
             this.stopBtn.Click += new System.EventHandler(this.stopBtn_Click);
             // 
             // clearBtn
             // 
-            this.clearBtn.Location = new System.Drawing.Point(6, 107);
+            this.clearBtn.Location = new System.Drawing.Point(6, 82);
             this.clearBtn.Name = "clearBtn";
-            this.clearBtn.Size = new System.Drawing.Size(163, 78);
+            this.clearBtn.Size = new System.Drawing.Size(251, 53);
             this.clearBtn.TabIndex = 3;
             this.clearBtn.Text = "Clear";
             this.clearBtn.UseVisualStyleBackColor = true;
@@ -479,22 +826,7 @@
             this.graphGb.Size = new System.Drawing.Size(963, 374);
             this.graphGb.TabIndex = 15;
             this.graphGb.TabStop = false;
-            this.graphGb.Text = "Graph";
-            // 
-            // serialPort
-            // 
-            this.serialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort_DataReceived);
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 25;
-            this.timer1.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // timer2
-            // 
-            this.timer2.Enabled = true;
-            this.timer2.Interval = 5;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            this.graphGb.Text = "Chart";
             // 
             // lineChart
             // 
@@ -613,11 +945,31 @@
             title1.Visible = false;
             this.lineChart.Titles.Add(title1);
             // 
+            // serialPort
+            // 
+            this.serialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort_DataReceived);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 25;
+            this.timer1.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 5;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // timer3
+            // 
+            this.timer3.Interval = 25;
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
             // PidTuningHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(986, 615);
+            this.ClientSize = new System.Drawing.Size(1257, 615);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -628,11 +980,17 @@
             this.settingsGb.ResumeLayout(false);
             this.settingsGb.PerformLayout();
             this.tabPageGraph.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.controlGb.ResumeLayout(false);
             this.graphGb.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lineChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -679,6 +1037,40 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.DataVisualization.Charting.Chart lineChart;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button setKsBtn;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox kiTxtBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox kdTxtBox;
+        private System.Windows.Forms.TextBox kpTxtBox;
+        private System.Windows.Forms.TextBox samplingDelayTxtBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox pidDelayTxtBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox pidSetpointTxtBox;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button startPidBtn;
+        private System.Windows.Forms.Button stopPidBtn;
+        private System.Windows.Forms.Button readConfigDataBtn;
+        private System.Windows.Forms.Button setConfigDataBtn;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label currentKdLbl;
+        private System.Windows.Forms.Label currentKiLbl;
+        private System.Windows.Forms.Label currentKpLbl;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label currentSamplingDelayLbl;
+        private System.Windows.Forms.Label currentPidDelayLbl;
+        private System.Windows.Forms.Label currentPidSetpointLbl;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Timer timer3;
     }
 }
 

@@ -18,11 +18,19 @@ namespace PidTuningHelper
 
         App.App pidTuningHelperApp;
 
+        private int stateMachineUpdateKs;
+        private int stateMachineUpdateKsCounter;
+        private bool updateKs;
+
         public PidTuningHelper()
         {
             InitializeComponent();
 
             pidTuningHelperApp = new App.App(lineChart, serialPort);
+
+            stateMachineUpdateKs = 0;
+            stateMachineUpdateKsCounter = 0;
+            updateKs = false;
 
             this.InitializeComboBoxes();
             this.SetItemsToDisconnectedMode();
@@ -170,6 +178,17 @@ namespace PidTuningHelper
             startBtn.Enabled = true;
             stopBtn.Enabled = true;
             loadDataBtn.Enabled = false;
+            startPidBtn.Enabled = true;
+            stopPidBtn.Enabled = true;
+            setConfigDataBtn.Enabled = true;
+            readConfigDataBtn.Enabled = true;
+            setKsBtn.Enabled = true;
+            kpTxtBox.Enabled = true;
+            kiTxtBox.Enabled = true;
+            kdTxtBox.Enabled = true;
+            pidSetpointTxtBox.Enabled = true;
+            pidDelayTxtBox.Enabled = true;
+            samplingDelayTxtBox.Enabled = true;
             portStatusPb.Value = 100;
         }
 
@@ -203,6 +222,17 @@ namespace PidTuningHelper
             stopBtn.Enabled = false;
             saveDataBtn.Enabled = false;
             loadDataBtn.Enabled = true;
+            startPidBtn.Enabled = false;
+            stopPidBtn.Enabled = false;
+            setConfigDataBtn.Enabled = false;
+            readConfigDataBtn.Enabled = false;
+            setKsBtn.Enabled = false;
+            kpTxtBox.Enabled = false;
+            kiTxtBox.Enabled = false;
+            kdTxtBox.Enabled = false;
+            pidSetpointTxtBox.Enabled = false;
+            pidDelayTxtBox.Enabled = false;
+            samplingDelayTxtBox.Enabled = false;
             portStatusPb.Value = 0;
         }
 
@@ -250,6 +280,81 @@ namespace PidTuningHelper
         private void timer2_Tick(object sender, EventArgs e)
         {
             pidTuningHelperApp.ExecuteStateMachine();
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            if ((updateKs == true) && (stateMachineUpdateKsCounter >= (int)Delay._100ms))
+            {
+                stateMachineUpdateKsCounter = 0;
+                timer3.Enabled = false;
+                updatePidKsParameters();
+            }
+            stateMachineUpdateKsCounter++;
+        }
+
+        private void updatePidKsParameters()
+        {
+            switch (stateMachineUpdateKs)
+            {
+                case 0:
+                    string kpStr = kpTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(kpStr))
+                    {
+                        if (int.TryParse(kpStr, out int kpResult))
+                        {
+                            pidTuningHelperApp.SetKpSendCommand(kpResult);
+                        }
+                    }
+                    stateMachineUpdateKs = 1;
+                    timer3.Enabled = true;
+                    break;
+
+                case 1:
+                    string kiStr = kiTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(kiStr))
+                    {
+                        if (int.TryParse(kiStr, out int kiResult))
+                        {
+                            pidTuningHelperApp.SetKiSendCommand(kiResult);
+                        }
+                    }
+                    stateMachineUpdateKs = 2;
+                    timer3.Enabled = true;
+                    break;
+
+                case 2:
+                    string kdStr = kdTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(kdStr))
+                    {
+                        if (int.TryParse(kdStr, out int kdResult))
+                        {
+                            pidTuningHelperApp.SetKdSendCommand(kdResult);
+                        }
+                    }
+                    stateMachineUpdateKs = 0;
+                    updateKs = false;
+                    stateMachineUpdateKsCounter = 0;
+                    timer3.Enabled = false;
+                    startPidBtn.Enabled = true;
+                    stopPidBtn.Enabled = true;
+                    setConfigDataBtn.Enabled = true;
+                    readConfigDataBtn.Enabled = true;
+                    setKsBtn.Enabled = true;
+                    break;
+
+                default:
+                    stateMachineUpdateKs = 0;
+                    updateKs = false;
+                    stateMachineUpdateKsCounter = 0;
+                    timer3.Enabled = false;
+                    startPidBtn.Enabled = true;
+                    stopPidBtn.Enabled = true;
+                    setConfigDataBtn.Enabled = true;
+                    readConfigDataBtn.Enabled = true;
+                    setKsBtn.Enabled = true;
+                    break;
+            }
         }
 
         private void clearBtn_Click(object sender, EventArgs e)
@@ -327,6 +432,18 @@ namespace PidTuningHelper
 
                 pidTuningHelperApp.ResizeChartAxisY(yMinInt, yMaxInt);
             }
+        }
+
+        private void setKsBtn_Click(object sender, EventArgs e)
+        {
+            timer3.Enabled = true;
+            updateKs = true;
+
+            startPidBtn.Enabled = false;
+            stopPidBtn.Enabled = false;
+            setConfigDataBtn.Enabled = false;
+            readConfigDataBtn.Enabled = false;
+            setKsBtn.Enabled = false;
         }
 
     }

@@ -171,6 +171,57 @@ namespace PidTuningHelper.App
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
+        public void SetKpSendCommand(int kp)
+        {
+            if (kp >= 0 && kp <= 255)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                this.payloadTxDataBytes[0] = ((byte)kp);
+                this.dataPacketTx.SetCommand((byte)Commands.SetKpValue);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("0 <= kp <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetKiSendCommand(int ki)
+        {
+            if (ki >= 0 && ki <= 255)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                this.payloadTxDataBytes[0] = ((byte)ki);
+                this.dataPacketTx.SetCommand((byte)Commands.SetKiValue);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("0 <= ki <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetKdSendCommand(int kd)
+        {
+            if (kd >= 0 && kd <= 255)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                this.payloadTxDataBytes[0] = ((byte)kd);
+                this.dataPacketTx.SetCommand((byte)Commands.SetKdValue);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("0 <= kd <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         public void ClearChart()
         {
             this.lineChart.Series[this.lineChartSerie].Points.Clear();
