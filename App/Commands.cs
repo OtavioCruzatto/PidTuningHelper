@@ -1,11 +1,16 @@
 ﻿namespace PidTuningHelper
 {
-    enum Commands : byte
+    enum CommandsToMicrocontroller : byte
     {
         SetKpValue = 0x10,
         SetKiValue = 0x11,
         SetKdValue = 0x12,
-        SetDeviceSendDataStatus = 0x40,
-        AdcReadValue = 0x51
+        AskForPidKsParameters = 0x13,
+        AskForSendProcessVariable = 0x22
+    }
+
+    enum CommandsFromMicrocontroller : byte
+    {
+        ProcessVariableValue = 0x21
     }
 }

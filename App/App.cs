@@ -74,7 +74,7 @@ namespace PidTuningHelper.App
         {
             switch (this.receivedCommand)
             {
-                case ((byte)Commands.AdcReadValue):
+                case ((byte) CommandsFromMicrocontroller.ProcessVariableValue):
                     this.adcValue = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
                     this.lineChart.Series[this.lineChartSerie].Points.AddXY(this.pointsCounter, this.adcValue);
 
@@ -154,8 +154,8 @@ namespace PidTuningHelper.App
         public void StartDataAquisitionSendCommand()
         {
             Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-            this.payloadTxDataBytes[0] = ((byte)DeviceSendData.Enable);
-            this.dataPacketTx.SetCommand((byte)Commands.SetDeviceSendDataStatus);
+            this.payloadTxDataBytes[0] = ((byte) DeviceSendData.Enable);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendProcessVariable);
             this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
@@ -164,8 +164,8 @@ namespace PidTuningHelper.App
         public void StopDataAquisitionSendCommand()
         {
             Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-            this.payloadTxDataBytes[0] = ((byte)DeviceSendData.Disable);
-            this.dataPacketTx.SetCommand((byte)Commands.SetDeviceSendDataStatus);
+            this.payloadTxDataBytes[0] = ((byte) DeviceSendData.Disable);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendProcessVariable);
             this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
@@ -177,7 +177,7 @@ namespace PidTuningHelper.App
             {
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
                 this.payloadTxDataBytes[0] = ((byte)kp);
-                this.dataPacketTx.SetCommand((byte)Commands.SetKpValue);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKpValue);
                 this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
@@ -188,13 +188,18 @@ namespace PidTuningHelper.App
             }
         }
 
+        public void AskforPidKsParameters()
+        {
+
+        }
+
         public void SetKiSendCommand(int ki)
         {
             if (ki >= 0 && ki <= 255)
             {
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
                 this.payloadTxDataBytes[0] = ((byte)ki);
-                this.dataPacketTx.SetCommand((byte)Commands.SetKiValue);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKiValue);
                 this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
@@ -211,7 +216,7 @@ namespace PidTuningHelper.App
             {
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
                 this.payloadTxDataBytes[0] = ((byte)kd);
-                this.dataPacketTx.SetCommand((byte)Commands.SetKdValue);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKdValue);
                 this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);

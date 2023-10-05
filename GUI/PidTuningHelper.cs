@@ -446,5 +446,9 @@ namespace PidTuningHelper
             setKsBtn.Enabled = false;
         }
 
+        private void readConfigDataBtn_Click(object sender, EventArgs e)
+        {
+            pidTuningHelperApp.AskforPidKsParameters();
+        }
     }
 }
