@@ -11,6 +11,7 @@
 
     enum CommandsFromMicrocontroller : byte
     {
-        ProcessVariableValue = 0x21
+        ProcessVariableValue = 0x21,
+        PidKsParameterValues = 0x14
     }
 }

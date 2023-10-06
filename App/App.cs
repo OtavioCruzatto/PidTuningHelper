@@ -16,12 +16,16 @@ namespace PidTuningHelper.App
         private byte receivedCommand;
         private bool decodeReceivedCommand;
 
-        private int adcValue;
+        private int processVariableValue;
         private int pointsCounter;
 
         private SerialPort serialPort;
         private Chart lineChart;
         private string lineChartSerie = "processVariableSerie";
+
+        private Label currentKpLabel;
+        private Label currentKiLabel;
+        private Label currentKdLabel;
 
         private int stateMachine;
         private int counterTimer1;
@@ -44,7 +48,7 @@ namespace PidTuningHelper.App
             this.counterTimer1 = 0;
             this.stateMachine = 0;
 
-            this.adcValue = 0;
+            this.processVariableValue = 0;
 
             this.dataPacketTx = new DataPacketTx(0xAA, 0x55);
             this.dataPacketRx = new DataPacketRx(0xAA, 0x55);
@@ -75,8 +79,8 @@ namespace PidTuningHelper.App
             switch (this.receivedCommand)
             {
                 case ((byte) CommandsFromMicrocontroller.ProcessVariableValue):
-                    this.adcValue = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
-                    this.lineChart.Series[this.lineChartSerie].Points.AddXY(this.pointsCounter, this.adcValue);
+                    this.processVariableValue = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
+                    this.lineChart.Series[this.lineChartSerie].Points.AddXY(this.pointsCounter, this.processVariableValue);
 
                     this.pointsCounter++;
                     if (this.pointsCounter > this.lineChartMaxX)
@@ -84,6 +88,15 @@ namespace PidTuningHelper.App
                         this.pointsCounter = this.lineChartMinX;
                         this.ClearChart();
                     }
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.PidKsParameterValues):
+                    this.currentKpLabel.Text = this.payloadRxDataBytes[0].ToString();
+                    this.currentKiLabel.Text = this.payloadRxDataBytes[1].ToString();
+                    this.currentKdLabel.Text = this.payloadRxDataBytes[2].ToString();
+                    break;
+
+                default:
                     break;
             }
         }
@@ -188,11 +201,6 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void AskforPidKsParameters()
-        {
-
-        }
-
         public void SetKiSendCommand(int ki)
         {
             if (ki >= 0 && ki <= 255)
@@ -225,6 +233,13 @@ namespace PidTuningHelper.App
             {
                 MessageBox.Show("0 <= kd <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        public void AskforPidKsParameters()
+        {
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidKsParameters);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
         }
 
         public void ClearChart()
@@ -308,7 +323,7 @@ namespace PidTuningHelper.App
             switch (this.stateMachine)
             {
                 case 0:
-                    if (this.counterTimer1 >= (int)Delay._25ms)
+                    if (this.counterTimer1 >= (int) Delay._10ms)
                     {
                         this.dataPacketRx.Decode();
                         this.counterTimer1 = 0;
@@ -379,6 +394,21 @@ namespace PidTuningHelper.App
         public void SetSerialPort(SerialPort serialPort)
         {
             this.serialPort = serialPort;
+        }
+
+        public void SetCurrentKpLabel(Label currentKpLabel)
+        {
+            this.currentKpLabel = currentKpLabel;
+        }
+
+        public void SetCurrentKiLabel(Label currentKiLabel)
+        {
+            this.currentKiLabel = currentKiLabel;
+        }
+
+        public void SetCurrentKdLabel(Label currentKdLabel)
+        {
+            this.currentKdLabel = currentKdLabel;
         }
     }
 }

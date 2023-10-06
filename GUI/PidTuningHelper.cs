@@ -35,6 +35,10 @@ namespace PidTuningHelper
             this.InitializeComboBoxes();
             this.SetItemsToDisconnectedMode();
             pidTuningHelperApp.ClearChart();
+
+            pidTuningHelperApp.SetCurrentKpLabel(currentKpLbl);
+            pidTuningHelperApp.SetCurrentKiLabel(currentKiLbl);
+            pidTuningHelperApp.SetCurrentKdLabel(currentKdLbl);
         }
 
         private void InitializeComboBoxes()
@@ -284,7 +288,7 @@ namespace PidTuningHelper
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            if ((updateKs == true) && (stateMachineUpdateKsCounter >= (int)Delay._100ms))
+            if ((updateKs == true) && (stateMachineUpdateKsCounter >= (int) Delay._100ms))
             {
                 stateMachineUpdateKsCounter = 0;
                 timer3.Enabled = false;
@@ -448,6 +452,9 @@ namespace PidTuningHelper
 
         private void readConfigDataBtn_Click(object sender, EventArgs e)
         {
+            currentKpLbl.Text = "...";
+            currentKiLbl.Text = "...";
+            currentKdLbl.Text = "...";
             pidTuningHelperApp.AskforPidKsParameters();
         }
     }
