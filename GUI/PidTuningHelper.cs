@@ -247,9 +247,11 @@ namespace PidTuningHelper
                 while (serialPort.BytesToRead > 0)
                 {
                     int receivedByte = serialPort.ReadByte();
+                    // Console.Write(receivedByte.ToString("X2") + " ");
                     if (receivedByte >= 0)
                     {
                         pidTuningHelperApp.AppendNewByte(receivedByte);
+                        pidTuningHelperApp.GetDataPacketRx().Decode();
                     }
                 }
             }

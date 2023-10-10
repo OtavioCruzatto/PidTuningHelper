@@ -323,11 +323,11 @@ namespace PidTuningHelper.App
             switch (this.stateMachine)
             {
                 case 0:
-                    if (this.counterTimer1 >= (int) Delay._10ms)
-                    {
-                        this.dataPacketRx.Decode();
-                        this.counterTimer1 = 0;
-                    }
+                    //if (this.counterTimer1 >= (int) Delay._10ms)
+                    //{
+                    //    this.dataPacketRx.Decode();
+                    //    this.counterTimer1 = 0;
+                    //}
                     this.stateMachine = 1;
                     break;
 
@@ -409,6 +409,11 @@ namespace PidTuningHelper.App
         public void SetCurrentKdLabel(Label currentKdLabel)
         {
             this.currentKdLabel = currentKdLabel;
+        }
+
+        public DataPacketRx GetDataPacketRx()
+        {
+            return this.dataPacketRx;
         }
     }
 }
