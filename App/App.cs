@@ -26,6 +26,9 @@ namespace PidTuningHelper.App
         private Label currentKpLabel;
         private Label currentKiLabel;
         private Label currentKdLabel;
+        private Label currentPidDelayLabel;
+        private Label currentPidSetpointLabel;
+        private Label currentSamplingDelayLabel;
 
         private int stateMachine;
         private int counterTimer1;
@@ -61,10 +64,10 @@ namespace PidTuningHelper.App
             this.SetLineChart(lineChart);
             this.SetSerialPort(serialPort);
 
-            this.lineChartMinX = (int)this.lineChart.ChartAreas[0].AxisX.Minimum;
-            this.lineChartMaxX = (int)this.lineChart.ChartAreas[0].AxisX.Maximum;
-            this.lineChartMinY = (int)this.lineChart.ChartAreas[0].AxisY.Minimum;
-            this.lineChartMaxY = (int)this.lineChart.ChartAreas[0].AxisY.Maximum;
+            this.lineChartMinX = (int) this.lineChart.ChartAreas[0].AxisX.Minimum;
+            this.lineChartMaxX = (int) this.lineChart.ChartAreas[0].AxisX.Maximum;
+            this.lineChartMinY = (int) this.lineChart.ChartAreas[0].AxisY.Minimum;
+            this.lineChartMaxY = (int) this.lineChart.ChartAreas[0].AxisY.Maximum;
 
             this.pointsCounter = this.lineChartMinX;
         }
@@ -94,6 +97,19 @@ namespace PidTuningHelper.App
                     this.currentKpLabel.Text = this.payloadRxDataBytes[0].ToString();
                     this.currentKiLabel.Text = this.payloadRxDataBytes[1].ToString();
                     this.currentKdLabel.Text = this.payloadRxDataBytes[2].ToString();
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.PidControllerParameterValues):
+                    int samplingDelayAux = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
+                    int pidDelayAux = ((this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    int pidSetpoint = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+
+                    int samplingDelayInMiliSeconds = samplingDelayAux / 10;
+                    int pidDelayInMiliSeconds = pidDelayAux / 10;
+
+                    this.currentSamplingDelayLabel.Text = samplingDelayInMiliSeconds.ToString() + " ms";
+                    this.currentPidDelayLabel.Text = pidDelayInMiliSeconds.ToString() + " ms";
+                    this.currentPidSetpointLabel.Text = pidSetpoint.ToString();
                     break;
 
                 default:
@@ -235,9 +251,16 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void AskforPidKsParameters()
+        public void AskForPidKsParameters()
         {
             this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidKsParameters);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
+        public void AskForPidControllerParameters()
+        {
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidControllerParameters);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
         }
@@ -414,6 +437,21 @@ namespace PidTuningHelper.App
         public DataPacketRx GetDataPacketRx()
         {
             return this.dataPacketRx;
+        }
+
+        public void SetCurrentPidDelayLabel(Label currentPidDelayLabel)
+        {
+            this.currentPidDelayLabel = currentPidDelayLabel;
+        }
+
+        public void SetCurrentSamplingDelayLabel(Label currentSamplingDelayLabel)
+        {
+            this.currentSamplingDelayLabel = currentSamplingDelayLabel;
+        }
+
+        public void SetCurrentPidSetpointLabel(Label currentPidSetpointLabel)
+        {
+            this.currentPidSetpointLabel = currentPidSetpointLabel;
         }
     }
 }
