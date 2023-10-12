@@ -18,13 +18,17 @@ namespace PidTuningHelper
 
         App.App pidTuningHelperApp;
 
-        private int stateMachineUpdateKs;
-        private int stateMachineUpdateKsCounter;
-        private bool updateKs;
+        private int stateMachineSetPidKsParameters;
+        private int stateMachineSetPidKsParametersCounter;
+        private bool setPidKsParameters;
 
-        private int stateMachineAskForPidParameter;
-        private int stateMachineAskForPidParameterCounter;
-        private bool askForPidParameter;
+        private int stateMachineAskForPidParameters;
+        private int stateMachineAskForPidParametersCounter;
+        private bool askForPidParameters;
+
+        private int stateMachineSetPidControllerParameters;
+        private int stateMachineSetPidControllerParametersCounter;
+        private bool setPidControllerParameters;
 
         public PidTuningHelper()
         {
@@ -32,13 +36,17 @@ namespace PidTuningHelper
 
             pidTuningHelperApp = new App.App(lineChart, serialPort);
 
-            this.stateMachineUpdateKs = 0;
-            this.stateMachineUpdateKsCounter = 0;
-            this.updateKs = false;
+            this.stateMachineSetPidKsParameters = 0;
+            this.stateMachineSetPidKsParametersCounter = 0;
+            this.setPidKsParameters = false;
 
-            this.stateMachineAskForPidParameter = 0;
-            this.stateMachineAskForPidParameterCounter = 0;
-            this.askForPidParameter = false;
+            this.stateMachineAskForPidParameters = 0;
+            this.stateMachineAskForPidParametersCounter = 0;
+            this.askForPidParameters = false;
+
+            this.stateMachineSetPidControllerParameters = 0;
+            this.stateMachineSetPidControllerParametersCounter = 0;
+            this.setPidControllerParameters = false;
 
             this.InitializeComboBoxes();
             this.SetItemsToDisconnectedMode();
@@ -301,44 +309,82 @@ namespace PidTuningHelper
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            if (this.updateKs == true)
+            if (this.setPidKsParameters == true)
             {
-                if (this.stateMachineUpdateKsCounter >= (int) Delay._100ms)
+                if (this.stateMachineSetPidKsParametersCounter >= (int) Delay._100ms)
                 {
-                    this.stateMachineUpdateKsCounter = 0;
+                    this.stateMachineSetPidKsParametersCounter = 0;
                     timer3.Enabled = false;
-                    updatePidKsParameters();
+                    SetPidKsParameters();
                 }
-                this.stateMachineUpdateKsCounter++;
+                this.stateMachineSetPidKsParametersCounter++;
             }
 
-            if (this.askForPidParameter == true)
+            if (this.askForPidParameters == true)
             {
-                if (this.stateMachineAskForPidParameterCounter >= (int) Delay._100ms)
+                if (this.stateMachineAskForPidParametersCounter >= (int) Delay._100ms)
                 {
-                    this.stateMachineAskForPidParameterCounter = 0;
+                    this.stateMachineAskForPidParametersCounter = 0;
                     timer3.Enabled = false;
-                    askForPidParameters();
+                    AskForPidParameters();
                 }
-                this.stateMachineAskForPidParameterCounter++;
+                this.stateMachineAskForPidParametersCounter++;
+            }
+
+            if (this.setPidControllerParameters == true)
+            {
+                if (this.stateMachineSetPidControllerParametersCounter >= (int) Delay._100ms)
+                {
+                    this.stateMachineSetPidControllerParametersCounter = 0;
+                    timer3.Enabled = false;
+                    SetPidControllerParameters();
+                }
+                this.stateMachineSetPidControllerParametersCounter++;
             }
         }
 
-        private void askForPidParameters()
+        private void SetPidControllerParameters()
         {
-            switch (this.stateMachineAskForPidParameter)
+            switch (this.stateMachineSetPidControllerParameters)
             {
                 case 0:
-                    pidTuningHelperApp.AskForPidKsParameters();
-                    this.stateMachineAskForPidParameter = 1;
+                    string samplingDelayInMsStr = samplingDelayTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(samplingDelayInMsStr))
+                    {
+                        if (uint.TryParse(samplingDelayInMsStr, out uint samplingDelayInMsResult))
+                        {
+                            pidTuningHelperApp.SetSamplingDelaySendCommand(10 * samplingDelayInMsResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 1;
                     timer3.Enabled = true;
                     break;
 
                 case 1:
-                    pidTuningHelperApp.AskForPidControllerParameters();
-                    this.stateMachineAskForPidParameter = 0;
-                    this.askForPidParameter = false;
-                    this.stateMachineAskForPidParameterCounter = 0;
+                    string pidDelayInMsStr = pidDelayTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(pidDelayInMsStr))
+                    {
+                        if (uint.TryParse(pidDelayInMsStr, out uint pidDelayInMsResult))
+                        {
+                            pidTuningHelperApp.SetPidDelaySendCommand(10 * pidDelayInMsResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 2;
+                    timer3.Enabled = true;
+                    break;
+
+                case 2:
+                    string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(pidSetpointStr))
+                    {
+                        if (uint.TryParse(pidSetpointStr, out uint pidSetpointResult))
+                        {
+                            pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 0;
+                    this.setPidControllerParameters = false;
+                    this.stateMachineSetPidControllerParametersCounter = 0;
                     timer3.Enabled = false;
                     startPidBtn.Enabled = true;
                     stopPidBtn.Enabled = true;
@@ -348,9 +394,9 @@ namespace PidTuningHelper
                     break;
 
                 default:
-                    this.stateMachineAskForPidParameter = 0;
-                    this.askForPidParameter = false;
-                    this.stateMachineAskForPidParameterCounter = 0;
+                    this.stateMachineSetPidControllerParameters = 0;
+                    this.setPidControllerParameters = false;
+                    this.stateMachineSetPidControllerParametersCounter = 0;
                     timer3.Enabled = false;
                     startPidBtn.Enabled = true;
                     stopPidBtn.Enabled = true;
@@ -361,20 +407,57 @@ namespace PidTuningHelper
             }
         }
 
-        private void updatePidKsParameters()
+        private void AskForPidParameters()
         {
-            switch (this.stateMachineUpdateKs)
+            switch (this.stateMachineAskForPidParameters)
+            {
+                case 0:
+                    pidTuningHelperApp.AskForPidKsParameters();
+                    this.stateMachineAskForPidParameters = 1;
+                    timer3.Enabled = true;
+                    break;
+
+                case 1:
+                    pidTuningHelperApp.AskForPidControllerParameters();
+                    this.stateMachineAskForPidParameters = 0;
+                    this.askForPidParameters = false;
+                    this.stateMachineAskForPidParametersCounter = 0;
+                    timer3.Enabled = false;
+                    startPidBtn.Enabled = true;
+                    stopPidBtn.Enabled = true;
+                    setConfigDataBtn.Enabled = true;
+                    readConfigDataBtn.Enabled = true;
+                    setKsBtn.Enabled = true;
+                    break;
+
+                default:
+                    this.stateMachineAskForPidParameters = 0;
+                    this.askForPidParameters = false;
+                    this.stateMachineAskForPidParametersCounter = 0;
+                    timer3.Enabled = false;
+                    startPidBtn.Enabled = true;
+                    stopPidBtn.Enabled = true;
+                    setConfigDataBtn.Enabled = true;
+                    readConfigDataBtn.Enabled = true;
+                    setKsBtn.Enabled = true;
+                    break;
+            }
+        }
+
+        private void SetPidKsParameters()
+        {
+            switch (this.stateMachineSetPidKsParameters)
             {
                 case 0:
                     string kpStr = kpTxtBox.Text.Trim();
                     if (!String.IsNullOrEmpty(kpStr))
                     {
-                        if (int.TryParse(kpStr, out int kpResult))
+                        if (uint.TryParse(kpStr, out uint kpResult))
                         {
                             pidTuningHelperApp.SetKpSendCommand(kpResult);
                         }
                     }
-                    this.stateMachineUpdateKs = 1;
+                    this.stateMachineSetPidKsParameters = 1;
                     timer3.Enabled = true;
                     break;
 
@@ -382,12 +465,12 @@ namespace PidTuningHelper
                     string kiStr = kiTxtBox.Text.Trim();
                     if (!String.IsNullOrEmpty(kiStr))
                     {
-                        if (int.TryParse(kiStr, out int kiResult))
+                        if (uint.TryParse(kiStr, out uint kiResult))
                         {
                             pidTuningHelperApp.SetKiSendCommand(kiResult);
                         }
                     }
-                    this.stateMachineUpdateKs = 2;
+                    this.stateMachineSetPidKsParameters = 2;
                     timer3.Enabled = true;
                     break;
 
@@ -395,14 +478,14 @@ namespace PidTuningHelper
                     string kdStr = kdTxtBox.Text.Trim();
                     if (!String.IsNullOrEmpty(kdStr))
                     {
-                        if (int.TryParse(kdStr, out int kdResult))
+                        if (uint.TryParse(kdStr, out uint kdResult))
                         {
                             pidTuningHelperApp.SetKdSendCommand(kdResult);
                         }
                     }
-                    this.stateMachineUpdateKs = 0;
-                    this.updateKs = false;
-                    this.stateMachineUpdateKsCounter = 0;
+                    this.stateMachineSetPidKsParameters = 0;
+                    this.setPidKsParameters = false;
+                    this.stateMachineSetPidKsParametersCounter = 0;
                     timer3.Enabled = false;
                     startPidBtn.Enabled = true;
                     stopPidBtn.Enabled = true;
@@ -412,9 +495,9 @@ namespace PidTuningHelper
                     break;
 
                 default:
-                    this.stateMachineUpdateKs = 0;
-                    this.updateKs = false;
-                    this.stateMachineUpdateKsCounter = 0;
+                    this.stateMachineSetPidKsParameters = 0;
+                    this.setPidKsParameters = false;
+                    this.stateMachineSetPidKsParametersCounter = 0;
                     timer3.Enabled = false;
                     startPidBtn.Enabled = true;
                     stopPidBtn.Enabled = true;
@@ -505,7 +588,7 @@ namespace PidTuningHelper
         private void setKsBtn_Click(object sender, EventArgs e)
         {
             timer3.Enabled = true;
-            this.updateKs = true;
+            this.setPidKsParameters = true;
 
             startPidBtn.Enabled = false;
             stopPidBtn.Enabled = false;
@@ -524,7 +607,19 @@ namespace PidTuningHelper
             currentSamplingDelayLbl.Text = "...";
 
             timer3.Enabled = true;
-            this.askForPidParameter = true;
+            this.askForPidParameters = true;
+
+            startPidBtn.Enabled = false;
+            stopPidBtn.Enabled = false;
+            setConfigDataBtn.Enabled = false;
+            readConfigDataBtn.Enabled = false;
+            setKsBtn.Enabled = false;
+        }
+
+        private void setConfigDataBtn_Click(object sender, EventArgs e)
+        {
+            timer3.Enabled = true;
+            this.setPidControllerParameters = true;
 
             startPidBtn.Enabled = false;
             stopPidBtn.Enabled = false;
