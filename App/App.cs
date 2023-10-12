@@ -200,6 +200,26 @@ namespace PidTuningHelper.App
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
+        public void StartPidControllerSendCommand()
+        {
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            this.payloadTxDataBytes[0] = ((byte) RunPidController.True);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForRunPidController);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
+        public void StopPidControllerSendCommand()
+        {
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            this.payloadTxDataBytes[0] = ((byte) RunPidController.False);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForRunPidController);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
         public void SetKpSendCommand(uint kp)
         {
             if (kp >= 0 && kp <= 0xFF)

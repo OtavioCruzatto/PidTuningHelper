@@ -515,6 +515,7 @@
             this.startPidBtn.TabIndex = 21;
             this.startPidBtn.Text = "Start PID";
             this.startPidBtn.UseVisualStyleBackColor = true;
+            this.startPidBtn.Click += new System.EventHandler(this.startPidBtn_Click);
             // 
             // stopPidBtn
             // 
@@ -524,6 +525,7 @@
             this.stopPidBtn.TabIndex = 22;
             this.stopPidBtn.Text = "Stop PID";
             this.stopPidBtn.UseVisualStyleBackColor = true;
+            this.stopPidBtn.Click += new System.EventHandler(this.stopPidBtn_Click);
             // 
             // groupBox2
             // 

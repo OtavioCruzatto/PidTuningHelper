@@ -627,5 +627,15 @@ namespace PidTuningHelper
             readConfigDataBtn.Enabled = false;
             setKsBtn.Enabled = false;
         }
+
+        private void startPidBtn_Click(object sender, EventArgs e)
+        {
+            pidTuningHelperApp.StartPidControllerSendCommand();
+        }
+
+        private void stopPidBtn_Click(object sender, EventArgs e)
+        {
+            pidTuningHelperApp.StopPidControllerSendCommand();
+        }
     }
 }
