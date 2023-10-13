@@ -82,7 +82,7 @@ namespace PidTuningHelper.App
             switch (this.receivedCommand)
             {
                 case ((byte) CommandsFromMicrocontroller.ProcessVariableValue):
-                    this.processVariableValue = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
+                    this.processVariableValue = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
                     this.lineChart.Series[this.lineChartSerie].Points.AddXY(this.pointsCounter, this.processVariableValue);
 
                     this.pointsCounter++;

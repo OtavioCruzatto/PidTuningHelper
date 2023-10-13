@@ -546,7 +546,7 @@ namespace PidTuningHelper
             {
                 if (int.TryParse(xMinStr, out int xMinResult))
                 {
-                    if (Math.Abs(xMinResult) <= 5000)
+                    if (Math.Abs(xMinResult) <= 500000)
                     {
                         xMinInt = xMinResult;
                     }
@@ -554,7 +554,7 @@ namespace PidTuningHelper
 
                 if (int.TryParse(xMaxStr, out int xMaxResult))
                 {
-                    if (Math.Abs(xMaxResult) <= 5000)
+                    if (Math.Abs(xMaxResult) <= 500000)
                     {
                         xMaxInt = xMaxResult;
                     }
@@ -567,7 +567,7 @@ namespace PidTuningHelper
             {
                 if (int.TryParse(yMinStr, out int yMinResult))
                 {
-                    if (Math.Abs(yMinResult) <= 5000)
+                    if (Math.Abs(yMinResult) <= 500000)
                     {
                         yMinInt = yMinResult;
                     }
@@ -575,7 +575,7 @@ namespace PidTuningHelper
 
                 if (int.TryParse(yMaxStr, out int yMaxResult))
                 {
-                    if (Math.Abs(yMaxResult) <= 5000)
+                    if (Math.Abs(yMaxResult) <= 500000)
                     {
                         yMaxInt = yMaxResult;
                     }
