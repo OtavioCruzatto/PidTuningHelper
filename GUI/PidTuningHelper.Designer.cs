@@ -82,7 +82,6 @@
             this.pidSetpointTxtBox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.pidDelayTxtBox = new System.Windows.Forms.TextBox();
-            this.setKsBtn = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.kiTxtBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -534,7 +533,6 @@
             this.groupBox2.Controls.Add(this.pidSetpointTxtBox);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.pidDelayTxtBox);
-            this.groupBox2.Controls.Add(this.setKsBtn);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.kiTxtBox);
             this.groupBox2.Controls.Add(this.label12);
@@ -552,7 +550,7 @@
             // 
             // setConfigDataBtn
             // 
-            this.setConfigDataBtn.Location = new System.Drawing.Point(130, 41);
+            this.setConfigDataBtn.Location = new System.Drawing.Point(399, 41);
             this.setConfigDataBtn.Name = "setConfigDataBtn";
             this.setConfigDataBtn.Size = new System.Drawing.Size(156, 123);
             this.setConfigDataBtn.TabIndex = 19;
@@ -571,7 +569,7 @@
             // 
             // pidSetpointTxtBox
             // 
-            this.pidSetpointTxtBox.Location = new System.Drawing.Point(18, 57);
+            this.pidSetpointTxtBox.Location = new System.Drawing.Point(15, 57);
             this.pidSetpointTxtBox.Name = "pidSetpointTxtBox";
             this.pidSetpointTxtBox.Size = new System.Drawing.Size(106, 20);
             this.pidSetpointTxtBox.TabIndex = 17;
@@ -587,25 +585,15 @@
             // 
             // pidDelayTxtBox
             // 
-            this.pidDelayTxtBox.Location = new System.Drawing.Point(18, 101);
+            this.pidDelayTxtBox.Location = new System.Drawing.Point(15, 101);
             this.pidDelayTxtBox.Name = "pidDelayTxtBox";
             this.pidDelayTxtBox.Size = new System.Drawing.Size(106, 20);
             this.pidDelayTxtBox.TabIndex = 15;
             // 
-            // setKsBtn
-            // 
-            this.setKsBtn.Location = new System.Drawing.Point(393, 41);
-            this.setKsBtn.Name = "setKsBtn";
-            this.setKsBtn.Size = new System.Drawing.Size(156, 123);
-            this.setKsBtn.TabIndex = 6;
-            this.setKsBtn.Text = "Set Ks";
-            this.setKsBtn.UseVisualStyleBackColor = true;
-            this.setKsBtn.Click += new System.EventHandler(this.setKsBtn_Click);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(322, 85);
+            this.label8.Location = new System.Drawing.Point(140, 85);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(16, 13);
             this.label8.TabIndex = 9;
@@ -613,7 +601,7 @@
             // 
             // kiTxtBox
             // 
-            this.kiTxtBox.Location = new System.Drawing.Point(325, 101);
+            this.kiTxtBox.Location = new System.Drawing.Point(140, 101);
             this.kiTxtBox.Name = "kiTxtBox";
             this.kiTxtBox.Size = new System.Drawing.Size(62, 20);
             this.kiTxtBox.TabIndex = 8;
@@ -629,21 +617,21 @@
             // 
             // kdTxtBox
             // 
-            this.kdTxtBox.Location = new System.Drawing.Point(325, 144);
+            this.kdTxtBox.Location = new System.Drawing.Point(140, 144);
             this.kdTxtBox.Name = "kdTxtBox";
             this.kdTxtBox.Size = new System.Drawing.Size(62, 20);
             this.kdTxtBox.TabIndex = 10;
             // 
             // kpTxtBox
             // 
-            this.kpTxtBox.Location = new System.Drawing.Point(325, 57);
+            this.kpTxtBox.Location = new System.Drawing.Point(140, 57);
             this.kpTxtBox.Name = "kpTxtBox";
             this.kpTxtBox.Size = new System.Drawing.Size(62, 20);
             this.kpTxtBox.TabIndex = 6;
             // 
             // samplingDelayTxtBox
             // 
-            this.samplingDelayTxtBox.Location = new System.Drawing.Point(18, 144);
+            this.samplingDelayTxtBox.Location = new System.Drawing.Point(15, 144);
             this.samplingDelayTxtBox.Name = "samplingDelayTxtBox";
             this.samplingDelayTxtBox.Size = new System.Drawing.Size(106, 20);
             this.samplingDelayTxtBox.TabIndex = 12;
@@ -651,7 +639,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(322, 128);
+            this.label9.Location = new System.Drawing.Point(140, 128);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(20, 13);
             this.label9.TabIndex = 11;
@@ -660,7 +648,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(322, 41);
+            this.label7.Location = new System.Drawing.Point(140, 41);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(20, 13);
             this.label7.TabIndex = 7;
@@ -1042,7 +1030,6 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.DataVisualization.Charting.Chart lineChart;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button setKsBtn;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox kiTxtBox;
         private System.Windows.Forms.Label label12;
