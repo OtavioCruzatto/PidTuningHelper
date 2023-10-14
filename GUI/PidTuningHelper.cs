@@ -382,6 +382,11 @@ namespace PidTuningHelper
                             pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResult);
                         }
                     }
+                    this.stateMachineSetPidControllerParameters = 3;
+                    timer3.Enabled = true;
+                    break;
+
+                case 3:
                     this.stateMachineSetPidControllerParameters = 0;
                     this.setPidControllerParameters = false;
                     this.stateMachineSetPidControllerParametersCounter = 0;
@@ -391,6 +396,7 @@ namespace PidTuningHelper
                     setConfigDataBtn.Enabled = true;
                     readConfigDataBtn.Enabled = true;
                     setKsBtn.Enabled = true;
+                    this.GetPidParametersFromMicrocontroller();
                     break;
 
                 default:
@@ -483,6 +489,11 @@ namespace PidTuningHelper
                             pidTuningHelperApp.SetKdSendCommand(kdResult);
                         }
                     }
+                    this.stateMachineSetPidKsParameters = 3;
+                    timer3.Enabled = true;
+                    break;
+
+                case 3:
                     this.stateMachineSetPidKsParameters = 0;
                     this.setPidKsParameters = false;
                     this.stateMachineSetPidKsParametersCounter = 0;
@@ -492,6 +503,7 @@ namespace PidTuningHelper
                     setConfigDataBtn.Enabled = true;
                     readConfigDataBtn.Enabled = true;
                     setKsBtn.Enabled = true;
+                    this.GetPidParametersFromMicrocontroller();
                     break;
 
                 default:
@@ -598,6 +610,11 @@ namespace PidTuningHelper
         }
 
         private void readConfigDataBtn_Click(object sender, EventArgs e)
+        {
+            this.GetPidParametersFromMicrocontroller();
+        }
+
+        private void GetPidParametersFromMicrocontroller()
         {
             currentKpLbl.Text = "...";
             currentKiLbl.Text = "...";
