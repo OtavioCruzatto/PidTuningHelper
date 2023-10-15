@@ -50,6 +50,7 @@ namespace PidTuningHelper
             pidTuningHelperApp.SetCurrentPidDelayLabel(currentPidDelayLbl);
             pidTuningHelperApp.SetCurrentPidSetpointLabel(currentPidSetpointLbl);
             pidTuningHelperApp.SetCurrentSamplingDelayLabel(currentSamplingDelayLbl);
+            pidTuningHelperApp.SetCurrentMovAverWinLabel(currentMovAverWinLbl);
         }
 
         private void InitializeComboBoxes()

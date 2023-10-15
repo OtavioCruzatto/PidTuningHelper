@@ -29,6 +29,7 @@ namespace PidTuningHelper.App
         private Label currentPidDelayLabel;
         private Label currentPidSetpointLabel;
         private Label currentSamplingDelayLabel;
+        private Label currentMovAverWinLabel;
 
         private int stateMachine;
         private int counterTimer1;
@@ -103,6 +104,7 @@ namespace PidTuningHelper.App
                     int samplingDelayAux = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
                     int pidDelayAux = ((this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
                     int pidSetpoint = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+                    int movingAverageWindow = this.payloadRxDataBytes[8];
 
                     int samplingDelayInMiliSeconds = samplingDelayAux / 10;
                     int pidDelayInMiliSeconds = pidDelayAux / 10;
@@ -110,6 +112,7 @@ namespace PidTuningHelper.App
                     this.currentSamplingDelayLabel.Text = samplingDelayInMiliSeconds.ToString() + " ms";
                     this.currentPidDelayLabel.Text = pidDelayInMiliSeconds.ToString() + " ms";
                     this.currentPidSetpointLabel.Text = pidSetpoint.ToString();
+                    this.currentMovAverWinLabel.Text = movingAverageWindow.ToString();
                     break;
 
                 default:
@@ -531,6 +534,11 @@ namespace PidTuningHelper.App
         public void SetCurrentPidSetpointLabel(Label currentPidSetpointLabel)
         {
             this.currentPidSetpointLabel = currentPidSetpointLabel;
+        }
+        
+        public void SetCurrentMovAverWinLabel(Label currentMovAverWinLabel)
+        {
+            this.currentMovAverWinLabel = currentMovAverWinLabel;
         }
     }
 }
