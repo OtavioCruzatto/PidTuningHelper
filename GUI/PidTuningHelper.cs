@@ -555,6 +555,7 @@ namespace PidTuningHelper
             currentPidDelayLbl.Text = "...";
             currentPidSetpointLbl.Text = "...";
             currentSamplingDelayLbl.Text = "...";
+            currentMovAverWinLbl.Text = "...";
 
             timer3.Enabled = true;
             this.askForPidParameters = true;

@@ -95,15 +95,26 @@ namespace PidTuningHelper.App
                     break;
 
                 case ((byte) CommandsFromMicrocontroller.PidKsParameterValues):
-                    this.currentKpLabel.Text = this.payloadRxDataBytes[0].ToString();
-                    this.currentKiLabel.Text = this.payloadRxDataBytes[1].ToString();
-                    this.currentKdLabel.Text = this.payloadRxDataBytes[2].ToString();
+                    int pidKpTimes1000 = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    int pidKiTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+                    int pidKdTimes1000 = ((this.payloadRxDataBytes[8] << 24) + (this.payloadRxDataBytes[9] << 16) + (this.payloadRxDataBytes[10] << 8) + this.payloadRxDataBytes[11]);
+
+                    float pidKp = ((float) pidKpTimes1000) / 1000;
+                    float pidKi = ((float) pidKiTimes1000) / 1000;
+                    float pidKd = ((float) pidKdTimes1000) / 1000;
+
+                    this.currentKpLabel.Text = pidKp.ToString();
+                    this.currentKiLabel.Text = pidKi.ToString();
+                    this.currentKdLabel.Text = pidKd.ToString();
                     break;
 
                 case ((byte) CommandsFromMicrocontroller.PidControllerParameterValues):
                     int samplingDelayAux = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
                     int pidDelayAux = ((this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
-                    int pidSetpoint = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+
+                    int pidSetpointTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+                    float pidSetpoint = ((float) pidSetpointTimes1000) / 1000;
+
                     int movingAverageWindow = this.payloadRxDataBytes[8];
 
                     int samplingDelayInMiliSeconds = samplingDelayAux / 10;
