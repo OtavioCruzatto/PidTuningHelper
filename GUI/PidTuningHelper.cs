@@ -430,6 +430,19 @@ namespace PidTuningHelper
                     break;
 
                 case 6:
+                    string movingAverageWindow = movAverageWinTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(movingAverageWindow))
+                    {
+                        if (uint.TryParse(movingAverageWindow, out uint movingAverageWindowResult))
+                        {
+                            pidTuningHelperApp.SetMovingAverageWindowSendCommand(movingAverageWindowResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 7;
+                    timer3.Enabled = true;
+                    break;
+
+                case 7:
                     this.stateMachineSetPidControllerParameters = 0;
                     this.setPidControllerParameters = false;
                     this.stateMachineSetPidControllerParametersCounter = 0;

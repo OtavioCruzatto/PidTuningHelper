@@ -115,7 +115,7 @@ namespace PidTuningHelper.App
                     int pidSetpointTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
                     float pidSetpoint = ((float) pidSetpointTimes1000) / 1000;
 
-                    int movingAverageWindow = this.payloadRxDataBytes[8];
+                    int movingAverageWindow = ((this.payloadRxDataBytes[8] << 8) + this.payloadRxDataBytes[9]);
 
                     int samplingIntervalInMiliSeconds = samplingIntervalAux / 10;
                     int pidIntervalInMiliSeconds = pidIntervalAux / 10;
@@ -319,6 +319,25 @@ namespace PidTuningHelper.App
             else
             {
                 MessageBox.Show("0 <= samplingIntervalInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetMovingAverageWindowSendCommand(uint movingAverageWindow)
+        {
+            if (movingAverageWindow >= 0 && movingAverageWindow <= 0xFFFF)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                int qtyOfBytes = 2;
+                this.payloadTxDataBytes[0] = (byte) ((movingAverageWindow >> 8) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) (movingAverageWindow & 0x00FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetMovingAverageWindow);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("0 <= movingAverageWindow <= 65535", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

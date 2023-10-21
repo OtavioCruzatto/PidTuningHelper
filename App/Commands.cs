@@ -11,7 +11,8 @@
         SetSamplingIntervalValue = 0x18,
         SetPidIntervalValue = 0x19,
         SetPidSetpointValue = 0x20,
-        AskForSendProcessVariable = 0x22
+        AskForSendProcessVariable = 0x22,
+        SetMovingAverageWindow = 0x23
     }
 
     enum CommandsFromMicrocontroller : byte
