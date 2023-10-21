@@ -355,9 +355,15 @@ namespace PidTuningHelper
 
                 case 2:
                     string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
+
+                    if (pidSetpointStr.Contains("."))
+                    {
+                        pidSetpointStr = pidSetpointStr.Replace(".", ",");
+                    }
+
                     if (!String.IsNullOrEmpty(pidSetpointStr))
                     {
-                        if (uint.TryParse(pidSetpointStr, out uint pidSetpointResult))
+                        if (float.TryParse(pidSetpointStr, out float pidSetpointResult))
                         {
                             pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResult);
                         }
@@ -368,9 +374,15 @@ namespace PidTuningHelper
 
                 case 3:
                     string kpStr = kpTxtBox.Text.Trim();
+
+                    if (kpStr.Contains("."))
+                    {
+                        kpStr = kpStr.Replace(".", ",");
+                    }
+
                     if (!String.IsNullOrEmpty(kpStr))
                     {
-                        if (uint.TryParse(kpStr, out uint kpResult))
+                        if (float.TryParse(kpStr, out float kpResult))
                         {
                             pidTuningHelperApp.SetKpSendCommand(kpResult);
                         }
@@ -381,9 +393,15 @@ namespace PidTuningHelper
 
                 case 4:
                     string kiStr = kiTxtBox.Text.Trim();
+
+                    if (kiStr.Contains("."))
+                    {
+                        kiStr = kiStr.Replace(".", ",");
+                    }
+
                     if (!String.IsNullOrEmpty(kiStr))
                     {
-                        if (uint.TryParse(kiStr, out uint kiResult))
+                        if (float.TryParse(kiStr, out float kiResult))
                         {
                             pidTuningHelperApp.SetKiSendCommand(kiResult);
                         }
@@ -394,9 +412,15 @@ namespace PidTuningHelper
 
                 case 5:
                     string kdStr = kdTxtBox.Text.Trim();
+                    
+                    if (kdStr.Contains("."))
+                    {
+                        kdStr = kdStr.Replace(".", ",");
+                    }
+
                     if (!String.IsNullOrEmpty(kdStr))
                     {
-                        if (uint.TryParse(kdStr, out uint kdResult))
+                        if (float.TryParse(kdStr, out float kdResult))
                         {
                             pidTuningHelperApp.SetKdSendCommand(kdResult);
                         }

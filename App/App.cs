@@ -234,14 +234,20 @@ namespace PidTuningHelper.App
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
-        public void SetKpSendCommand(uint kp)
+        public void SetKpSendCommand(float kp)
         {
             if (kp >= 0 && kp <= 0xFF)
             {
+                float pidKpTimes1000Aux = 1000 * kp;
+                int pidKpTimes1000 = (int) pidKpTimes1000Aux;
+
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = ((byte) kp);
+                this.payloadTxDataBytes[0] = (byte) ((pidKpTimes1000 >> 24) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) ((pidKpTimes1000 >> 16) & 0x00FF);
+                this.payloadTxDataBytes[2] = (byte) ((pidKpTimes1000 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[3] = (byte) (pidKpTimes1000 & 0x00FF);
                 this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKpValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
             }
@@ -251,14 +257,20 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void SetKiSendCommand(uint ki)
+        public void SetKiSendCommand(float ki)
         {
             if (ki >= 0 && ki <= 0xFF)
             {
+                float pidKiTimes1000Aux = 1000 * ki;
+                int pidKiTimes1000 = (int) pidKiTimes1000Aux;
+
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = ((byte) ki);
+                this.payloadTxDataBytes[0] = (byte) ((pidKiTimes1000 >> 24) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) ((pidKiTimes1000 >> 16) & 0x00FF);
+                this.payloadTxDataBytes[2] = (byte) ((pidKiTimes1000 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[3] = (byte) (pidKiTimes1000 & 0x00FF);
                 this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKiValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
             }
@@ -268,14 +280,20 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void SetKdSendCommand(uint kd)
+        public void SetKdSendCommand(float kd)
         {
             if (kd >= 0 && kd <= 0xFF)
             {
+                float pidKdTimes1000Aux = 1000 * kd;
+                int pidKdTimes1000 = (int) pidKdTimes1000Aux;
+
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = ((byte) kd);
+                this.payloadTxDataBytes[0] = (byte) ((pidKdTimes1000 >> 24) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) ((pidKdTimes1000 >> 16) & 0x00FF);
+                this.payloadTxDataBytes[2] = (byte) ((pidKdTimes1000 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[3] = (byte) (pidKdTimes1000 & 0x00FF);
                 this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKdValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
             }
@@ -323,16 +341,19 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void SetPidSetpointSendCommand(uint pidSetpoint)
+        public void SetPidSetpointSendCommand(float pidSetpoint)
         {
-            if (pidSetpoint >= 0 && pidSetpoint <= 0xFFFFFFFF)
+            if (pidSetpoint >= 0 && pidSetpoint <= 0x00FFFFFF)
             {
+                float pidSetpointTimes1000Aux = 1000 * pidSetpoint;
+                int pidSetpointTimes1000 = (int) pidSetpointTimes1000Aux;
+
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
                 int qtyOfBytes = 4;
-                this.payloadTxDataBytes[0] = (byte) ((pidSetpoint >> 24) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) ((pidSetpoint >> 16) & 0x00FF);
-                this.payloadTxDataBytes[2] = (byte) ((pidSetpoint >> 8) & 0x00FF);
-                this.payloadTxDataBytes[3] = (byte) (pidSetpoint & 0x00FF);
+                this.payloadTxDataBytes[0] = (byte) ((pidSetpointTimes1000 >> 24) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) ((pidSetpointTimes1000 >> 16) & 0x00FF);
+                this.payloadTxDataBytes[2] = (byte) ((pidSetpointTimes1000 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[3] = (byte) (pidSetpointTimes1000 & 0x00FF);
                 this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidSetpointValue);
                 this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
                 this.dataPacketTx.Mount();
@@ -340,7 +361,7 @@ namespace PidTuningHelper.App
             }
             else
             {
-                MessageBox.Show("0 <= pidSetpoint <= 4294967295", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("0 <= pidSetpoint <= 16777215", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
