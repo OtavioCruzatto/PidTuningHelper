@@ -236,7 +236,7 @@ namespace PidTuningHelper.App
 
         public void SetKpSendCommand(float kp)
         {
-            if (kp >= 0 && kp <= 0xFF)
+            if (kp >= 0 && kp <= 0xFFF)
             {
                 float pidKpTimes1000Aux = 1000 * kp;
                 int pidKpTimes1000 = (int) pidKpTimes1000Aux;
@@ -253,13 +253,13 @@ namespace PidTuningHelper.App
             }
             else
             {
-                MessageBox.Show("0 <= kp <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("0 <= kp <= 4095", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         public void SetKiSendCommand(float ki)
         {
-            if (ki >= 0 && ki <= 0xFF)
+            if (ki >= 0 && ki <= 0xFFF)
             {
                 float pidKiTimes1000Aux = 1000 * ki;
                 int pidKiTimes1000 = (int) pidKiTimes1000Aux;
@@ -276,13 +276,13 @@ namespace PidTuningHelper.App
             }
             else
             {
-                MessageBox.Show("0 <= ki <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("0 <= ki <= 4095", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         public void SetKdSendCommand(float kd)
         {
-            if (kd >= 0 && kd <= 0xFF)
+            if (kd >= 0 && kd <= 0xFFF)
             {
                 float pidKdTimes1000Aux = 1000 * kd;
                 int pidKdTimes1000 = (int) pidKdTimes1000Aux;
@@ -299,7 +299,7 @@ namespace PidTuningHelper.App
             }
             else
             {
-                MessageBox.Show("0 <= kd <= 255", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("0 <= kd <= 4095", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
