@@ -26,9 +26,9 @@ namespace PidTuningHelper.App
         private Label currentKpLabel;
         private Label currentKiLabel;
         private Label currentKdLabel;
-        private Label currentPidDelayLabel;
+        private Label currentPidIntervalLabel;
         private Label currentPidSetpointLabel;
-        private Label currentSamplingDelayLabel;
+        private Label currentSamplingIntervalLabel;
         private Label currentMovAverWinLabel;
 
         private int stateMachine;
@@ -109,19 +109,19 @@ namespace PidTuningHelper.App
                     break;
 
                 case ((byte) CommandsFromMicrocontroller.PidControllerParameterValues):
-                    int samplingDelayAux = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
-                    int pidDelayAux = ((this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    int samplingIntervalAux = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
+                    int pidIntervalAux = ((this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
 
                     int pidSetpointTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
                     float pidSetpoint = ((float) pidSetpointTimes1000) / 1000;
 
                     int movingAverageWindow = this.payloadRxDataBytes[8];
 
-                    int samplingDelayInMiliSeconds = samplingDelayAux / 10;
-                    int pidDelayInMiliSeconds = pidDelayAux / 10;
+                    int samplingIntervalInMiliSeconds = samplingIntervalAux / 10;
+                    int pidIntervalInMiliSeconds = pidIntervalAux / 10;
 
-                    this.currentSamplingDelayLabel.Text = samplingDelayInMiliSeconds.ToString() + " ms";
-                    this.currentPidDelayLabel.Text = pidDelayInMiliSeconds.ToString() + " ms";
+                    this.currentSamplingIntervalLabel.Text = samplingIntervalInMiliSeconds.ToString();
+                    this.currentPidIntervalLabel.Text = pidIntervalInMiliSeconds.ToString();
                     this.currentPidSetpointLabel.Text = pidSetpoint.ToString();
                     this.currentMovAverWinLabel.Text = movingAverageWindow.ToString();
                     break;
@@ -303,41 +303,41 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void SetSamplingDelaySendCommand(uint samplingDelayInMsx10)
+        public void SetSamplingIntervalSendCommand(uint samplingIntervalInMsx10)
         {
-            if (samplingDelayInMsx10 >= 0 && samplingDelayInMsx10 <= 0xFFFF)
+            if (samplingIntervalInMsx10 >= 0 && samplingIntervalInMsx10 <= 0xFFFF)
             {
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
                 int qtyOfBytes = 2;
-                this.payloadTxDataBytes[0] = (byte) ((samplingDelayInMsx10 >> 8) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) (samplingDelayInMsx10 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetSamplingDelayValue);
+                this.payloadTxDataBytes[0] = (byte) ((samplingIntervalInMsx10 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) (samplingIntervalInMsx10 & 0x00FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetSamplingIntervalValue);
                 this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
             }
             else
             {
-                MessageBox.Show("0 <= samplingDelayInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("0 <= samplingIntervalInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        public void SetPidDelaySendCommand(uint pidDelayInMsx10)
+        public void SetPidIntervalSendCommand(uint pidIntervalInMsx10)
         {
-            if (pidDelayInMsx10 >= 0 && pidDelayInMsx10 <= 0xFFFF)
+            if (pidIntervalInMsx10 >= 0 && pidIntervalInMsx10 <= 0xFFFF)
             {
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
                 int qtyOfBytes = 2;
-                this.payloadTxDataBytes[0] = (byte) ((pidDelayInMsx10 >> 8) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) (pidDelayInMsx10 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidDelayValue);
+                this.payloadTxDataBytes[0] = (byte) ((pidIntervalInMsx10 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) (pidIntervalInMsx10 & 0x00FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidIntervalValue);
                 this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
             }
             else
             {
-                MessageBox.Show("0 <= pidDelayInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("0 <= pidIntervalInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -553,14 +553,14 @@ namespace PidTuningHelper.App
             return this.dataPacketRx;
         }
 
-        public void SetCurrentPidDelayLabel(Label currentPidDelayLabel)
+        public void SetCurrentPidIntervalLabel(Label currentPidIntervalLabel)
         {
-            this.currentPidDelayLabel = currentPidDelayLabel;
+            this.currentPidIntervalLabel = currentPidIntervalLabel;
         }
 
-        public void SetCurrentSamplingDelayLabel(Label currentSamplingDelayLabel)
+        public void SetCurrentSamplingIntervalLabel(Label currentSamplingIntervalLabel)
         {
-            this.currentSamplingDelayLabel = currentSamplingDelayLabel;
+            this.currentSamplingIntervalLabel = currentSamplingIntervalLabel;
         }
 
         public void SetCurrentPidSetpointLabel(Label currentPidSetpointLabel)

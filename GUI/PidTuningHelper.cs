@@ -47,9 +47,9 @@ namespace PidTuningHelper
             pidTuningHelperApp.SetCurrentKpLabel(currentKpLbl);
             pidTuningHelperApp.SetCurrentKiLabel(currentKiLbl);
             pidTuningHelperApp.SetCurrentKdLabel(currentKdLbl);
-            pidTuningHelperApp.SetCurrentPidDelayLabel(currentPidDelayLbl);
+            pidTuningHelperApp.SetCurrentPidIntervalLabel(currentPidIntervalLbl);
             pidTuningHelperApp.SetCurrentPidSetpointLabel(currentPidSetpointLbl);
-            pidTuningHelperApp.SetCurrentSamplingDelayLabel(currentSamplingDelayLbl);
+            pidTuningHelperApp.SetCurrentSamplingIntervalLabel(currentSamplingIntervalLbl);
             pidTuningHelperApp.SetCurrentMovAverWinLabel(currentMovAverWinLbl);
         }
 
@@ -202,8 +202,8 @@ namespace PidTuningHelper
             kiTxtBox.Enabled = true;
             kdTxtBox.Enabled = true;
             pidSetpointTxtBox.Enabled = true;
-            pidDelayTxtBox.Enabled = true;
-            samplingDelayTxtBox.Enabled = true;
+            pidIntervalTxtBox.Enabled = true;
+            samplingIntervalTxtBox.Enabled = true;
             portStatusPb.Value = 100;
         }
 
@@ -245,8 +245,8 @@ namespace PidTuningHelper
             kiTxtBox.Enabled = false;
             kdTxtBox.Enabled = false;
             pidSetpointTxtBox.Enabled = false;
-            pidDelayTxtBox.Enabled = false;
-            samplingDelayTxtBox.Enabled = false;
+            pidIntervalTxtBox.Enabled = false;
+            samplingIntervalTxtBox.Enabled = false;
             portStatusPb.Value = 0;
         }
 
@@ -328,12 +328,12 @@ namespace PidTuningHelper
             switch (this.stateMachineSetPidControllerParameters)
             {
                 case 0:
-                    string samplingDelayInMsStr = samplingDelayTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(samplingDelayInMsStr))
+                    string samplingIntervalInMsStr = samplingIntervalTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(samplingIntervalInMsStr))
                     {
-                        if (uint.TryParse(samplingDelayInMsStr, out uint samplingDelayInMsResult))
+                        if (uint.TryParse(samplingIntervalInMsStr, out uint samplingIntervalInMsResult))
                         {
-                            pidTuningHelperApp.SetSamplingDelaySendCommand(10 * samplingDelayInMsResult);
+                            pidTuningHelperApp.SetSamplingIntervalSendCommand(10 * samplingIntervalInMsResult);
                         }
                     }
                     this.stateMachineSetPidControllerParameters = 1;
@@ -341,12 +341,12 @@ namespace PidTuningHelper
                     break;
 
                 case 1:
-                    string pidDelayInMsStr = pidDelayTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(pidDelayInMsStr))
+                    string pidIntervalInMsStr = pidIntervalTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(pidIntervalInMsStr))
                     {
-                        if (uint.TryParse(pidDelayInMsStr, out uint pidDelayInMsResult))
+                        if (uint.TryParse(pidIntervalInMsStr, out uint pidIntervalInMsResult))
                         {
-                            pidTuningHelperApp.SetPidDelaySendCommand(10 * pidDelayInMsResult);
+                            pidTuningHelperApp.SetPidIntervalSendCommand(10 * pidIntervalInMsResult);
                         }
                     }
                     this.stateMachineSetPidControllerParameters = 2;
@@ -576,9 +576,9 @@ namespace PidTuningHelper
             currentKpLbl.Text = "...";
             currentKiLbl.Text = "...";
             currentKdLbl.Text = "...";
-            currentPidDelayLbl.Text = "...";
+            currentPidIntervalLbl.Text = "...";
             currentPidSetpointLbl.Text = "...";
-            currentSamplingDelayLbl.Text = "...";
+            currentSamplingIntervalLbl.Text = "...";
             currentMovAverWinLbl.Text = "...";
 
             timer3.Enabled = true;

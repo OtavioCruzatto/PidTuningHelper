@@ -8,8 +8,8 @@
         AskForPidKsParameters = 0x13,
         AskForRunPidController = 0x15,
         AskForPidControllerParameters = 0x16,
-        SetSamplingDelayValue = 0x18,
-        SetPidDelayValue = 0x19,
+        SetSamplingIntervalValue = 0x18,
+        SetPidIntervalValue = 0x19,
         SetPidSetpointValue = 0x20,
         AskForSendProcessVariable = 0x22
     }
