@@ -30,6 +30,10 @@ namespace PidTuningHelper.App
         private Label currentPidSetpointLabel;
         private Label currentSamplingIntervalLabel;
         private Label currentMovAverWinLabel;
+        private Label currentMinSumOfErrorsLabel;
+        private Label currentMaxSumOfErrorsLabel;
+        private Label currentMinControlledVariableLabel;
+        private Label currentMaxControlledVariableLabel;
 
         private int stateMachine;
         private int counterTimer1;
@@ -124,6 +128,28 @@ namespace PidTuningHelper.App
                     this.currentPidIntervalLabel.Text = pidIntervalInMiliSeconds.ToString();
                     this.currentPidSetpointLabel.Text = pidSetpoint.ToString();
                     this.currentMovAverWinLabel.Text = movingAverageWindow.ToString();
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.PidMinAndMaxSumOfErrors):
+                    int minSumOfErrorsUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    int maxSumOfErrorsUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+
+                    int minSumOfErrors = minSumOfErrorsUnsigned - 1000000000;
+                    int maxSumOfErrors = maxSumOfErrorsUnsigned - 1000000000;
+
+                    this.currentMinSumOfErrorsLabel.Text = minSumOfErrors.ToString();
+                    this.currentMaxSumOfErrorsLabel.Text = maxSumOfErrors.ToString();
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.PidMinAndMaxControlledVariable):
+                    int minControlledVariableUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    int maxControlledVariableUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+
+                    int minControlledVariable = minControlledVariableUnsigned - 1000000000;
+                    int maxControlledVariable = maxControlledVariableUnsigned - 1000000000;
+
+                    this.currentMinControlledVariableLabel.Text = minControlledVariable.ToString();
+                    this.currentMaxControlledVariableLabel.Text = maxControlledVariable.ToString();
                     break;
 
                 default:
@@ -398,6 +424,20 @@ namespace PidTuningHelper.App
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
+        public void AskForMinAndMaxSumOfErrors()
+        {
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForMinAndMaxSumOfErrors);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
+        public void AskForMinAndMaxControlledVariable()
+        {
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForMinAndMaxControlledVariable);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
         public void ClearChart()
         {
             this.lineChart.Series[this.lineChartSerie].Points.Clear();
@@ -591,5 +631,26 @@ namespace PidTuningHelper.App
         {
             this.currentMovAverWinLabel = currentMovAverWinLabel;
         }
+
+        public void SetCurrentMinSumOfErrorsLabel(Label currentMinSumOfErrorsLabel)
+        {
+            this.currentMinSumOfErrorsLabel = currentMinSumOfErrorsLabel;
+        }
+
+        public void SetCurrentMaxSumOfErrorsLabel(Label currentMaxSumOfErrorsLabel)
+        {
+            this.currentMaxSumOfErrorsLabel = currentMaxSumOfErrorsLabel;
+        }
+
+        public void SetCurrentMinControlledVariableLabel(Label currentMinControlledVariableLabel)
+        {
+            this.currentMinControlledVariableLabel = currentMinControlledVariableLabel;
+        }
+
+        public void SetCurrentMaxControlledVariableLabel(Label currentMaxControlledVariableLabel)
+        {
+            this.currentMaxControlledVariableLabel = currentMaxControlledVariableLabel;
+        }
+
     }
 }

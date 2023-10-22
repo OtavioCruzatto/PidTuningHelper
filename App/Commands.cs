@@ -12,13 +12,17 @@
         SetPidIntervalValue = 0x19,
         SetPidSetpointValue = 0x20,
         AskForSendProcessVariable = 0x22,
-        SetMovingAverageWindow = 0x23
+        SetMovingAverageWindow = 0x23,
+        AskForMinAndMaxSumOfErrors = 0x24,
+        AskForMinAndMaxControlledVariable = 0x26
     }
 
     enum CommandsFromMicrocontroller : byte
     {
         PidKsParameterValues = 0x14,
         PidControllerParameterValues = 0x17,
-        ProcessVariableValue = 0x21
+        ProcessVariableValue = 0x21,
+        PidMinAndMaxSumOfErrors = 0x25,
+        PidMinAndMaxControlledVariable = 0x27
     }
 }

@@ -51,6 +51,10 @@ namespace PidTuningHelper
             pidTuningHelperApp.SetCurrentPidSetpointLabel(currentPidSetpointLbl);
             pidTuningHelperApp.SetCurrentSamplingIntervalLabel(currentSamplingIntervalLbl);
             pidTuningHelperApp.SetCurrentMovAverWinLabel(currentMovAverWinLbl);
+            pidTuningHelperApp.SetCurrentMinSumOfErrorsLabel(currentMinSumOfErrorsLbl);
+            pidTuningHelperApp.SetCurrentMaxSumOfErrorsLabel(currentMaxSumOfErrorsLbl);
+            pidTuningHelperApp.SetCurrentMinControlledVariableLabel(currentMinContrVarLbl);
+            pidTuningHelperApp.SetCurrentMaxControlledVariableLabel(currentMaxContrVarLbl);
         }
 
         private void InitializeComboBoxes()
@@ -479,6 +483,18 @@ namespace PidTuningHelper
 
                 case 1:
                     pidTuningHelperApp.AskForPidControllerParameters();
+                    this.stateMachineAskForPidParameters = 2;
+                    timer3.Enabled = true;
+                    break;
+
+                case 2:
+                    pidTuningHelperApp.AskForMinAndMaxSumOfErrors();
+                    this.stateMachineAskForPidParameters = 3;
+                    timer3.Enabled = true;
+                    break;
+
+                case 3:
+                    pidTuningHelperApp.AskForMinAndMaxControlledVariable();
                     this.stateMachineAskForPidParameters = 0;
                     this.askForPidParameters = false;
                     this.stateMachineAskForPidParametersCounter = 0;
@@ -593,6 +609,10 @@ namespace PidTuningHelper
             currentPidSetpointLbl.Text = "...";
             currentSamplingIntervalLbl.Text = "...";
             currentMovAverWinLbl.Text = "...";
+            currentMinSumOfErrorsLbl.Text = "...";
+            currentMaxSumOfErrorsLbl.Text = "...";
+            currentMinContrVarLbl.Text = "...";
+            currentMaxContrVarLbl.Text = "...";
 
             timer3.Enabled = true;
             this.askForPidParameters = true;
