@@ -367,6 +367,94 @@ namespace PidTuningHelper.App
             }
         }
 
+        public void SetMinSumOfErrorsSendCommand(int minSumOfErrors)
+        {
+            if (minSumOfErrors >= -1000000000 && minSumOfErrors <= 1000000000)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                int qtyOfBytes = 4;
+                minSumOfErrors += 1000000000;
+                this.payloadTxDataBytes[0] = (byte) ((minSumOfErrors >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[1] = (byte) ((minSumOfErrors >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[2] = (byte) ((minSumOfErrors >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[3] = (byte) (minSumOfErrors & 0x000000FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMinSumOfErrors);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("-1000000000 <= minSumOfErrors <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetMaxSumOfErrorsSendCommand(int maxSumOfErrors)
+        {
+            if (maxSumOfErrors >= -1000000000 && maxSumOfErrors <= 1000000000)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                int qtyOfBytes = 4;
+                maxSumOfErrors += 1000000000;
+                this.payloadTxDataBytes[0] = (byte) ((maxSumOfErrors >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[1] = (byte) ((maxSumOfErrors >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[2] = (byte) ((maxSumOfErrors >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[3] = (byte) (maxSumOfErrors & 0x000000FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMaxSumOfErrors);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("-1000000000 <= maxSumOfErrors <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetMinControlledVariableSendCommand(int minControlledVariable)
+        {
+            if (minControlledVariable >= -1000000000 && minControlledVariable <= 1000000000)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                int qtyOfBytes = 4;
+                minControlledVariable += 1000000000;
+                this.payloadTxDataBytes[0] = (byte) ((minControlledVariable >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[1] = (byte) ((minControlledVariable >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[2] = (byte) ((minControlledVariable >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[3] = (byte) (minControlledVariable & 0x000000FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMinControlledVariable);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("-1000000000 <= minControlledVariable <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetMaxControlledVariableSendCommand(int maxControlledVariable)
+        {
+            if (maxControlledVariable >= -1000000000 && maxControlledVariable <= 1000000000)
+            {
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                int qtyOfBytes = 4;
+                maxControlledVariable += 1000000000;
+                this.payloadTxDataBytes[0] = (byte) ((maxControlledVariable >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[1] = (byte) ((maxControlledVariable >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[2] = (byte) ((maxControlledVariable >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[3] = (byte) (maxControlledVariable & 0x000000FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMaxControlledVariable);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("-1000000000 <= maxControlledVariable <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         public void SetPidIntervalSendCommand(uint pidIntervalInMsx10)
         {
             if (pidIntervalInMsx10 >= 0 && pidIntervalInMsx10 <= 0xFFFF)

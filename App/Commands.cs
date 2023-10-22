@@ -14,7 +14,11 @@
         AskForSendProcessVariable = 0x22,
         SetMovingAverageWindow = 0x23,
         AskForMinAndMaxSumOfErrors = 0x24,
-        AskForMinAndMaxControlledVariable = 0x26
+        AskForMinAndMaxControlledVariable = 0x26,
+        SetPidMinSumOfErrors = 0x28,
+        SetPidMaxSumOfErrors = 0x29,
+        SetPidMinControlledVariable = 0x30,
+        SetPidMaxControlledVariable = 0x31
     }
 
     enum CommandsFromMicrocontroller : byte

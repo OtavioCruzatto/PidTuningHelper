@@ -447,6 +447,58 @@ namespace PidTuningHelper
                     break;
 
                 case 7:
+                    string minSumOfErrors = minSumOfErrorsTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(minSumOfErrors))
+                    {
+                        if (int.TryParse(minSumOfErrors, out int minSumOfErrorsResult))
+                        {
+                            pidTuningHelperApp.SetMinSumOfErrorsSendCommand(minSumOfErrorsResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 8;
+                    timer3.Enabled = true;
+                    break;
+
+                case 8:
+                    string maxSumOfErrors = maxSumOfErrorsTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(maxSumOfErrors))
+                    {
+                        if (int.TryParse(maxSumOfErrors, out int maxSumOfErrorsResult))
+                        {
+                            pidTuningHelperApp.SetMaxSumOfErrorsSendCommand(maxSumOfErrorsResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 9;
+                    timer3.Enabled = true;
+                    break;
+
+                case 9:
+                    string minControlledVariable = minControlledVarTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(minControlledVariable))
+                    {
+                        if (int.TryParse(minControlledVariable, out int minControlledVariableResult))
+                        {
+                            pidTuningHelperApp.SetMinControlledVariableSendCommand(minControlledVariableResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 10;
+                    timer3.Enabled = true;
+                    break;
+
+                case 10:
+                    string maxControlledVariable = maxControlledVarTxtBox.Text.Trim();
+                    if (!String.IsNullOrEmpty(maxControlledVariable))
+                    {
+                        if (int.TryParse(maxControlledVariable, out int maxControlledVariableResult))
+                        {
+                            pidTuningHelperApp.SetMaxControlledVariableSendCommand(maxControlledVariableResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 11;
+                    timer3.Enabled = true;
+                    break;
+
+                case 11:
                     this.stateMachineSetPidControllerParameters = 0;
                     this.setPidControllerParameters = false;
                     this.stateMachineSetPidControllerParametersCounter = 0;
