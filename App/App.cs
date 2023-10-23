@@ -34,6 +34,8 @@ namespace PidTuningHelper.App
         private Label currentMaxSumOfErrorsLabel;
         private Label currentMinControlledVariableLabel;
         private Label currentMaxControlledVariableLabel;
+        private Label currentOffsetLabel;
+        private Label currentBiasLabel;
 
         private int stateMachine;
         private int counterTimer1;
@@ -150,6 +152,17 @@ namespace PidTuningHelper.App
 
                     this.currentMinControlledVariableLabel.Text = minControlledVariable.ToString();
                     this.currentMaxControlledVariableLabel.Text = maxControlledVariable.ToString();
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.PidOffsetAndBias):
+                    int offsetUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    int biasUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+
+                    int offset = ((offsetUnsigned - 1000000) / 1000);
+                    int bias = ((biasUnsigned - 1000000) / 1000);
+
+                    this.currentOffsetLabel.Text = offset.ToString();
+                    this.currentBiasLabel.Text = bias.ToString();
                     break;
 
                 default:
@@ -526,6 +539,13 @@ namespace PidTuningHelper.App
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
+        public void AskForPidOffsetAndBias()
+        {
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidOffsetAndBias);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
         public void ClearChart()
         {
             this.lineChart.Series[this.lineChartSerie].Points.Clear();
@@ -738,6 +758,16 @@ namespace PidTuningHelper.App
         public void SetCurrentMaxControlledVariableLabel(Label currentMaxControlledVariableLabel)
         {
             this.currentMaxControlledVariableLabel = currentMaxControlledVariableLabel;
+        }
+
+        public void SetCurrentOffsetLabel(Label currentOffsetLabel)
+        {
+            this.currentOffsetLabel = currentOffsetLabel;
+        }
+
+        public void SetCurrentBiasLabel(Label currentBiasLabel)
+        {
+            this.currentBiasLabel = currentBiasLabel;
         }
 
     }

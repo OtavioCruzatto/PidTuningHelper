@@ -55,6 +55,8 @@ namespace PidTuningHelper
             pidTuningHelperApp.SetCurrentMaxSumOfErrorsLabel(currentMaxSumOfErrorsLbl);
             pidTuningHelperApp.SetCurrentMinControlledVariableLabel(currentMinContrVarLbl);
             pidTuningHelperApp.SetCurrentMaxControlledVariableLabel(currentMaxContrVarLbl);
+            pidTuningHelperApp.SetCurrentOffsetLabel(currentPidOffsetLbl);
+            pidTuningHelperApp.SetCurrentBiasLabel(currentPidBiasLbl);
         }
 
         private void InitializeComboBoxes()
@@ -208,6 +210,13 @@ namespace PidTuningHelper
             pidSetpointTxtBox.Enabled = true;
             pidIntervalTxtBox.Enabled = true;
             samplingIntervalTxtBox.Enabled = true;
+            movAverageWinTxtBox.Enabled = true;
+            pidOffsetTxtBox.Enabled = true;
+            minSumOfErrorsTxtBox.Enabled = true;
+            maxSumOfErrorsTxtBox.Enabled = true;
+            minControlledVarTxtBox.Enabled = true;
+            maxControlledVarTxtBox.Enabled = true;
+            pidBiasTxtBox.Enabled = true;
             portStatusPb.Value = 100;
         }
 
@@ -251,6 +260,13 @@ namespace PidTuningHelper
             pidSetpointTxtBox.Enabled = false;
             pidIntervalTxtBox.Enabled = false;
             samplingIntervalTxtBox.Enabled = false;
+            movAverageWinTxtBox.Enabled = false;
+            pidOffsetTxtBox.Enabled = false;
+            minSumOfErrorsTxtBox.Enabled = false;
+            maxSumOfErrorsTxtBox.Enabled = false;
+            minControlledVarTxtBox.Enabled = false;
+            maxControlledVarTxtBox.Enabled = false;
+            pidBiasTxtBox.Enabled = false;
             portStatusPb.Value = 0;
         }
 
@@ -547,6 +563,12 @@ namespace PidTuningHelper
 
                 case 3:
                     pidTuningHelperApp.AskForMinAndMaxControlledVariable();
+                    this.stateMachineAskForPidParameters = 4;
+                    timer3.Enabled = true;
+                    break;
+
+                case 4:
+                    pidTuningHelperApp.AskForPidOffsetAndBias();
                     this.stateMachineAskForPidParameters = 0;
                     this.askForPidParameters = false;
                     this.stateMachineAskForPidParametersCounter = 0;
@@ -665,6 +687,8 @@ namespace PidTuningHelper
             currentMaxSumOfErrorsLbl.Text = "...";
             currentMinContrVarLbl.Text = "...";
             currentMaxContrVarLbl.Text = "...";
+            currentPidBiasLbl.Text = "...";
+            currentPidOffsetLbl.Text = "...";
 
             timer3.Enabled = true;
             this.askForPidParameters = true;

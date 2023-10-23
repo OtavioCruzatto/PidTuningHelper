@@ -18,7 +18,10 @@
         SetPidMinSumOfErrors = 0x28,
         SetPidMaxSumOfErrors = 0x29,
         SetPidMinControlledVariable = 0x30,
-        SetPidMaxControlledVariable = 0x31
+        SetPidMaxControlledVariable = 0x31,
+        AskForPidOffsetAndBias = 0x32,
+        SetPidOffset = 0x34,
+        SetPidBias = 0x35
     }
 
     enum CommandsFromMicrocontroller : byte
@@ -27,6 +30,7 @@
         PidControllerParameterValues = 0x17,
         ProcessVariableValue = 0x21,
         PidMinAndMaxSumOfErrors = 0x25,
-        PidMinAndMaxControlledVariable = 0x27
+        PidMinAndMaxControlledVariable = 0x27,
+        PidOffsetAndBias = 0x33
     }
 }
