@@ -158,8 +158,8 @@ namespace PidTuningHelper.App
                     int offsetUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
                     int biasUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
 
-                    int offset = ((offsetUnsigned - 1000000) / 1000);
-                    int bias = ((biasUnsigned - 1000000) / 1000);
+                    float offset = ((((float) offsetUnsigned) - 1000000) / 1000);
+                    float bias = ((((float) biasUnsigned) - 1000000) / 1000);
 
                     this.currentOffsetLabel.Text = offset.ToString();
                     this.currentBiasLabel.Text = bias.ToString();
@@ -508,6 +508,54 @@ namespace PidTuningHelper.App
             else
             {
                 MessageBox.Show("0 <= pidSetpoint <= 16777215", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetPidOffsetCommand(float pidOffset)
+        {
+            if (pidOffset >= -1000000 && pidOffset <= 1000000)
+            {
+                float offsetAux = (1000 * pidOffset) + 1000000;
+                int offset = (int) offsetAux;
+
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                this.payloadTxDataBytes[0] = (byte) ((offset >> 24) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) ((offset >> 16) & 0x00FF);
+                this.payloadTxDataBytes[2] = (byte) ((offset >> 8) & 0x00FF);
+                this.payloadTxDataBytes[3] = (byte) (offset & 0x00FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidOffset);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("-1000000 <= pidOffset <= 1000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public void SetPidBiasCommand(float pidBias)
+        {
+            if (pidBias >= -1000000 && pidBias <= 1000000)
+            {
+                float biasAux = (1000 * pidBias) + 1000000;
+                int bias = (int) biasAux;
+
+                Console.WriteLine(bias);
+
+                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+                this.payloadTxDataBytes[0] = (byte) ((bias >> 24) & 0x00FF);
+                this.payloadTxDataBytes[1] = (byte) ((bias >> 16) & 0x00FF);
+                this.payloadTxDataBytes[2] = (byte) ((bias >> 8) & 0x00FF);
+                this.payloadTxDataBytes[3] = (byte) (bias & 0x00FF);
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidBias);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
+                this.dataPacketTx.Mount();
+                this.dataPacketTx.SerialSend(this.serialPort);
+            }
+            else
+            {
+                MessageBox.Show("-1000000 <= pidBias <= 1000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

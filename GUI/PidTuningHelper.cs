@@ -515,6 +515,44 @@ namespace PidTuningHelper
                     break;
 
                 case 11:
+                    string pidOffset = pidOffsetTxtBox.Text.Trim();
+
+                    if (pidOffset.Contains("."))
+                    {
+                        pidOffset = pidOffset.Replace(".", ",");
+                    }
+
+                    if (!String.IsNullOrEmpty(pidOffset))
+                    {
+                        if (float.TryParse(pidOffset, out float pidOffsetResult))
+                        {
+                            pidTuningHelperApp.SetPidOffsetCommand(pidOffsetResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 12;
+                    timer3.Enabled = true;
+                    break;
+
+                case 12:
+                    string pidBias = pidBiasTxtBox.Text.Trim();
+
+                    if (pidBias.Contains("."))
+                    {
+                        pidBias = pidBias.Replace(".", ",");
+                    }
+
+                    if (!String.IsNullOrEmpty(pidBias))
+                    {
+                        if (float.TryParse(pidBias, out float pidBiasResult))
+                        {
+                            pidTuningHelperApp.SetPidBiasCommand(pidBiasResult);
+                        }
+                    }
+                    this.stateMachineSetPidControllerParameters = 13;
+                    timer3.Enabled = true;
+                    break;
+
+                case 13:
                     this.stateMachineSetPidControllerParameters = 0;
                     this.setPidControllerParameters = false;
                     this.stateMachineSetPidControllerParametersCounter = 0;
