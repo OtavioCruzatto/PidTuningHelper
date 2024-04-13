@@ -37,8 +37,21 @@ namespace PidTuningHelper.App
         private Label currentOffsetLabel;
         private Label currentBiasLabel;
 
+        private TextBox kpTxtBox;
+        private TextBox kiTxtBox;
+        private TextBox kdTxtBox;
+        private TextBox pidIntervalTxtBox;
+        private TextBox pidSetpointTxtBox;
+        private TextBox samplingIntervalTxtBox;
+        private TextBox movAverWinTxtBox;
+        private TextBox minSumOfErrorsTxtBox;
+        private TextBox maxSumOfErrorsTxtBox;
+        private TextBox minControlledVariableTxtBox;
+        private TextBox maxControlledVariableTxtBox;
+        private TextBox offsetTxtBox;
+        private TextBox biasTxtBox;
+
         private int stateMachine;
-        private int counterTimer1;
 
         private DataPacketTx dataPacketTx;
         private DataPacketRx dataPacketRx;
@@ -55,7 +68,6 @@ namespace PidTuningHelper.App
             this.receivedCommand = 0;
             this.decodeReceivedCommand = false;
 
-            this.counterTimer1 = 0;
             this.stateMachine = 0;
 
             this.processVariableValue = 0;
@@ -92,49 +104,61 @@ namespace PidTuningHelper.App
                     int pidKpTimes1000 = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
                     float pidKp = ((float) pidKpTimes1000) / 1000;
                     this.currentKpLabel.Text = pidKp.ToString();
+                    this.kpTxtBox.Text = pidKp.ToString();
 
                     int pidKiTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
                     float pidKi = ((float) pidKiTimes1000) / 1000;
                     this.currentKiLabel.Text = pidKi.ToString();
+                    this.kiTxtBox.Text = pidKi.ToString();
 
                     int pidKdTimes1000 = ((this.payloadRxDataBytes[8] << 24) + (this.payloadRxDataBytes[9] << 16) + (this.payloadRxDataBytes[10] << 8) + this.payloadRxDataBytes[11]);
                     float pidKd = ((float)pidKdTimes1000) / 1000;
                     this.currentKdLabel.Text = pidKd.ToString();
+                    this.kdTxtBox.Text = pidKd.ToString();
 
                     int pidIntervalAux = ((this.payloadRxDataBytes[12] << 8) + this.payloadRxDataBytes[13]);
                     int pidIntervalInMiliSeconds = pidIntervalAux / 10;
                     this.currentPidIntervalLabel.Text = pidIntervalInMiliSeconds.ToString();
+                    this.pidIntervalTxtBox.Text = pidIntervalInMiliSeconds.ToString();
 
                     int samplingIntervalAux = ((this.payloadRxDataBytes[14] << 8) + this.payloadRxDataBytes[15]);
                     int samplingIntervalInMiliSeconds = samplingIntervalAux / 10;
                     this.currentSamplingIntervalLabel.Text = samplingIntervalInMiliSeconds.ToString();
+                    this.samplingIntervalTxtBox.Text = samplingIntervalInMiliSeconds.ToString();
 
                     int movingAverageWindow = ((this.payloadRxDataBytes[16] << 8) + this.payloadRxDataBytes[17]);
                     this.currentMovAverWinLabel.Text = movingAverageWindow.ToString();
+                    this.movAverWinTxtBox.Text = movingAverageWindow.ToString();
 
                     int minSumOfErrorsUnsigned = ((this.payloadRxDataBytes[18] << 24) + (this.payloadRxDataBytes[19] << 16) + (this.payloadRxDataBytes[20] << 8) + this.payloadRxDataBytes[21]);
                     int minSumOfErrors = minSumOfErrorsUnsigned - 1000000000;
                     this.currentMinSumOfErrorsLabel.Text = minSumOfErrors.ToString();
+                    this.minSumOfErrorsTxtBox.Text = minSumOfErrors.ToString();
 
                     int maxSumOfErrorsUnsigned = ((this.payloadRxDataBytes[22] << 24) + (this.payloadRxDataBytes[23] << 16) + (this.payloadRxDataBytes[24] << 8) + this.payloadRxDataBytes[25]);
                     int maxSumOfErrors = maxSumOfErrorsUnsigned - 1000000000;
                     this.currentMaxSumOfErrorsLabel.Text = maxSumOfErrors.ToString();
+                    this.maxSumOfErrorsTxtBox.Text = maxSumOfErrors.ToString();
 
                     int minControlledVariableUnsigned = ((this.payloadRxDataBytes[26] << 24) + (this.payloadRxDataBytes[27] << 16) + (this.payloadRxDataBytes[28] << 8) + this.payloadRxDataBytes[29]);
                     int minControlledVariable = minControlledVariableUnsigned - 1000000000;
                     this.currentMinControlledVariableLabel.Text = minControlledVariable.ToString();
+                    this.minControlledVariableTxtBox.Text = minControlledVariable.ToString();
 
                     int maxControlledVariableUnsigned = ((this.payloadRxDataBytes[30] << 24) + (this.payloadRxDataBytes[31] << 16) + (this.payloadRxDataBytes[32] << 8) + this.payloadRxDataBytes[33]);
                     int maxControlledVariable = maxControlledVariableUnsigned - 1000000000;
                     this.currentMaxControlledVariableLabel.Text = maxControlledVariable.ToString();
+                    this.maxControlledVariableTxtBox.Text = maxControlledVariable.ToString();
 
                     int offsetUnsigned = ((this.payloadRxDataBytes[34] << 24) + (this.payloadRxDataBytes[35] << 16) + (this.payloadRxDataBytes[36] << 8) + this.payloadRxDataBytes[37]);
                     float offset = ((((float)offsetUnsigned) - 1000000) / 1000);
                     this.currentOffsetLabel.Text = offset.ToString();
+                    this.offsetTxtBox.Text = offset.ToString();
 
                     int biasUnsigned = ((this.payloadRxDataBytes[38] << 24) + (this.payloadRxDataBytes[39] << 16) + (this.payloadRxDataBytes[40] << 8) + this.payloadRxDataBytes[41]);
                     float bias = ((((float)biasUnsigned) - 1000000) / 1000);
                     this.currentBiasLabel.Text = bias.ToString();
+                    this.biasTxtBox.Text = bias.ToString();
 
                     break;
 
@@ -490,25 +514,11 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void IncrementCounterTimer1()
-        {
-            this.counterTimer1++;
-        }
-
         public void ExecuteStateMachine()
         {
             switch (this.stateMachine)
             {
                 case 0:
-                    //if (this.counterTimer1 >= (int) Delay._10ms)
-                    //{
-                    //    this.dataPacketRx.Decode();
-                    //    this.counterTimer1 = 0;
-                    //}
-                    this.stateMachine = 1;
-                    break;
-
-                case 1:
                     if (this.dataPacketRx.isValid())
                     {
                         this.receivedCommand = this.dataPacketRx.GetCommand();
@@ -522,10 +532,10 @@ namespace PidTuningHelper.App
                         this.decodeReceivedCommand = true;
                         this.dataPacketRx.Clear();
                     }
-                    this.stateMachine = 2;
+                    this.stateMachine = 1;
                     break;
 
-                case 2:
+                case 1:
                     if (this.decodeReceivedCommand == true)
                     {
                         this.DecodeAndExecuteCommand();
@@ -641,6 +651,71 @@ namespace PidTuningHelper.App
         public void SetCurrentBiasLabel(Label currentBiasLabel)
         {
             this.currentBiasLabel = currentBiasLabel;
+        }
+
+        public void SetKpTxtBox(TextBox kpTxtBox)
+        {
+            this.kpTxtBox = kpTxtBox;
+        }
+
+        public void SetKiTxtBox(TextBox kiTxtBox)
+        {
+            this.kiTxtBox = kiTxtBox;
+        }
+
+        public void SetKdTxtBox(TextBox kdTxtBox)
+        {
+            this.kdTxtBox = kdTxtBox;
+        }
+
+        public void SetPidIntervalTxtBox(TextBox pidIntervalTxtBox)
+        {
+            this.pidIntervalTxtBox = pidIntervalTxtBox;
+        }
+
+        public void SetPidSetpointTxtBox(TextBox pidSetpointTxtBox)
+        {
+            this.pidSetpointTxtBox = pidSetpointTxtBox;
+        }
+
+        public void SetSamplingIntervalTxtBox(TextBox samplingIntervalTxtBox)
+        {
+            this.samplingIntervalTxtBox = samplingIntervalTxtBox;
+        }
+
+        public void SetMovAverWinTxtBox(TextBox movAverWinTxtBox)
+        {
+            this.movAverWinTxtBox = movAverWinTxtBox;
+        }
+
+        public void SetMinSumOfErrorsTxtBox(TextBox minSumOfErrorsTxtBox)
+        {
+            this.minSumOfErrorsTxtBox = minSumOfErrorsTxtBox;
+        }
+
+        public void SetMaxSumOfErrorsTxtBox(TextBox maxSumOfErrorsTxtBox)
+        {
+            this.maxSumOfErrorsTxtBox = maxSumOfErrorsTxtBox;
+        }
+
+        public void SetMinControlledVariableTxtBox(TextBox minControlledVariableTxtBox)
+        {
+            this.minControlledVariableTxtBox = minControlledVariableTxtBox;
+        }
+
+        public void SetMaxControlledVariableTxtBox(TextBox maxControlledVariableTxtBox)
+        {
+            this.maxControlledVariableTxtBox = maxControlledVariableTxtBox;
+        }
+
+        public void SetOffsetTxtBox(TextBox offsetTxtBox)
+        {
+            this.offsetTxtBox = offsetTxtBox;
+        }
+
+        public void SetBiasTxtBox(TextBox biasTxtBox)
+        {
+            this.biasTxtBox = biasTxtBox;
         }
 
     }

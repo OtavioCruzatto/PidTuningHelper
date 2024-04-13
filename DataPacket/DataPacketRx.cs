@@ -18,7 +18,7 @@ namespace PidTuningHelper.DataPacket
         static private int MIN_PACKET_RX_BYTES = 5;
         static private int MAX_PACKET_RX_BYTES = (MIN_PACKET_RX_BYTES + MAX_PAYLOAD_RX_DATA_BYTES);
 
-        static private int QTY_PAYLOAD_RX_DATA_BYTES = 25;
+        static private int QTY_PAYLOAD_RX_DATA_BYTES = 50;
         static private int QTY_PACKET_RX_BYTES = (MIN_PACKET_RX_BYTES + QTY_PAYLOAD_RX_DATA_BYTES);
 
         // END: Static attributes

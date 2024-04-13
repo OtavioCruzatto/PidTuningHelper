@@ -18,27 +18,11 @@ namespace PidTuningHelper
 
         App.App pidTuningHelperApp;
 
-        private int stateMachineAskForPidParameters;
-        private int stateMachineAskForPidParametersCounter;
-        private bool askForPidParameters;
-
-        private int stateMachineSetPidControllerParameters;
-        private int stateMachineSetPidControllerParametersCounter;
-        private bool setPidControllerParameters;
-
         public PidTuningHelper()
         {
             InitializeComponent();
 
             pidTuningHelperApp = new App.App(lineChart, serialPort);
-
-            this.stateMachineAskForPidParameters = 0;
-            this.stateMachineAskForPidParametersCounter = 0;
-            this.askForPidParameters = false;
-
-            this.stateMachineSetPidControllerParameters = 0;
-            this.stateMachineSetPidControllerParametersCounter = 0;
-            this.setPidControllerParameters = false;
 
             this.InitializeComboBoxes();
             this.SetItemsToDisconnectedMode();
@@ -57,6 +41,20 @@ namespace PidTuningHelper
             pidTuningHelperApp.SetCurrentMaxControlledVariableLabel(currentMaxContrVarLbl);
             pidTuningHelperApp.SetCurrentOffsetLabel(currentPidOffsetLbl);
             pidTuningHelperApp.SetCurrentBiasLabel(currentPidBiasLbl);
+
+            pidTuningHelperApp.SetKpTxtBox(kpTxtBox);
+            pidTuningHelperApp.SetKdTxtBox(kdTxtBox);
+            pidTuningHelperApp.SetKiTxtBox(kiTxtBox);
+            pidTuningHelperApp.SetPidIntervalTxtBox(pidIntervalTxtBox);
+            pidTuningHelperApp.SetPidSetpointTxtBox(pidSetpointTxtBox);
+            pidTuningHelperApp.SetSamplingIntervalTxtBox(samplingIntervalTxtBox);
+            pidTuningHelperApp.SetMovAverWinTxtBox(movAverageWinTxtBox);
+            pidTuningHelperApp.SetMinSumOfErrorsTxtBox(minSumOfErrorsTxtBox);
+            pidTuningHelperApp.SetMaxSumOfErrorsTxtBox(maxSumOfErrorsTxtBox);
+            pidTuningHelperApp.SetMinControlledVariableTxtBox(minControlledVarTxtBox);
+            pidTuningHelperApp.SetMaxControlledVariableTxtBox(maxControlledVarTxtBox);
+            pidTuningHelperApp.SetOffsetTxtBox(pidOffsetTxtBox);
+            pidTuningHelperApp.SetBiasTxtBox(pidBiasTxtBox);
         }
 
         private void InitializeComboBoxes()
@@ -94,12 +92,10 @@ namespace PidTuningHelper
                     if (serialPort.IsOpen == true)
                     {
                         this.SetItemsToConnectedMode();
-                        this.EnableTimer();
                     }
                     else
                     {
                         this.SetItemsToDisconnectedMode();
-                        this.DisableTimer();
                     }
                 }
                 else
@@ -111,16 +107,6 @@ namespace PidTuningHelper
             {
                 MessageBox.Show(ex.ToString());
             }
-        }
-
-        private void EnableTimer()
-        {
-            timer1.Enabled = true;
-        }
-
-        private void DisableTimer()
-        {
-            timer1.Enabled = false;
         }
 
         private void ConfigSerialPort()
@@ -231,7 +217,6 @@ namespace PidTuningHelper
                 if (serialPort.IsOpen == false)
                 {
                     this.SetItemsToDisconnectedMode();
-                    this.DisableTimer();
                 }
             }
         }
@@ -272,13 +257,12 @@ namespace PidTuningHelper
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            Console.WriteLine();
             try
             {
                 while (serialPort.BytesToRead > 0)
                 {
                     int receivedByte = serialPort.ReadByte();
-                    Console.Write(receivedByte.ToString("X2") + " ");
+                    // Console.WriteLine(receivedByte.ToString("X2"));
                     if (receivedByte >= 0)
                     {
                         pidTuningHelperApp.AppendNewByte(receivedByte);
@@ -307,11 +291,6 @@ namespace PidTuningHelper
             {
                 saveDataBtn.Enabled = true;
             }
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            pidTuningHelperApp.IncrementCounterTimer1();
         }
 
         private void timer2_Tick(object sender, EventArgs e)
