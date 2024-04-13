@@ -272,12 +272,13 @@ namespace PidTuningHelper
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            Console.WriteLine();
             try
             {
                 while (serialPort.BytesToRead > 0)
                 {
                     int receivedByte = serialPort.ReadByte();
-                    // Console.Write(receivedByte.ToString("X2") + " ");
+                    Console.Write(receivedByte.ToString("X2") + " ");
                     if (receivedByte >= 0)
                     {
                         pidTuningHelperApp.AppendNewByte(receivedByte);
@@ -316,318 +317,6 @@ namespace PidTuningHelper
         private void timer2_Tick(object sender, EventArgs e)
         {
             pidTuningHelperApp.ExecuteStateMachine();
-        }
-
-        private void timer3_Tick(object sender, EventArgs e)
-        {
-            if (this.askForPidParameters == true)
-            {
-                if (this.stateMachineAskForPidParametersCounter >= (int) Delay._100ms)
-                {
-                    this.stateMachineAskForPidParametersCounter = 0;
-                    timer3.Enabled = false;
-                    AskForPidParameters();
-                }
-                this.stateMachineAskForPidParametersCounter++;
-            }
-
-            if (this.setPidControllerParameters == true)
-            {
-                if (this.stateMachineSetPidControllerParametersCounter >= (int) Delay._100ms)
-                {
-                    this.stateMachineSetPidControllerParametersCounter = 0;
-                    timer3.Enabled = false;
-                    SetPidControllerParameters();
-                }
-                this.stateMachineSetPidControllerParametersCounter++;
-            }
-        }
-
-        private void SetPidControllerParameters()
-        {
-            switch (this.stateMachineSetPidControllerParameters)
-            {
-                case 0:
-                    string samplingIntervalInMsStr = samplingIntervalTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(samplingIntervalInMsStr))
-                    {
-                        if (uint.TryParse(samplingIntervalInMsStr, out uint samplingIntervalInMsResult))
-                        {
-                            pidTuningHelperApp.SetSamplingIntervalSendCommand(10 * samplingIntervalInMsResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 1;
-                    timer3.Enabled = true;
-                    break;
-
-                case 1:
-                    string pidIntervalInMsStr = pidIntervalTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(pidIntervalInMsStr))
-                    {
-                        if (uint.TryParse(pidIntervalInMsStr, out uint pidIntervalInMsResult))
-                        {
-                            pidTuningHelperApp.SetPidIntervalSendCommand(10 * pidIntervalInMsResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 2;
-                    timer3.Enabled = true;
-                    break;
-
-                case 2:
-                    string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
-
-                    if (pidSetpointStr.Contains("."))
-                    {
-                        pidSetpointStr = pidSetpointStr.Replace(".", ",");
-                    }
-
-                    if (!String.IsNullOrEmpty(pidSetpointStr))
-                    {
-                        if (float.TryParse(pidSetpointStr, out float pidSetpointResult))
-                        {
-                            pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 3;
-                    timer3.Enabled = true;
-                    break;
-
-                case 3:
-                    string kpStr = kpTxtBox.Text.Trim();
-
-                    if (kpStr.Contains("."))
-                    {
-                        kpStr = kpStr.Replace(".", ",");
-                    }
-
-                    if (!String.IsNullOrEmpty(kpStr))
-                    {
-                        if (float.TryParse(kpStr, out float kpResult))
-                        {
-                            pidTuningHelperApp.SetKpSendCommand(kpResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 4;
-                    timer3.Enabled = true;
-                    break;
-
-                case 4:
-                    string kiStr = kiTxtBox.Text.Trim();
-
-                    if (kiStr.Contains("."))
-                    {
-                        kiStr = kiStr.Replace(".", ",");
-                    }
-
-                    if (!String.IsNullOrEmpty(kiStr))
-                    {
-                        if (float.TryParse(kiStr, out float kiResult))
-                        {
-                            pidTuningHelperApp.SetKiSendCommand(kiResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 5;
-                    timer3.Enabled = true;
-                    break;
-
-                case 5:
-                    string kdStr = kdTxtBox.Text.Trim();
-                    
-                    if (kdStr.Contains("."))
-                    {
-                        kdStr = kdStr.Replace(".", ",");
-                    }
-
-                    if (!String.IsNullOrEmpty(kdStr))
-                    {
-                        if (float.TryParse(kdStr, out float kdResult))
-                        {
-                            pidTuningHelperApp.SetKdSendCommand(kdResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 6;
-                    timer3.Enabled = true;
-                    break;
-
-                case 6:
-                    string movingAverageWindow = movAverageWinTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(movingAverageWindow))
-                    {
-                        if (uint.TryParse(movingAverageWindow, out uint movingAverageWindowResult))
-                        {
-                            pidTuningHelperApp.SetMovingAverageWindowSendCommand(movingAverageWindowResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 7;
-                    timer3.Enabled = true;
-                    break;
-
-                case 7:
-                    string minSumOfErrors = minSumOfErrorsTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(minSumOfErrors))
-                    {
-                        if (int.TryParse(minSumOfErrors, out int minSumOfErrorsResult))
-                        {
-                            pidTuningHelperApp.SetMinSumOfErrorsSendCommand(minSumOfErrorsResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 8;
-                    timer3.Enabled = true;
-                    break;
-
-                case 8:
-                    string maxSumOfErrors = maxSumOfErrorsTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(maxSumOfErrors))
-                    {
-                        if (int.TryParse(maxSumOfErrors, out int maxSumOfErrorsResult))
-                        {
-                            pidTuningHelperApp.SetMaxSumOfErrorsSendCommand(maxSumOfErrorsResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 9;
-                    timer3.Enabled = true;
-                    break;
-
-                case 9:
-                    string minControlledVariable = minControlledVarTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(minControlledVariable))
-                    {
-                        if (int.TryParse(minControlledVariable, out int minControlledVariableResult))
-                        {
-                            pidTuningHelperApp.SetMinControlledVariableSendCommand(minControlledVariableResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 10;
-                    timer3.Enabled = true;
-                    break;
-
-                case 10:
-                    string maxControlledVariable = maxControlledVarTxtBox.Text.Trim();
-                    if (!String.IsNullOrEmpty(maxControlledVariable))
-                    {
-                        if (int.TryParse(maxControlledVariable, out int maxControlledVariableResult))
-                        {
-                            pidTuningHelperApp.SetMaxControlledVariableSendCommand(maxControlledVariableResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 11;
-                    timer3.Enabled = true;
-                    break;
-
-                case 11:
-                    string pidOffset = pidOffsetTxtBox.Text.Trim();
-
-                    if (pidOffset.Contains("."))
-                    {
-                        pidOffset = pidOffset.Replace(".", ",");
-                    }
-
-                    if (!String.IsNullOrEmpty(pidOffset))
-                    {
-                        if (float.TryParse(pidOffset, out float pidOffsetResult))
-                        {
-                            pidTuningHelperApp.SetPidOffsetCommand(pidOffsetResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 12;
-                    timer3.Enabled = true;
-                    break;
-
-                case 12:
-                    string pidBias = pidBiasTxtBox.Text.Trim();
-
-                    if (pidBias.Contains("."))
-                    {
-                        pidBias = pidBias.Replace(".", ",");
-                    }
-
-                    if (!String.IsNullOrEmpty(pidBias))
-                    {
-                        if (float.TryParse(pidBias, out float pidBiasResult))
-                        {
-                            pidTuningHelperApp.SetPidBiasCommand(pidBiasResult);
-                        }
-                    }
-                    this.stateMachineSetPidControllerParameters = 13;
-                    timer3.Enabled = true;
-                    break;
-
-                case 13:
-                    this.stateMachineSetPidControllerParameters = 0;
-                    this.setPidControllerParameters = false;
-                    this.stateMachineSetPidControllerParametersCounter = 0;
-                    timer3.Enabled = false;
-                    startPidBtn.Enabled = true;
-                    stopPidBtn.Enabled = true;
-                    setConfigDataBtn.Enabled = true;
-                    readConfigDataBtn.Enabled = true;
-                    this.GetPidParametersFromMicrocontroller();
-                    break;
-
-                default:
-                    this.stateMachineSetPidControllerParameters = 0;
-                    this.setPidControllerParameters = false;
-                    this.stateMachineSetPidControllerParametersCounter = 0;
-                    timer3.Enabled = false;
-                    startPidBtn.Enabled = true;
-                    stopPidBtn.Enabled = true;
-                    setConfigDataBtn.Enabled = true;
-                    readConfigDataBtn.Enabled = true;
-                    break;
-            }
-        }
-
-        private void AskForPidParameters()
-        {
-            switch (this.stateMachineAskForPidParameters)
-            {
-                case 0:
-                    pidTuningHelperApp.AskForPidKsParameters();
-                    this.stateMachineAskForPidParameters = 1;
-                    timer3.Enabled = true;
-                    break;
-
-                case 1:
-                    pidTuningHelperApp.AskForPidControllerParameters();
-                    this.stateMachineAskForPidParameters = 2;
-                    timer3.Enabled = true;
-                    break;
-
-                case 2:
-                    pidTuningHelperApp.AskForMinAndMaxSumOfErrors();
-                    this.stateMachineAskForPidParameters = 3;
-                    timer3.Enabled = true;
-                    break;
-
-                case 3:
-                    pidTuningHelperApp.AskForMinAndMaxControlledVariable();
-                    this.stateMachineAskForPidParameters = 4;
-                    timer3.Enabled = true;
-                    break;
-
-                case 4:
-                    pidTuningHelperApp.AskForPidOffsetAndBias();
-                    this.stateMachineAskForPidParameters = 0;
-                    this.askForPidParameters = false;
-                    this.stateMachineAskForPidParametersCounter = 0;
-                    timer3.Enabled = false;
-                    startPidBtn.Enabled = true;
-                    stopPidBtn.Enabled = true;
-                    setConfigDataBtn.Enabled = true;
-                    readConfigDataBtn.Enabled = true;
-                    break;
-
-                default:
-                    this.stateMachineAskForPidParameters = 0;
-                    this.askForPidParameters = false;
-                    this.stateMachineAskForPidParametersCounter = 0;
-                    timer3.Enabled = false;
-                    startPidBtn.Enabled = true;
-                    stopPidBtn.Enabled = true;
-                    setConfigDataBtn.Enabled = true;
-                    readConfigDataBtn.Enabled = true;
-                    break;
-            }
         }
 
         private void clearBtn_Click(object sender, EventArgs e)
@@ -728,8 +417,7 @@ namespace PidTuningHelper
             currentPidBiasLbl.Text = "...";
             currentPidOffsetLbl.Text = "...";
 
-            timer3.Enabled = true;
-            this.askForPidParameters = true;
+            pidTuningHelperApp.AskForCurrentConfigDataValues();
 
             startPidBtn.Enabled = false;
             stopPidBtn.Enabled = false;
@@ -739,13 +427,175 @@ namespace PidTuningHelper
 
         private void setConfigDataBtn_Click(object sender, EventArgs e)
         {
-            timer3.Enabled = true;
-            this.setPidControllerParameters = true;
-
             startPidBtn.Enabled = false;
             stopPidBtn.Enabled = false;
             setConfigDataBtn.Enabled = false;
             readConfigDataBtn.Enabled = false;
+
+
+            string samplingIntervalInMsStr = samplingIntervalTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(samplingIntervalInMsStr))
+            {
+                if (uint.TryParse(samplingIntervalInMsStr, out uint samplingIntervalInMsResult))
+                {
+                    //pidTuningHelperApp.SetSamplingIntervalSendCommand(10 * samplingIntervalInMsResult);
+                }
+            }
+
+
+            string pidIntervalInMsStr = pidIntervalTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(pidIntervalInMsStr))
+            {
+                if (uint.TryParse(pidIntervalInMsStr, out uint pidIntervalInMsResult))
+                {
+                    //pidTuningHelperApp.SetPidIntervalSendCommand(10 * pidIntervalInMsResult);
+                }
+            }
+
+
+            string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
+            if (pidSetpointStr.Contains("."))
+            {
+                //pidSetpointStr = pidSetpointStr.Replace(".", ",");
+            }
+
+            if (!String.IsNullOrEmpty(pidSetpointStr))
+            {
+                if (float.TryParse(pidSetpointStr, out float pidSetpointResult))
+                {
+                    //pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResult);
+                }
+            }
+
+
+            string kpStr = kpTxtBox.Text.Trim();
+            if (kpStr.Contains("."))
+            {
+                kpStr = kpStr.Replace(".", ",");
+            }
+
+            if (!String.IsNullOrEmpty(kpStr))
+            {
+                if (float.TryParse(kpStr, out float kpResult))
+                {
+                    //pidTuningHelperApp.SetKpSendCommand(kpResult);
+                }
+            }
+
+
+            string kiStr = kiTxtBox.Text.Trim();
+            if (kiStr.Contains("."))
+            {
+                kiStr = kiStr.Replace(".", ",");
+            }
+
+            if (!String.IsNullOrEmpty(kiStr))
+            {
+                if (float.TryParse(kiStr, out float kiResult))
+                {
+                    //pidTuningHelperApp.SetKiSendCommand(kiResult);
+                }
+            }
+
+
+            string kdStr = kdTxtBox.Text.Trim();
+            if (kdStr.Contains("."))
+            {
+                kdStr = kdStr.Replace(".", ",");
+            }
+
+            if (!String.IsNullOrEmpty(kdStr))
+            {
+                if (float.TryParse(kdStr, out float kdResult))
+                {
+                    //pidTuningHelperApp.SetKdSendCommand(kdResult);
+                }
+            }
+
+
+            string movingAverageWindow = movAverageWinTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(movingAverageWindow))
+            {
+                if (uint.TryParse(movingAverageWindow, out uint movingAverageWindowResult))
+                {
+                   //pidTuningHelperApp.SetMovingAverageWindowSendCommand(movingAverageWindowResult);
+                }
+            }
+
+
+            string minSumOfErrors = minSumOfErrorsTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(minSumOfErrors))
+            {
+                if (int.TryParse(minSumOfErrors, out int minSumOfErrorsResult))
+                {
+                    //pidTuningHelperApp.SetMinSumOfErrorsSendCommand(minSumOfErrorsResult);
+                }
+            }
+
+
+            string maxSumOfErrors = maxSumOfErrorsTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(maxSumOfErrors))
+            {
+                if (int.TryParse(maxSumOfErrors, out int maxSumOfErrorsResult))
+                {
+                    //pidTuningHelperApp.SetMaxSumOfErrorsSendCommand(maxSumOfErrorsResult);
+                }
+            }
+
+
+            string minControlledVariable = minControlledVarTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(minControlledVariable))
+            {
+                if (int.TryParse(minControlledVariable, out int minControlledVariableResult))
+                {
+                    //pidTuningHelperApp.SetMinControlledVariableSendCommand(minControlledVariableResult);
+                }
+            }
+
+
+            string maxControlledVariable = maxControlledVarTxtBox.Text.Trim();
+            if (!String.IsNullOrEmpty(maxControlledVariable))
+            {
+                if (int.TryParse(maxControlledVariable, out int maxControlledVariableResult))
+                {
+                    //pidTuningHelperApp.SetMaxControlledVariableSendCommand(maxControlledVariableResult);
+                }
+            }
+
+
+            string pidOffset = pidOffsetTxtBox.Text.Trim();
+            if (pidOffset.Contains("."))
+            {
+                pidOffset = pidOffset.Replace(".", ",");
+            }
+
+            if (!String.IsNullOrEmpty(pidOffset))
+            {
+                if (float.TryParse(pidOffset, out float pidOffsetResult))
+                {
+                    //pidTuningHelperApp.SetPidOffsetCommand(pidOffsetResult);
+                }
+            }
+
+
+            string pidBias = pidBiasTxtBox.Text.Trim();
+            if (pidBias.Contains("."))
+            {
+                pidBias = pidBias.Replace(".", ",");
+            }
+
+            if (!String.IsNullOrEmpty(pidBias))
+            {
+                if (float.TryParse(pidBias, out float pidBiasResult))
+                {
+                    //pidTuningHelperApp.SetPidBiasCommand(pidBiasResult);
+                }
+            }
+
+            startPidBtn.Enabled = true;
+            stopPidBtn.Enabled = true;
+            setConfigDataBtn.Enabled = true;
+            readConfigDataBtn.Enabled = true;
         }
 
         private void startPidBtn_Click(object sender, EventArgs e)

@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(60D, 400D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(120D, 200D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(180D, 250D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(240D, 100D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(300D, 450D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(360D, 50D);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint23 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(60D, 400D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint24 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(120D, 200D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint25 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(180D, 250D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint26 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(240D, 100D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint27 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(300D, 450D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint28 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(360D, 50D);
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSerialPort = new System.Windows.Forms.TabPage();
             this.settingsGb = new System.Windows.Forms.GroupBox();
@@ -60,6 +60,10 @@
             this.comPortCb = new System.Windows.Forms.ComboBox();
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.currentPidBiasLbl = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.currentPidOffsetLbl = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.currentMaxContrVarLbl = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.currentMovAverWinLbl = new System.Windows.Forms.Label();
@@ -87,6 +91,10 @@
             this.startPidBtn = new System.Windows.Forms.Button();
             this.stopPidBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.pidBiasTxtBox = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.pidOffsetTxtBox = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.maxControlledVarTxtBox = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -132,15 +140,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.currentPidBiasLbl = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.currentPidOffsetLbl = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.pidBiasTxtBox = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.pidOffsetTxtBox = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageSerialPort.SuspendLayout();
             this.settingsGb.SuspendLayout();
@@ -171,7 +170,7 @@
             this.tabPageSerialPort.Location = new System.Drawing.Point(4, 22);
             this.tabPageSerialPort.Name = "tabPageSerialPort";
             this.tabPageSerialPort.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSerialPort.Size = new System.Drawing.Size(1244, 587);
+            this.tabPageSerialPort.Size = new System.Drawing.Size(1244, 630);
             this.tabPageSerialPort.TabIndex = 0;
             this.tabPageSerialPort.Text = "Serial Port";
             this.tabPageSerialPort.UseVisualStyleBackColor = true;
@@ -418,6 +417,42 @@
             this.groupBox4.TabIndex = 24;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "PID Monitor";
+            // 
+            // currentPidBiasLbl
+            // 
+            this.currentPidBiasLbl.AutoSize = true;
+            this.currentPidBiasLbl.Location = new System.Drawing.Point(446, 186);
+            this.currentPidBiasLbl.Name = "currentPidBiasLbl";
+            this.currentPidBiasLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentPidBiasLbl.TabIndex = 45;
+            this.currentPidBiasLbl.Text = "...";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(392, 186);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(51, 13);
+            this.label24.TabIndex = 44;
+            this.label24.Text = "PID Bias:";
+            // 
+            // currentPidOffsetLbl
+            // 
+            this.currentPidOffsetLbl.AutoSize = true;
+            this.currentPidOffsetLbl.Location = new System.Drawing.Point(259, 186);
+            this.currentPidOffsetLbl.Name = "currentPidOffsetLbl";
+            this.currentPidOffsetLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentPidOffsetLbl.TabIndex = 43;
+            this.currentPidOffsetLbl.Text = "...";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(197, 186);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(59, 13);
+            this.label26.TabIndex = 42;
+            this.label26.Text = "PID Offset:";
             // 
             // currentMaxContrVarLbl
             // 
@@ -693,6 +728,38 @@
             this.groupBox2.TabIndex = 18;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PID Settings";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(125, 192);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(48, 13);
+            this.label23.TabIndex = 33;
+            this.label23.Text = "PID Bias";
+            // 
+            // pidBiasTxtBox
+            // 
+            this.pidBiasTxtBox.Location = new System.Drawing.Point(125, 208);
+            this.pidBiasTxtBox.Name = "pidBiasTxtBox";
+            this.pidBiasTxtBox.Size = new System.Drawing.Size(100, 20);
+            this.pidBiasTxtBox.TabIndex = 32;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(7, 192);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(56, 13);
+            this.label25.TabIndex = 31;
+            this.label25.Text = "PID Offset";
+            // 
+            // pidOffsetTxtBox
+            // 
+            this.pidOffsetTxtBox.Location = new System.Drawing.Point(7, 208);
+            this.pidOffsetTxtBox.Name = "pidOffsetTxtBox";
+            this.pidOffsetTxtBox.Size = new System.Drawing.Size(100, 20);
+            this.pidOffsetTxtBox.TabIndex = 30;
             // 
             // label14
             // 
@@ -1049,122 +1116,122 @@
             // lineChart
             // 
             this.lineChart.BorderlineWidth = 2;
-            chartArea1.AxisX.Crossing = -1.7976931348623157E+308D;
-            chartArea1.AxisX.InterlacedColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.Interval = 30D;
-            chartArea1.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MajorGrid.Interval = 30D;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MajorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisX.Maximum = 600D;
-            chartArea1.AxisX.Minimum = 0D;
-            chartArea1.AxisX.MinorGrid.Enabled = true;
-            chartArea1.AxisX.MinorGrid.Interval = 30D;
-            chartArea1.AxisX.MinorGrid.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.MinorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisX.MinorTickMark.Enabled = true;
-            chartArea1.AxisX.MinorTickMark.Interval = 30D;
-            chartArea1.AxisX.MinorTickMark.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea1.AxisX.Title = "Time [10 * sec]";
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.Crossing = -1.7976931348623157E+308D;
-            chartArea1.AxisY.InterlacedColor = System.Drawing.Color.LightGoldenrodYellow;
-            chartArea1.AxisY.Interval = 50D;
-            chartArea1.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MajorGrid.Interval = 50D;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MajorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.Maximum = 500D;
-            chartArea1.AxisY.Minimum = 0D;
-            chartArea1.AxisY.MinorGrid.Enabled = true;
-            chartArea1.AxisY.MinorGrid.Interval = 500D;
-            chartArea1.AxisY.MinorGrid.IntervalOffset = double.NaN;
-            chartArea1.AxisY.MinorGrid.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.MinorTickMark.Enabled = true;
-            chartArea1.AxisY.MinorTickMark.Interval = 500D;
-            chartArea1.AxisY.MinorTickMark.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.DimGray;
-            chartArea1.Name = "ChartArea1";
-            this.lineChart.ChartAreas.Add(chartArea1);
-            legend1.Alignment = System.Drawing.StringAlignment.Center;
-            legend1.BorderColor = System.Drawing.Color.Blue;
-            legend1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            legend1.ForeColor = System.Drawing.Color.DimGray;
-            legend1.InterlacedRowsColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            legend1.IsTextAutoFit = false;
-            legend1.Name = "Legend1";
-            this.lineChart.Legends.Add(legend1);
+            chartArea4.AxisX.Crossing = -1.7976931348623157E+308D;
+            chartArea4.AxisX.InterlacedColor = System.Drawing.Color.Transparent;
+            chartArea4.AxisX.Interval = 30D;
+            chartArea4.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisX.IsLabelAutoFit = false;
+            chartArea4.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisX.MajorGrid.Interval = 30D;
+            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisX.MajorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisX.Maximum = 600D;
+            chartArea4.AxisX.Minimum = 0D;
+            chartArea4.AxisX.MinorGrid.Enabled = true;
+            chartArea4.AxisX.MinorGrid.Interval = 30D;
+            chartArea4.AxisX.MinorGrid.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisX.MinorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisX.MinorTickMark.Enabled = true;
+            chartArea4.AxisX.MinorTickMark.Interval = 30D;
+            chartArea4.AxisX.MinorTickMark.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea4.AxisX.Title = "Time [10 * sec]";
+            chartArea4.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            chartArea4.AxisX.TitleForeColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.Crossing = -1.7976931348623157E+308D;
+            chartArea4.AxisY.InterlacedColor = System.Drawing.Color.LightGoldenrodYellow;
+            chartArea4.AxisY.Interval = 50D;
+            chartArea4.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.MajorGrid.Interval = 50D;
+            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.MajorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisY.Maximum = 500D;
+            chartArea4.AxisY.Minimum = 0D;
+            chartArea4.AxisY.MinorGrid.Enabled = true;
+            chartArea4.AxisY.MinorGrid.Interval = 500D;
+            chartArea4.AxisY.MinorGrid.IntervalOffset = double.NaN;
+            chartArea4.AxisY.MinorGrid.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.MinorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisY.MinorTickMark.Enabled = true;
+            chartArea4.AxisY.MinorTickMark.Interval = 500D;
+            chartArea4.AxisY.MinorTickMark.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Rotated270;
+            chartArea4.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            chartArea4.AxisY.TitleForeColor = System.Drawing.Color.DimGray;
+            chartArea4.Name = "ChartArea1";
+            this.lineChart.ChartAreas.Add(chartArea4);
+            legend4.Alignment = System.Drawing.StringAlignment.Center;
+            legend4.BorderColor = System.Drawing.Color.Blue;
+            legend4.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
+            legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            legend4.ForeColor = System.Drawing.Color.DimGray;
+            legend4.InterlacedRowsColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            legend4.IsTextAutoFit = false;
+            legend4.Name = "Legend1";
+            this.lineChart.Legends.Add(legend4);
             this.lineChart.Location = new System.Drawing.Point(6, 19);
             this.lineChart.Name = "lineChart";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Color = System.Drawing.Color.Blue;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.LegendText = "Process Variable";
-            series1.Name = "processVariableSerie";
-            dataPoint1.BorderWidth = 2;
-            dataPoint1.IsVisibleInLegend = false;
-            dataPoint1.LegendText = "Process Variable";
-            dataPoint2.BorderWidth = 2;
-            dataPoint2.IsVisibleInLegend = false;
-            dataPoint2.LegendText = "Process Variable";
-            dataPoint3.BorderWidth = 2;
-            dataPoint3.IsVisibleInLegend = false;
-            dataPoint3.LegendText = "Process Variable";
-            dataPoint4.BorderWidth = 2;
-            dataPoint4.IsVisibleInLegend = false;
-            dataPoint4.LegendText = "Process Variable";
-            dataPoint5.BorderWidth = 2;
-            dataPoint5.IsVisibleInLegend = false;
-            dataPoint5.LegendText = "Process Variable";
-            dataPoint6.BorderWidth = 2;
-            dataPoint6.IsVisibleInLegend = false;
-            dataPoint6.LegendText = "Process Variable";
-            dataPoint7.BorderWidth = 2;
-            dataPoint7.IsVisibleInLegend = false;
-            dataPoint7.LegendText = "Process Variable";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            series1.Points.Add(dataPoint4);
-            series1.Points.Add(dataPoint5);
-            series1.Points.Add(dataPoint6);
-            series1.Points.Add(dataPoint7);
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            this.lineChart.Series.Add(series1);
+            series4.BorderWidth = 2;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Color = System.Drawing.Color.Blue;
+            series4.IsVisibleInLegend = false;
+            series4.Legend = "Legend1";
+            series4.LegendText = "Process Variable";
+            series4.Name = "processVariableSerie";
+            dataPoint22.BorderWidth = 2;
+            dataPoint22.IsVisibleInLegend = false;
+            dataPoint22.LegendText = "Process Variable";
+            dataPoint23.BorderWidth = 2;
+            dataPoint23.IsVisibleInLegend = false;
+            dataPoint23.LegendText = "Process Variable";
+            dataPoint24.BorderWidth = 2;
+            dataPoint24.IsVisibleInLegend = false;
+            dataPoint24.LegendText = "Process Variable";
+            dataPoint25.BorderWidth = 2;
+            dataPoint25.IsVisibleInLegend = false;
+            dataPoint25.LegendText = "Process Variable";
+            dataPoint26.BorderWidth = 2;
+            dataPoint26.IsVisibleInLegend = false;
+            dataPoint26.LegendText = "Process Variable";
+            dataPoint27.BorderWidth = 2;
+            dataPoint27.IsVisibleInLegend = false;
+            dataPoint27.LegendText = "Process Variable";
+            dataPoint28.BorderWidth = 2;
+            dataPoint28.IsVisibleInLegend = false;
+            dataPoint28.LegendText = "Process Variable";
+            series4.Points.Add(dataPoint22);
+            series4.Points.Add(dataPoint23);
+            series4.Points.Add(dataPoint24);
+            series4.Points.Add(dataPoint25);
+            series4.Points.Add(dataPoint26);
+            series4.Points.Add(dataPoint27);
+            series4.Points.Add(dataPoint28);
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.lineChart.Series.Add(series4);
             this.lineChart.Size = new System.Drawing.Size(951, 349);
             this.lineChart.TabIndex = 0;
             this.lineChart.Text = "chart1";
-            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            title1.Name = "Title1";
-            title1.Text = "Line Chart";
-            title1.Visible = false;
-            this.lineChart.Titles.Add(title1);
+            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title4.Name = "Title1";
+            title4.Text = "Line Chart";
+            title4.Visible = false;
+            this.lineChart.Titles.Add(title4);
             // 
             // serialPort
             // 
@@ -1180,79 +1247,6 @@
             this.timer2.Enabled = true;
             this.timer2.Interval = 5;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
-            // timer3
-            // 
-            this.timer3.Interval = 5;
-            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // currentPidBiasLbl
-            // 
-            this.currentPidBiasLbl.AutoSize = true;
-            this.currentPidBiasLbl.Location = new System.Drawing.Point(446, 186);
-            this.currentPidBiasLbl.Name = "currentPidBiasLbl";
-            this.currentPidBiasLbl.Size = new System.Drawing.Size(16, 13);
-            this.currentPidBiasLbl.TabIndex = 45;
-            this.currentPidBiasLbl.Text = "...";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(392, 186);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(51, 13);
-            this.label24.TabIndex = 44;
-            this.label24.Text = "PID Bias:";
-            // 
-            // currentPidOffsetLbl
-            // 
-            this.currentPidOffsetLbl.AutoSize = true;
-            this.currentPidOffsetLbl.Location = new System.Drawing.Point(259, 186);
-            this.currentPidOffsetLbl.Name = "currentPidOffsetLbl";
-            this.currentPidOffsetLbl.Size = new System.Drawing.Size(16, 13);
-            this.currentPidOffsetLbl.TabIndex = 43;
-            this.currentPidOffsetLbl.Text = "...";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(197, 186);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(59, 13);
-            this.label26.TabIndex = 42;
-            this.label26.Text = "PID Offset:";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(125, 192);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(48, 13);
-            this.label23.TabIndex = 33;
-            this.label23.Text = "PID Bias";
-            // 
-            // pidBiasTxtBox
-            // 
-            this.pidBiasTxtBox.Location = new System.Drawing.Point(125, 208);
-            this.pidBiasTxtBox.Name = "pidBiasTxtBox";
-            this.pidBiasTxtBox.Size = new System.Drawing.Size(100, 20);
-            this.pidBiasTxtBox.TabIndex = 32;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(7, 192);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(56, 13);
-            this.label25.TabIndex = 31;
-            this.label25.Text = "PID Offset";
-            // 
-            // pidOffsetTxtBox
-            // 
-            this.pidOffsetTxtBox.Location = new System.Drawing.Point(7, 208);
-            this.pidOffsetTxtBox.Name = "pidOffsetTxtBox";
-            this.pidOffsetTxtBox.Size = new System.Drawing.Size(100, 20);
-            this.pidOffsetTxtBox.TabIndex = 30;
             // 
             // PidTuningHelper
             // 
@@ -1358,7 +1352,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.Label currentMovAverWinLbl;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label currentMinContrVarLbl;

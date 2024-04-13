@@ -88,7 +88,60 @@ namespace PidTuningHelper.App
         {
             switch (this.receivedCommand)
             {
-                case ((byte) CommandsFromMicrocontroller.ProcessVariableValue):
+                case ((byte) CommandsFromMicrocontroller.CurrentConfigDataValues):
+                    int pidKpTimes1000 = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    float pidKp = ((float) pidKpTimes1000) / 1000;
+                    this.currentKpLabel.Text = pidKp.ToString();
+
+                    int pidKiTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
+                    float pidKi = ((float) pidKiTimes1000) / 1000;
+                    this.currentKiLabel.Text = pidKi.ToString();
+
+                    int pidKdTimes1000 = ((this.payloadRxDataBytes[8] << 24) + (this.payloadRxDataBytes[9] << 16) + (this.payloadRxDataBytes[10] << 8) + this.payloadRxDataBytes[11]);
+                    float pidKd = ((float)pidKdTimes1000) / 1000;
+                    this.currentKdLabel.Text = pidKd.ToString();
+
+                    int pidIntervalAux = ((this.payloadRxDataBytes[12] << 8) + this.payloadRxDataBytes[13]);
+                    int pidIntervalInMiliSeconds = pidIntervalAux / 10;
+                    this.currentPidIntervalLabel.Text = pidIntervalInMiliSeconds.ToString();
+
+                    int samplingIntervalAux = ((this.payloadRxDataBytes[14] << 8) + this.payloadRxDataBytes[15]);
+                    int samplingIntervalInMiliSeconds = samplingIntervalAux / 10;
+                    this.currentSamplingIntervalLabel.Text = samplingIntervalInMiliSeconds.ToString();
+
+                    int movingAverageWindow = ((this.payloadRxDataBytes[16] << 8) + this.payloadRxDataBytes[17]);
+                    this.currentMovAverWinLabel.Text = movingAverageWindow.ToString();
+
+                    int minSumOfErrorsUnsigned = ((this.payloadRxDataBytes[18] << 24) + (this.payloadRxDataBytes[19] << 16) + (this.payloadRxDataBytes[20] << 8) + this.payloadRxDataBytes[21]);
+                    int minSumOfErrors = minSumOfErrorsUnsigned - 1000000000;
+                    this.currentMinSumOfErrorsLabel.Text = minSumOfErrors.ToString();
+
+                    int maxSumOfErrorsUnsigned = ((this.payloadRxDataBytes[22] << 24) + (this.payloadRxDataBytes[23] << 16) + (this.payloadRxDataBytes[24] << 8) + this.payloadRxDataBytes[25]);
+                    int maxSumOfErrors = maxSumOfErrorsUnsigned - 1000000000;
+                    this.currentMaxSumOfErrorsLabel.Text = maxSumOfErrors.ToString();
+
+                    int minControlledVariableUnsigned = ((this.payloadRxDataBytes[26] << 24) + (this.payloadRxDataBytes[27] << 16) + (this.payloadRxDataBytes[28] << 8) + this.payloadRxDataBytes[29]);
+                    int minControlledVariable = minControlledVariableUnsigned - 1000000000;
+                    this.currentMinControlledVariableLabel.Text = minControlledVariable.ToString();
+
+                    int maxControlledVariableUnsigned = ((this.payloadRxDataBytes[30] << 24) + (this.payloadRxDataBytes[31] << 16) + (this.payloadRxDataBytes[32] << 8) + this.payloadRxDataBytes[33]);
+                    int maxControlledVariable = maxControlledVariableUnsigned - 1000000000;
+                    this.currentMaxControlledVariableLabel.Text = maxControlledVariable.ToString();
+
+                    int offsetUnsigned = ((this.payloadRxDataBytes[34] << 24) + (this.payloadRxDataBytes[35] << 16) + (this.payloadRxDataBytes[36] << 8) + this.payloadRxDataBytes[37]);
+                    float offset = ((((float)offsetUnsigned) - 1000000) / 1000);
+                    this.currentOffsetLabel.Text = offset.ToString();
+
+                    int biasUnsigned = ((this.payloadRxDataBytes[38] << 24) + (this.payloadRxDataBytes[39] << 16) + (this.payloadRxDataBytes[40] << 8) + this.payloadRxDataBytes[41]);
+                    float bias = ((((float)biasUnsigned) - 1000000) / 1000);
+                    this.currentBiasLabel.Text = bias.ToString();
+
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.CurrentPidSetpointValue):
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.CurrentProcessVariableValue):
                     this.processVariableValue = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
                     this.lineChart.Series[this.lineChartSerie].Points.AddXY(this.pointsCounter, this.processVariableValue);
 
@@ -98,71 +151,6 @@ namespace PidTuningHelper.App
                         this.pointsCounter = this.lineChartMinX;
                         this.ClearChart();
                     }
-                    break;
-
-                case ((byte) CommandsFromMicrocontroller.PidKsParameterValues):
-                    int pidKpTimes1000 = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
-                    int pidKiTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
-                    int pidKdTimes1000 = ((this.payloadRxDataBytes[8] << 24) + (this.payloadRxDataBytes[9] << 16) + (this.payloadRxDataBytes[10] << 8) + this.payloadRxDataBytes[11]);
-
-                    float pidKp = ((float) pidKpTimes1000) / 1000;
-                    float pidKi = ((float) pidKiTimes1000) / 1000;
-                    float pidKd = ((float) pidKdTimes1000) / 1000;
-
-                    this.currentKpLabel.Text = pidKp.ToString();
-                    this.currentKiLabel.Text = pidKi.ToString();
-                    this.currentKdLabel.Text = pidKd.ToString();
-                    break;
-
-                case ((byte) CommandsFromMicrocontroller.PidControllerParameterValues):
-                    int samplingIntervalAux = ((this.payloadRxDataBytes[0] << 8) + this.payloadRxDataBytes[1]);
-                    int pidIntervalAux = ((this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
-
-                    int pidSetpointTimes1000 = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
-                    float pidSetpoint = ((float) pidSetpointTimes1000) / 1000;
-
-                    int movingAverageWindow = ((this.payloadRxDataBytes[8] << 8) + this.payloadRxDataBytes[9]);
-
-                    int samplingIntervalInMiliSeconds = samplingIntervalAux / 10;
-                    int pidIntervalInMiliSeconds = pidIntervalAux / 10;
-
-                    this.currentSamplingIntervalLabel.Text = samplingIntervalInMiliSeconds.ToString();
-                    this.currentPidIntervalLabel.Text = pidIntervalInMiliSeconds.ToString();
-                    this.currentPidSetpointLabel.Text = pidSetpoint.ToString();
-                    this.currentMovAverWinLabel.Text = movingAverageWindow.ToString();
-                    break;
-
-                case ((byte) CommandsFromMicrocontroller.PidMinAndMaxSumOfErrors):
-                    int minSumOfErrorsUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
-                    int maxSumOfErrorsUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
-
-                    int minSumOfErrors = minSumOfErrorsUnsigned - 1000000000;
-                    int maxSumOfErrors = maxSumOfErrorsUnsigned - 1000000000;
-
-                    this.currentMinSumOfErrorsLabel.Text = minSumOfErrors.ToString();
-                    this.currentMaxSumOfErrorsLabel.Text = maxSumOfErrors.ToString();
-                    break;
-
-                case ((byte) CommandsFromMicrocontroller.PidMinAndMaxControlledVariable):
-                    int minControlledVariableUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
-                    int maxControlledVariableUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
-
-                    int minControlledVariable = minControlledVariableUnsigned - 1000000000;
-                    int maxControlledVariable = maxControlledVariableUnsigned - 1000000000;
-
-                    this.currentMinControlledVariableLabel.Text = minControlledVariable.ToString();
-                    this.currentMaxControlledVariableLabel.Text = maxControlledVariable.ToString();
-                    break;
-
-                case ((byte) CommandsFromMicrocontroller.PidOffsetAndBias):
-                    int offsetUnsigned = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
-                    int biasUnsigned = ((this.payloadRxDataBytes[4] << 24) + (this.payloadRxDataBytes[5] << 16) + (this.payloadRxDataBytes[6] << 8) + this.payloadRxDataBytes[7]);
-
-                    float offset = ((((float) offsetUnsigned) - 1000000) / 1000);
-                    float bias = ((((float) biasUnsigned) - 1000000) / 1000);
-
-                    this.currentOffsetLabel.Text = offset.ToString();
-                    this.currentBiasLabel.Text = bias.ToString();
                     break;
 
                 default:
@@ -233,258 +221,138 @@ namespace PidTuningHelper.App
 
         }
 
-        public void StartDataAquisitionSendCommand()
+        public void SetConfigDataCommand(float kp, float ki, float kd, uint pidIntervalInMsx10, uint samplingIntervalInMsx10, uint movingAverageWindow,
+            int minSumOfErrors, int maxSumOfErrors, int minControlledVariable, int maxControlledVariable, float pidOffset, float pidBias)
         {
-            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-            this.payloadTxDataBytes[0] = ((byte) DeviceSendData.Enable);
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendProcessVariable);
-            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
-            this.dataPacketTx.Mount();
-            this.dataPacketTx.SerialSend(this.serialPort);
-        }
+            bool error = true;
 
-        public void StopDataAquisitionSendCommand()
-        {
-            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-            this.payloadTxDataBytes[0] = ((byte) DeviceSendData.Disable);
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendProcessVariable);
-            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
-            this.dataPacketTx.Mount();
-            this.dataPacketTx.SerialSend(this.serialPort);
-        }
+            int pidKpTimes1000 = 0;
+            int pidKiTimes1000 = 0;
+            int pidKdTimes1000 = 0;
+            int offset = 0;
+            int bias = 0;
 
-        public void StartPidControllerSendCommand()
-        {
-            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-            this.payloadTxDataBytes[0] = ((byte) RunPidController.True);
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForRunPidController);
-            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
-            this.dataPacketTx.Mount();
-            this.dataPacketTx.SerialSend(this.serialPort);
-        }
-
-        public void StopPidControllerSendCommand()
-        {
-            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-            this.payloadTxDataBytes[0] = ((byte) RunPidController.False);
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForRunPidController);
-            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
-            this.dataPacketTx.Mount();
-            this.dataPacketTx.SerialSend(this.serialPort);
-        }
-
-        public void SetKpSendCommand(float kp)
-        {
-            if (kp >= 0 && kp <= 0xFFF)
+            if ((kp >= 0 && kp <= 0xFFF) && (ki >= 0 && ki <= 0xFFF) && (kd >= 0 && kd <= 0xFFF) && 
+                (pidIntervalInMsx10 >= 0 && pidIntervalInMsx10 <= 0xFFFF) && (samplingIntervalInMsx10 >= 0 && samplingIntervalInMsx10 <= 0xFFFF) &&
+                (movingAverageWindow >= 0 && movingAverageWindow <= 0xFFFF) && (minSumOfErrors >= -1000000000 && minSumOfErrors <= 1000000000) &&
+                (maxSumOfErrors >= -1000000000 && maxSumOfErrors <= 1000000000) && (minControlledVariable >= -1000000000 && minControlledVariable <= 1000000000) &&
+                (maxControlledVariable >= -1000000000 && maxControlledVariable <= 1000000000) && (pidOffset >= -1000000 && pidOffset <= 1000000) &&
+                (pidBias >= -1000000 && pidBias <= 1000000))
             {
                 float pidKpTimes1000Aux = 1000 * kp;
-                int pidKpTimes1000 = (int) pidKpTimes1000Aux;
+                pidKpTimes1000 = (int) pidKpTimes1000Aux;
 
+                float pidKiTimes1000Aux = 1000 * ki;
+                pidKiTimes1000 = (int) pidKiTimes1000Aux;
+
+                float pidKdTimes1000Aux = 1000 * kd;
+                pidKdTimes1000 = (int) pidKdTimes1000Aux;
+
+                minSumOfErrors += 1000000000;
+                maxSumOfErrors += 1000000000;
+
+                minControlledVariable += 1000000000;
+                maxControlledVariable += 1000000000;
+
+                float offsetAux = (1000 * pidOffset) + 1000000;
+                offset = (int) offsetAux;
+
+                float biasAux = (1000 * pidBias) + 1000000;
+                bias = (int) biasAux;
+            }
+            else
+            {
+                error = true;
+            }
+
+            if (error == false)
+            {
                 Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+
                 this.payloadTxDataBytes[0] = (byte) ((pidKpTimes1000 >> 24) & 0x00FF);
                 this.payloadTxDataBytes[1] = (byte) ((pidKpTimes1000 >> 16) & 0x00FF);
                 this.payloadTxDataBytes[2] = (byte) ((pidKpTimes1000 >> 8) & 0x00FF);
                 this.payloadTxDataBytes[3] = (byte) (pidKpTimes1000 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKpValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
+
+                this.payloadTxDataBytes[4] = (byte) ((pidKiTimes1000 >> 24) & 0x00FF);
+                this.payloadTxDataBytes[5] = (byte) ((pidKiTimes1000 >> 16) & 0x00FF);
+                this.payloadTxDataBytes[6] = (byte) ((pidKiTimes1000 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[7] = (byte) (pidKiTimes1000 & 0x00FF);
+
+                this.payloadTxDataBytes[8] = (byte) ((pidKdTimes1000 >> 24) & 0x00FF);
+                this.payloadTxDataBytes[9] = (byte) ((pidKdTimes1000 >> 16) & 0x00FF);
+                this.payloadTxDataBytes[10] = (byte) ((pidKdTimes1000 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[11] = (byte) (pidKdTimes1000 & 0x00FF);
+
+                this.payloadTxDataBytes[12] = (byte) ((pidIntervalInMsx10 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[13] = (byte) (pidIntervalInMsx10 & 0x00FF);
+
+                this.payloadTxDataBytes[14] = (byte) ((samplingIntervalInMsx10 >> 8) & 0x00FF);
+                this.payloadTxDataBytes[15] = (byte) (samplingIntervalInMsx10 & 0x00FF);
+
+                this.payloadTxDataBytes[16] = (byte) ((movingAverageWindow >> 8) & 0x00FF);
+                this.payloadTxDataBytes[17] = (byte) (movingAverageWindow & 0x00FF);
+
+                this.payloadTxDataBytes[18] = (byte) ((minSumOfErrors >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[19] = (byte) ((minSumOfErrors >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[20] = (byte) ((minSumOfErrors >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[21] = (byte) (minSumOfErrors & 0x000000FF);
+
+                this.payloadTxDataBytes[22] = (byte) ((maxSumOfErrors >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[23] = (byte) ((maxSumOfErrors >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[24] = (byte) ((maxSumOfErrors >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[25] = (byte) (maxSumOfErrors & 0x000000FF);
+
+                this.payloadTxDataBytes[26] = (byte) ((minControlledVariable >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[27] = (byte) ((minControlledVariable >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[28] = (byte) ((minControlledVariable >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[29] = (byte) (minControlledVariable & 0x000000FF);
+
+                this.payloadTxDataBytes[30] = (byte) ((maxControlledVariable >> 24) & 0x000000FF);
+                this.payloadTxDataBytes[31] = (byte) ((maxControlledVariable >> 16) & 0x000000FF);
+                this.payloadTxDataBytes[32] = (byte) ((maxControlledVariable >> 8) & 0x000000FF);
+                this.payloadTxDataBytes[33] = (byte) (maxControlledVariable & 0x000000FF);
+
+                this.payloadTxDataBytes[34] = (byte) ((offset >> 24) & 0x00FF);
+                this.payloadTxDataBytes[35] = (byte) ((offset >> 16) & 0x00FF);
+                this.payloadTxDataBytes[36] = (byte) ((offset >> 8) & 0x00FF);
+                this.payloadTxDataBytes[37] = (byte) (offset & 0x00FF);
+
+                this.payloadTxDataBytes[38] = (byte) ((bias >> 24) & 0x00FF);
+                this.payloadTxDataBytes[39] = (byte) ((bias >> 16) & 0x00FF);
+                this.payloadTxDataBytes[40] = (byte) ((bias >> 8) & 0x00FF);
+                this.payloadTxDataBytes[41] = (byte) (bias & 0x00FF);
+
+                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetConfigDataValues);
+                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 42);
                 this.dataPacketTx.Mount();
                 this.dataPacketTx.SerialSend(this.serialPort);
             }
             else
             {
-                MessageBox.Show("0 <= kp <= 4095", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                String errorMessage = 
+                    "0 <= kp <= 4095\n" +
+                    "0 <= ki <= 4095\n" +
+                    "0 <= kd <= 4095\n" +
+                    "0 <= pidIntervalInMs <= 65535\n" +
+                    "0 <= samplingIntervalInMs <= 65535\n" +
+                    "0 <= movingAverageWindow <= 65535\n" +
+                    "-1000000000 <= minSumOfErrors <= 1000000000\n" +
+                    "-1000000000 <= maxSumOfErrors <= 1000000000\n" +
+                    "-1000000000 <= minControlledVariable <= 1000000000\n" +
+                    "-1000000000 <= maxControlledVariable <= 1000000000\n" +
+                    "-1000000 <= pidOffset <= 1000000\n" +
+                    "-1000000 <= pidBias <= 1000000";
+
+                MessageBox.Show(errorMessage, "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        public void SetKiSendCommand(float ki)
+        public void AskForCurrentConfigDataValues()
         {
-            if (ki >= 0 && ki <= 0xFFF)
-            {
-                float pidKiTimes1000Aux = 1000 * ki;
-                int pidKiTimes1000 = (int) pidKiTimes1000Aux;
-
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = (byte) ((pidKiTimes1000 >> 24) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) ((pidKiTimes1000 >> 16) & 0x00FF);
-                this.payloadTxDataBytes[2] = (byte) ((pidKiTimes1000 >> 8) & 0x00FF);
-                this.payloadTxDataBytes[3] = (byte) (pidKiTimes1000 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKiValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("0 <= ki <= 4095", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetKdSendCommand(float kd)
-        {
-            if (kd >= 0 && kd <= 0xFFF)
-            {
-                float pidKdTimes1000Aux = 1000 * kd;
-                int pidKdTimes1000 = (int) pidKdTimes1000Aux;
-
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = (byte) ((pidKdTimes1000 >> 24) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) ((pidKdTimes1000 >> 16) & 0x00FF);
-                this.payloadTxDataBytes[2] = (byte) ((pidKdTimes1000 >> 8) & 0x00FF);
-                this.payloadTxDataBytes[3] = (byte) (pidKdTimes1000 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetKdValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("0 <= kd <= 4095", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetSamplingIntervalSendCommand(uint samplingIntervalInMsx10)
-        {
-            if (samplingIntervalInMsx10 >= 0 && samplingIntervalInMsx10 <= 0xFFFF)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 2;
-                this.payloadTxDataBytes[0] = (byte) ((samplingIntervalInMsx10 >> 8) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) (samplingIntervalInMsx10 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetSamplingIntervalValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("0 <= samplingIntervalInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetMovingAverageWindowSendCommand(uint movingAverageWindow)
-        {
-            if (movingAverageWindow >= 0 && movingAverageWindow <= 0xFFFF)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 2;
-                this.payloadTxDataBytes[0] = (byte) ((movingAverageWindow >> 8) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) (movingAverageWindow & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetMovingAverageWindow);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("0 <= movingAverageWindow <= 65535", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetMinSumOfErrorsSendCommand(int minSumOfErrors)
-        {
-            if (minSumOfErrors >= -1000000000 && minSumOfErrors <= 1000000000)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 4;
-                minSumOfErrors += 1000000000;
-                this.payloadTxDataBytes[0] = (byte) ((minSumOfErrors >> 24) & 0x000000FF);
-                this.payloadTxDataBytes[1] = (byte) ((minSumOfErrors >> 16) & 0x000000FF);
-                this.payloadTxDataBytes[2] = (byte) ((minSumOfErrors >> 8) & 0x000000FF);
-                this.payloadTxDataBytes[3] = (byte) (minSumOfErrors & 0x000000FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMinSumOfErrors);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("-1000000000 <= minSumOfErrors <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetMaxSumOfErrorsSendCommand(int maxSumOfErrors)
-        {
-            if (maxSumOfErrors >= -1000000000 && maxSumOfErrors <= 1000000000)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 4;
-                maxSumOfErrors += 1000000000;
-                this.payloadTxDataBytes[0] = (byte) ((maxSumOfErrors >> 24) & 0x000000FF);
-                this.payloadTxDataBytes[1] = (byte) ((maxSumOfErrors >> 16) & 0x000000FF);
-                this.payloadTxDataBytes[2] = (byte) ((maxSumOfErrors >> 8) & 0x000000FF);
-                this.payloadTxDataBytes[3] = (byte) (maxSumOfErrors & 0x000000FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMaxSumOfErrors);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("-1000000000 <= maxSumOfErrors <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetMinControlledVariableSendCommand(int minControlledVariable)
-        {
-            if (minControlledVariable >= -1000000000 && minControlledVariable <= 1000000000)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 4;
-                minControlledVariable += 1000000000;
-                this.payloadTxDataBytes[0] = (byte) ((minControlledVariable >> 24) & 0x000000FF);
-                this.payloadTxDataBytes[1] = (byte) ((minControlledVariable >> 16) & 0x000000FF);
-                this.payloadTxDataBytes[2] = (byte) ((minControlledVariable >> 8) & 0x000000FF);
-                this.payloadTxDataBytes[3] = (byte) (minControlledVariable & 0x000000FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMinControlledVariable);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("-1000000000 <= minControlledVariable <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetMaxControlledVariableSendCommand(int maxControlledVariable)
-        {
-            if (maxControlledVariable >= -1000000000 && maxControlledVariable <= 1000000000)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 4;
-                maxControlledVariable += 1000000000;
-                this.payloadTxDataBytes[0] = (byte) ((maxControlledVariable >> 24) & 0x000000FF);
-                this.payloadTxDataBytes[1] = (byte) ((maxControlledVariable >> 16) & 0x000000FF);
-                this.payloadTxDataBytes[2] = (byte) ((maxControlledVariable >> 8) & 0x000000FF);
-                this.payloadTxDataBytes[3] = (byte) (maxControlledVariable & 0x000000FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidMaxControlledVariable);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte)qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("-1000000000 <= maxControlledVariable <= 1000000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetPidIntervalSendCommand(uint pidIntervalInMsx10)
-        {
-            if (pidIntervalInMsx10 >= 0 && pidIntervalInMsx10 <= 0xFFFF)
-            {
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                int qtyOfBytes = 2;
-                this.payloadTxDataBytes[0] = (byte) ((pidIntervalInMsx10 >> 8) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) (pidIntervalInMsx10 & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidIntervalValue);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, (byte) qtyOfBytes);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("0 <= pidIntervalInMs <= 6553", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForCurrentConfigDataValues);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
         }
 
         public void SetPidSetpointSendCommand(float pidSetpoint)
@@ -511,85 +379,42 @@ namespace PidTuningHelper.App
             }
         }
 
-        public void SetPidOffsetCommand(float pidOffset)
+        public void StopPidControllerSendCommand()
         {
-            if (pidOffset >= -1000000 && pidOffset <= 1000000)
-            {
-                float offsetAux = (1000 * pidOffset) + 1000000;
-                int offset = (int) offsetAux;
-
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = (byte) ((offset >> 24) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) ((offset >> 16) & 0x00FF);
-                this.payloadTxDataBytes[2] = (byte) ((offset >> 8) & 0x00FF);
-                this.payloadTxDataBytes[3] = (byte) (offset & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidOffset);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("-1000000 <= pidOffset <= 1000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void SetPidBiasCommand(float pidBias)
-        {
-            if (pidBias >= -1000000 && pidBias <= 1000000)
-            {
-                float biasAux = (1000 * pidBias) + 1000000;
-                int bias = (int) biasAux;
-
-                Console.WriteLine(bias);
-
-                Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
-                this.payloadTxDataBytes[0] = (byte) ((bias >> 24) & 0x00FF);
-                this.payloadTxDataBytes[1] = (byte) ((bias >> 16) & 0x00FF);
-                this.payloadTxDataBytes[2] = (byte) ((bias >> 8) & 0x00FF);
-                this.payloadTxDataBytes[3] = (byte) (bias & 0x00FF);
-                this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.SetPidBias);
-                this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 4);
-                this.dataPacketTx.Mount();
-                this.dataPacketTx.SerialSend(this.serialPort);
-            }
-            else
-            {
-                MessageBox.Show("-1000000 <= pidBias <= 1000000", "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        public void AskForPidKsParameters()
-        {
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidKsParameters);
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            this.payloadTxDataBytes[0] = ((byte) RunPidController.False);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForRunPidController);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
-        public void AskForPidControllerParameters()
+        public void StartPidControllerSendCommand()
         {
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidControllerParameters);
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            this.payloadTxDataBytes[0] = ((byte) RunPidController.True);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForRunPidController);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
-        public void AskForMinAndMaxSumOfErrors()
+        public void StopDataAquisitionSendCommand()
         {
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForMinAndMaxSumOfErrors);
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            this.payloadTxDataBytes[0] = ((byte) DeviceSendData.Disable);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendProcessVariable);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
-        public void AskForMinAndMaxControlledVariable()
+        public void StartDataAquisitionSendCommand()
         {
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForMinAndMaxControlledVariable);
-            this.dataPacketTx.Mount();
-            this.dataPacketTx.SerialSend(this.serialPort);
-        }
-
-        public void AskForPidOffsetAndBias()
-        {
-            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForPidOffsetAndBias);
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            this.payloadTxDataBytes[0] = ((byte) DeviceSendData.Enable);
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendProcessVariable);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 1);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
         }
