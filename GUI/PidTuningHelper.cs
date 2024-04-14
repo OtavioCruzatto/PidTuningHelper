@@ -404,7 +404,6 @@ namespace PidTuningHelper
 
             uint samplingIntervalInMsResultParsed = 0;
             uint pidIntervalInMsResultParsed = 0;
-            // float pidSetpointResultParsed = 0;
             float kpResultParsed = 0;
             float kiResultParsed = 0;
             float kdResultParsed = 0;
@@ -449,29 +448,6 @@ namespace PidTuningHelper
             {
                 parseSuccess = false;
             }
-
-            /*
-            string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
-            if (pidSetpointStr.Contains("."))
-            {
-                pidSetpointStr = pidSetpointStr.Replace(".", ",");
-            }
-            if (!String.IsNullOrEmpty(pidSetpointStr))
-            {
-                if (float.TryParse(pidSetpointStr, out float pidSetpointResult))
-                {
-                    pidSetpointResultParsed = pidSetpointResult;
-                }
-                else
-                {
-                    parseSuccess = false;
-                }
-            }
-            else
-            {
-                parseSuccess = false;
-            }
-            */
 
             string kpStr = kpTxtBox.Text.Trim();
             if (kpStr.Contains("."))
@@ -685,6 +661,44 @@ namespace PidTuningHelper
         private void stopPidBtn_Click(object sender, EventArgs e)
         {
             pidTuningHelperApp.StopPidControllerSendCommand();
+        }
+
+        private void setPidSetpointBtn_Click(object sender, EventArgs e)
+        {
+            bool parseSuccess = true;
+            float pidSetpointResultParsed = 0;
+
+            string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
+            if (pidSetpointStr.Contains("."))
+            {
+                pidSetpointStr = pidSetpointStr.Replace(".", ",");
+            }
+            if (!String.IsNullOrEmpty(pidSetpointStr))
+            {
+                if (float.TryParse(pidSetpointStr, out float pidSetpointResult))
+                {
+                    pidSetpointResultParsed = pidSetpointResult;
+                }
+                else
+                {
+                    parseSuccess = false;
+                }
+            }
+            else
+            {
+                parseSuccess = false;
+            }
+
+            if (parseSuccess == true)
+            {
+                pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResultParsed);
+            }
+            else
+            {
+                String errorMessage = "Parse failed";
+                MessageBox.Show(errorMessage, "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
         }
     }
 }

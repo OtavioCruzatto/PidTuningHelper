@@ -455,7 +455,7 @@ namespace PidTuningHelper.App
 
         public void SetPidSetpointSendCommand(float pidSetpoint)
         {
-            if (pidSetpoint >= 0 && pidSetpoint <= 0x00FFFFFF)
+            if (pidSetpoint >= 0 && pidSetpoint <= 16777215)
             {
                 float pidSetpointTimes1000Aux = 1000 * pidSetpoint;
                 int pidSetpointTimes1000 = (int) pidSetpointTimes1000Aux;
