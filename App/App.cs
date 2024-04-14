@@ -248,7 +248,7 @@ namespace PidTuningHelper.App
         public void SetConfigDataCommand(float kp, float ki, float kd, uint pidIntervalInMsx10, uint samplingIntervalInMsx10, uint movingAverageWindow,
             int minSumOfErrors, int maxSumOfErrors, int minControlledVariable, int maxControlledVariable, float pidOffset, float pidBias)
         {
-            bool error = true;
+            bool error = false;
 
             int pidKpTimes1000 = 0;
             int pidKiTimes1000 = 0;
@@ -256,37 +256,105 @@ namespace PidTuningHelper.App
             int offset = 0;
             int bias = 0;
 
-            if ((kp >= 0 && kp <= 0xFFF) && (ki >= 0 && ki <= 0xFFF) && (kd >= 0 && kd <= 0xFFF) && 
-                (pidIntervalInMsx10 >= 0 && pidIntervalInMsx10 <= 0xFFFF) && (samplingIntervalInMsx10 >= 0 && samplingIntervalInMsx10 <= 0xFFFF) &&
-                (movingAverageWindow >= 0 && movingAverageWindow <= 0xFFFF) && (minSumOfErrors >= -1000000000 && minSumOfErrors <= 1000000000) &&
-                (maxSumOfErrors >= -1000000000 && maxSumOfErrors <= 1000000000) && (minControlledVariable >= -1000000000 && minControlledVariable <= 1000000000) &&
-                (maxControlledVariable >= -1000000000 && maxControlledVariable <= 1000000000) && (pidOffset >= -1000000 && pidOffset <= 1000000) &&
-                (pidBias >= -1000000 && pidBias <= 1000000))
+            if (kp < 0 || kp > 4095)
             {
-                float pidKpTimes1000Aux = 1000 * kp;
-                pidKpTimes1000 = (int) pidKpTimes1000Aux;
-
-                float pidKiTimes1000Aux = 1000 * ki;
-                pidKiTimes1000 = (int) pidKiTimes1000Aux;
-
-                float pidKdTimes1000Aux = 1000 * kd;
-                pidKdTimes1000 = (int) pidKdTimes1000Aux;
-
-                minSumOfErrors += 1000000000;
-                maxSumOfErrors += 1000000000;
-
-                minControlledVariable += 1000000000;
-                maxControlledVariable += 1000000000;
-
-                float offsetAux = (1000 * pidOffset) + 1000000;
-                offset = (int) offsetAux;
-
-                float biasAux = (1000 * pidBias) + 1000000;
-                bias = (int) biasAux;
+                error = true;
             }
             else
             {
+                float pidKpTimes1000Aux = 1000 * kp;
+                pidKpTimes1000 = (int)pidKpTimes1000Aux;
+            }
+
+            if (ki < 0 || ki > 4095)
+            {
                 error = true;
+            }
+            else
+            {
+                float pidKiTimes1000Aux = 1000 * ki;
+                pidKiTimes1000 = (int)pidKiTimes1000Aux;
+            }
+
+            if (kd < 0 || ki > 4095)
+            {
+                error = true;
+            }
+            else
+            {
+                float pidKdTimes1000Aux = 1000 * kd;
+                pidKdTimes1000 = (int)pidKdTimes1000Aux;
+            }
+
+            if (pidIntervalInMsx10 < 0 || pidIntervalInMsx10 > 65535)
+            {
+                error = true;
+            }
+
+            if (samplingIntervalInMsx10 < 0 || samplingIntervalInMsx10 > 65535)
+            {
+                error = true;
+            }
+
+            if (movingAverageWindow < 0 || movingAverageWindow > 65535)
+            {
+                error = true;
+            }
+
+            if (minSumOfErrors < -1000000000 || minSumOfErrors > 1000000000)
+            {
+                error = true;
+            }
+            else
+            {
+                minSumOfErrors += 1000000000;
+            }
+
+            if (maxSumOfErrors < -1000000000 || maxSumOfErrors > 1000000000)
+            {
+                error = true;
+            }
+            else
+            {
+                maxSumOfErrors += 1000000000;
+            }
+
+            if (minControlledVariable < -1000000000 || minControlledVariable > 1000000000)
+            {
+                error = true;
+            }
+            else
+            {
+                minControlledVariable += 1000000000;
+            }
+
+            if (maxControlledVariable < -1000000000 || maxControlledVariable > 1000000000)
+            {
+                error = true;
+            }
+            else
+            {
+                maxControlledVariable += 1000000000;
+            }
+
+            if (pidOffset < -1000000 || pidOffset > 1000000)
+            {
+                error = true;
+            }
+            else
+            {
+                float offsetAux = (1000 * pidOffset) + 1000000;
+                offset = (int)offsetAux;
+            }
+
+            if (pidBias < -1000000 || pidBias > 1000000)
+            {
+                error = true;
+            }
+            else
+            {
+                float biasAux = (1000 * pidBias) + 1000000;
+                bias = (int)biasAux;
             }
 
             if (error == false)
@@ -374,7 +442,10 @@ namespace PidTuningHelper.App
 
         public void AskForCurrentConfigDataValues()
         {
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+            
             this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForCurrentConfigDataValues);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 0);
             this.dataPacketTx.Mount();
             this.dataPacketTx.SerialSend(this.serialPort);
         }

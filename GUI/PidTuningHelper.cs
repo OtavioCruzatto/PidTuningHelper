@@ -15,7 +15,6 @@ namespace PidTuningHelper
 {
     public partial class PidTuningHelper : Form
     {
-
         App.App pidTuningHelperApp;
 
         public PidTuningHelper()
@@ -397,184 +396,285 @@ namespace PidTuningHelper
             currentPidOffsetLbl.Text = "...";
 
             pidTuningHelperApp.AskForCurrentConfigDataValues();
-
-            startPidBtn.Enabled = false;
-            stopPidBtn.Enabled = false;
-            setConfigDataBtn.Enabled = false;
-            readConfigDataBtn.Enabled = false;
         }
 
         private void setConfigDataBtn_Click(object sender, EventArgs e)
         {
-            startPidBtn.Enabled = false;
-            stopPidBtn.Enabled = false;
-            setConfigDataBtn.Enabled = false;
-            readConfigDataBtn.Enabled = false;
+            bool parseSuccess = true;
 
+            uint samplingIntervalInMsResultParsed = 0;
+            uint pidIntervalInMsResultParsed = 0;
+            // float pidSetpointResultParsed = 0;
+            float kpResultParsed = 0;
+            float kiResultParsed = 0;
+            float kdResultParsed = 0;
+            uint movingAverageWindowResultParsed = 0;
+            int minSumOfErrorsResultParsed = 0;
+            int maxSumOfErrorsResultParsed = 0;
+            int minControlledVariableResultParsed = 0;
+            int maxControlledVariableResultParsed = 0;
+            float pidOffsetResultParsed = 0;
+            float pidBiasResultParsed = 0;
 
             string samplingIntervalInMsStr = samplingIntervalTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(samplingIntervalInMsStr))
             {
                 if (uint.TryParse(samplingIntervalInMsStr, out uint samplingIntervalInMsResult))
                 {
-                    //pidTuningHelperApp.SetSamplingIntervalSendCommand(10 * samplingIntervalInMsResult);
+                    samplingIntervalInMsResultParsed = samplingIntervalInMsResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string pidIntervalInMsStr = pidIntervalTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(pidIntervalInMsStr))
             {
                 if (uint.TryParse(pidIntervalInMsStr, out uint pidIntervalInMsResult))
                 {
-                    //pidTuningHelperApp.SetPidIntervalSendCommand(10 * pidIntervalInMsResult);
+                    pidIntervalInMsResultParsed = 10 * pidIntervalInMsResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
+            else
+            {
+                parseSuccess = false;
+            }
 
-
+            /*
             string pidSetpointStr = pidSetpointTxtBox.Text.Trim();
             if (pidSetpointStr.Contains("."))
             {
-                //pidSetpointStr = pidSetpointStr.Replace(".", ",");
+                pidSetpointStr = pidSetpointStr.Replace(".", ",");
             }
-
             if (!String.IsNullOrEmpty(pidSetpointStr))
             {
                 if (float.TryParse(pidSetpointStr, out float pidSetpointResult))
                 {
-                    //pidTuningHelperApp.SetPidSetpointSendCommand(pidSetpointResult);
+                    pidSetpointResultParsed = pidSetpointResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
+            */
 
             string kpStr = kpTxtBox.Text.Trim();
             if (kpStr.Contains("."))
             {
                 kpStr = kpStr.Replace(".", ",");
             }
-
             if (!String.IsNullOrEmpty(kpStr))
             {
                 if (float.TryParse(kpStr, out float kpResult))
                 {
-                    //pidTuningHelperApp.SetKpSendCommand(kpResult);
+                    kpResultParsed = kpResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string kiStr = kiTxtBox.Text.Trim();
             if (kiStr.Contains("."))
             {
                 kiStr = kiStr.Replace(".", ",");
             }
-
             if (!String.IsNullOrEmpty(kiStr))
             {
                 if (float.TryParse(kiStr, out float kiResult))
                 {
-                    //pidTuningHelperApp.SetKiSendCommand(kiResult);
+                    kiResultParsed = kiResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string kdStr = kdTxtBox.Text.Trim();
             if (kdStr.Contains("."))
             {
                 kdStr = kdStr.Replace(".", ",");
             }
-
             if (!String.IsNullOrEmpty(kdStr))
             {
                 if (float.TryParse(kdStr, out float kdResult))
                 {
-                    //pidTuningHelperApp.SetKdSendCommand(kdResult);
+                    kdResultParsed = kdResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string movingAverageWindow = movAverageWinTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(movingAverageWindow))
             {
                 if (uint.TryParse(movingAverageWindow, out uint movingAverageWindowResult))
                 {
-                   //pidTuningHelperApp.SetMovingAverageWindowSendCommand(movingAverageWindowResult);
+                    movingAverageWindowResultParsed = movingAverageWindowResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string minSumOfErrors = minSumOfErrorsTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(minSumOfErrors))
             {
                 if (int.TryParse(minSumOfErrors, out int minSumOfErrorsResult))
                 {
-                    //pidTuningHelperApp.SetMinSumOfErrorsSendCommand(minSumOfErrorsResult);
+                    minSumOfErrorsResultParsed = minSumOfErrorsResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string maxSumOfErrors = maxSumOfErrorsTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(maxSumOfErrors))
             {
                 if (int.TryParse(maxSumOfErrors, out int maxSumOfErrorsResult))
                 {
-                    //pidTuningHelperApp.SetMaxSumOfErrorsSendCommand(maxSumOfErrorsResult);
+                    maxSumOfErrorsResultParsed = maxSumOfErrorsResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string minControlledVariable = minControlledVarTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(minControlledVariable))
             {
                 if (int.TryParse(minControlledVariable, out int minControlledVariableResult))
                 {
-                    //pidTuningHelperApp.SetMinControlledVariableSendCommand(minControlledVariableResult);
+                    minControlledVariableResultParsed = minControlledVariableResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string maxControlledVariable = maxControlledVarTxtBox.Text.Trim();
             if (!String.IsNullOrEmpty(maxControlledVariable))
             {
                 if (int.TryParse(maxControlledVariable, out int maxControlledVariableResult))
                 {
-                    //pidTuningHelperApp.SetMaxControlledVariableSendCommand(maxControlledVariableResult);
+                    maxControlledVariableResultParsed = maxControlledVariableResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string pidOffset = pidOffsetTxtBox.Text.Trim();
             if (pidOffset.Contains("."))
             {
                 pidOffset = pidOffset.Replace(".", ",");
             }
-
             if (!String.IsNullOrEmpty(pidOffset))
             {
                 if (float.TryParse(pidOffset, out float pidOffsetResult))
                 {
-                    //pidTuningHelperApp.SetPidOffsetCommand(pidOffsetResult);
+                    pidOffsetResultParsed = pidOffsetResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
-
+            else
+            {
+                parseSuccess = false;
+            }
 
             string pidBias = pidBiasTxtBox.Text.Trim();
             if (pidBias.Contains("."))
             {
                 pidBias = pidBias.Replace(".", ",");
             }
-
             if (!String.IsNullOrEmpty(pidBias))
             {
                 if (float.TryParse(pidBias, out float pidBiasResult))
                 {
-                    //pidTuningHelperApp.SetPidBiasCommand(pidBiasResult);
+                    pidBiasResultParsed = pidBiasResult;
+                }
+                else
+                {
+                    parseSuccess = false;
                 }
             }
+            else
+            {
+                parseSuccess = false;
+            }
 
-            startPidBtn.Enabled = true;
-            stopPidBtn.Enabled = true;
-            setConfigDataBtn.Enabled = true;
-            readConfigDataBtn.Enabled = true;
+            if (parseSuccess == true)
+            {
+                pidTuningHelperApp.SetConfigDataCommand(kpResultParsed, kiResultParsed, kdResultParsed, pidIntervalInMsResultParsed,
+                    samplingIntervalInMsResultParsed, movingAverageWindowResultParsed, minSumOfErrorsResultParsed, maxSumOfErrorsResultParsed,
+                    minControlledVariableResultParsed, maxControlledVariableResultParsed, pidOffsetResultParsed, pidBiasResultParsed);
+            }
+            else
+            {
+                String errorMessage = "Parse failed";
+                MessageBox.Show(errorMessage, "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
         }
 
         private void startPidBtn_Click(object sender, EventArgs e)
