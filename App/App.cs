@@ -112,7 +112,7 @@ namespace PidTuningHelper.App
                     this.kiTxtBox.Text = pidKi.ToString();
 
                     int pidKdTimes1000 = ((this.payloadRxDataBytes[8] << 24) + (this.payloadRxDataBytes[9] << 16) + (this.payloadRxDataBytes[10] << 8) + this.payloadRxDataBytes[11]);
-                    float pidKd = ((float)pidKdTimes1000) / 1000;
+                    float pidKd = ((float) pidKdTimes1000) / 1000;
                     this.currentKdLabel.Text = pidKd.ToString();
                     this.kdTxtBox.Text = pidKd.ToString();
 
@@ -151,18 +151,21 @@ namespace PidTuningHelper.App
                     this.maxControlledVariableTxtBox.Text = maxControlledVariable.ToString();
 
                     int offsetUnsigned = ((this.payloadRxDataBytes[34] << 24) + (this.payloadRxDataBytes[35] << 16) + (this.payloadRxDataBytes[36] << 8) + this.payloadRxDataBytes[37]);
-                    float offset = ((((float)offsetUnsigned) - 1000000) / 1000);
+                    float offset = ((((float) offsetUnsigned) - 1000000) / 1000);
                     this.currentOffsetLabel.Text = offset.ToString();
                     this.offsetTxtBox.Text = offset.ToString();
 
                     int biasUnsigned = ((this.payloadRxDataBytes[38] << 24) + (this.payloadRxDataBytes[39] << 16) + (this.payloadRxDataBytes[40] << 8) + this.payloadRxDataBytes[41]);
-                    float bias = ((((float)biasUnsigned) - 1000000) / 1000);
+                    float bias = ((((float) biasUnsigned) - 1000000) / 1000);
                     this.currentBiasLabel.Text = bias.ToString();
                     this.biasTxtBox.Text = bias.ToString();
-
                     break;
 
                 case ((byte) CommandsFromMicrocontroller.CurrentPidSetpointValue):
+                    int pidSetpointTimes1000 = ((this.payloadRxDataBytes[0] << 24) + (this.payloadRxDataBytes[1] << 16) + (this.payloadRxDataBytes[2] << 8) + this.payloadRxDataBytes[3]);
+                    float pidSetpoint = ((float) pidSetpointTimes1000) / 1000;
+                    this.currentPidSetpointLabel.Text = pidSetpoint.ToString();
+                    this.pidSetpointTxtBox.Text = pidSetpoint.ToString();
                     break;
 
                 case ((byte) CommandsFromMicrocontroller.CurrentProcessVariableValue):
