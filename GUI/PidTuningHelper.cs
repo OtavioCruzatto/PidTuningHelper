@@ -641,6 +641,20 @@ namespace PidTuningHelper
 
             if (parseSuccess == true)
             {
+                currentKpLbl.Text = "...";
+                currentKiLbl.Text = "...";
+                currentKdLbl.Text = "...";
+                currentPidIntervalLbl.Text = "...";
+                currentPidSetpointLbl.Text = "...";
+                currentSamplingIntervalLbl.Text = "...";
+                currentMovAverWinLbl.Text = "...";
+                currentMinSumOfErrorsLbl.Text = "...";
+                currentMaxSumOfErrorsLbl.Text = "...";
+                currentMinContrVarLbl.Text = "...";
+                currentMaxContrVarLbl.Text = "...";
+                currentPidBiasLbl.Text = "...";
+                currentPidOffsetLbl.Text = "...";
+
                 pidTuningHelperApp.SetConfigDataCommand(kpResultParsed, kiResultParsed, kdResultParsed, pidIntervalInMsResultParsed,
                     samplingIntervalInMsResultParsed, movingAverageWindowResultParsed, minSumOfErrorsResultParsed, maxSumOfErrorsResultParsed,
                     minControlledVariableResultParsed, maxControlledVariableResultParsed, pidOffsetResultParsed, pidBiasResultParsed);
