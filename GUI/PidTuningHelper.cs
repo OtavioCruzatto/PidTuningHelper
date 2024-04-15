@@ -420,7 +420,7 @@ namespace PidTuningHelper
             {
                 if (uint.TryParse(samplingIntervalInMsStr, out uint samplingIntervalInMsResult))
                 {
-                    samplingIntervalInMsResultParsed = samplingIntervalInMsResult;
+                    samplingIntervalInMsResultParsed = 10 * samplingIntervalInMsResult;
                 }
                 else
                 {
