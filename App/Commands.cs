@@ -6,7 +6,8 @@
         AskForCurrentConfigDataValues = 0x02,
         SetPidSetpointValue = 0x03,
         AskForRunPidController = 0x04,
-        AskForSendProcessVariable = 0x05
+        AskForSendProcessVariable = 0x05,
+        AskForSendPidSetpointValue = 0x06
     }
 
     enum CommandsFromMicrocontroller : byte

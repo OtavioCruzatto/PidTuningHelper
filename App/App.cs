@@ -453,6 +453,16 @@ namespace PidTuningHelper.App
             this.dataPacketTx.SerialSend(this.serialPort);
         }
 
+        public void AskForCurrentPidSetpointValue()
+        {
+            Array.Clear(this.payloadTxDataBytes, 0, this.dataPacketTx.GetQtyPayloadTxDataBytes());
+
+            this.dataPacketTx.SetCommand((byte) CommandsToMicrocontroller.AskForSendPidSetpointValue);
+            this.dataPacketTx.SetPayloadData(payloadTxDataBytes, 0);
+            this.dataPacketTx.Mount();
+            this.dataPacketTx.SerialSend(this.serialPort);
+        }
+
         public void SetPidSetpointSendCommand(float pidSetpoint)
         {
             if (pidSetpoint >= 0 && pidSetpoint <= 16777215)

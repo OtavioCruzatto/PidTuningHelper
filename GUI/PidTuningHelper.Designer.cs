@@ -59,6 +59,12 @@
             this.baudrateCb = new System.Windows.Forms.ComboBox();
             this.comPortCb = new System.Windows.Forms.ComboBox();
             this.tabPageGraph = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.setPidSetpointBtn = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.pidSetpointTxtBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.currentPidSetpointLbl = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.currentPidBiasLbl = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -76,8 +82,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.currentSamplingIntervalLbl = new System.Windows.Forms.Label();
             this.currentPidIntervalLbl = new System.Windows.Forms.Label();
-            this.currentPidSetpointLbl = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.currentKdLbl = new System.Windows.Forms.Label();
@@ -106,8 +110,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.movAverageWinTxtBox = new System.Windows.Forms.TextBox();
             this.setConfigDataBtn = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.pidSetpointTxtBox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.pidIntervalTxtBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -139,12 +141,12 @@
             this.serialPort = new System.IO.Ports.SerialPort(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.setPidSetpointBtn = new System.Windows.Forms.Button();
+            this.getPidSetpointBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageSerialPort.SuspendLayout();
             this.settingsGb.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -153,7 +155,6 @@
             this.graphGb.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lineChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
-            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -172,7 +173,7 @@
             this.tabPageSerialPort.Location = new System.Drawing.Point(4, 22);
             this.tabPageSerialPort.Name = "tabPageSerialPort";
             this.tabPageSerialPort.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSerialPort.Size = new System.Drawing.Size(1244, 630);
+            this.tabPageSerialPort.Size = new System.Drawing.Size(1244, 712);
             this.tabPageSerialPort.TabIndex = 0;
             this.tabPageSerialPort.Text = "Serial Port";
             this.tabPageSerialPort.UseVisualStyleBackColor = true;
@@ -385,6 +386,65 @@
             this.tabPageGraph.Text = "PID";
             this.tabPageGraph.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.getPidSetpointBtn);
+            this.groupBox5.Controls.Add(this.setPidSetpointBtn);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.pidSetpointTxtBox);
+            this.groupBox5.Controls.Add(this.label4);
+            this.groupBox5.Controls.Add(this.currentPidSetpointLbl);
+            this.groupBox5.Location = new System.Drawing.Point(8, 543);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(176, 163);
+            this.groupBox5.TabIndex = 25;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "PID Setpoint";
+            // 
+            // setPidSetpointBtn
+            // 
+            this.setPidSetpointBtn.Location = new System.Drawing.Point(6, 64);
+            this.setPidSetpointBtn.Name = "setPidSetpointBtn";
+            this.setPidSetpointBtn.Size = new System.Drawing.Size(164, 32);
+            this.setPidSetpointBtn.TabIndex = 31;
+            this.setPidSetpointBtn.Text = "Set PID Setpoint";
+            this.setPidSetpointBtn.UseVisualStyleBackColor = true;
+            this.setPidSetpointBtn.Click += new System.EventHandler(this.setPidSetpointBtn_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(67, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "PID Setpoint";
+            // 
+            // pidSetpointTxtBox
+            // 
+            this.pidSetpointTxtBox.Location = new System.Drawing.Point(6, 38);
+            this.pidSetpointTxtBox.Name = "pidSetpointTxtBox";
+            this.pidSetpointTxtBox.Size = new System.Drawing.Size(164, 20);
+            this.pidSetpointTxtBox.TabIndex = 17;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 106);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "PID Setpoint:";
+            // 
+            // currentPidSetpointLbl
+            // 
+            this.currentPidSetpointLbl.AutoSize = true;
+            this.currentPidSetpointLbl.Location = new System.Drawing.Point(79, 106);
+            this.currentPidSetpointLbl.Name = "currentPidSetpointLbl";
+            this.currentPidSetpointLbl.Size = new System.Drawing.Size(16, 13);
+            this.currentPidSetpointLbl.TabIndex = 30;
+            this.currentPidSetpointLbl.Text = "...";
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.currentPidBiasLbl);
@@ -562,24 +622,6 @@
             this.currentPidIntervalLbl.Size = new System.Drawing.Size(16, 13);
             this.currentPidIntervalLbl.TabIndex = 31;
             this.currentPidIntervalLbl.Text = "...";
-            // 
-            // currentPidSetpointLbl
-            // 
-            this.currentPidSetpointLbl.AutoSize = true;
-            this.currentPidSetpointLbl.Location = new System.Drawing.Point(80, 83);
-            this.currentPidSetpointLbl.Name = "currentPidSetpointLbl";
-            this.currentPidSetpointLbl.Size = new System.Drawing.Size(16, 13);
-            this.currentPidSetpointLbl.TabIndex = 30;
-            this.currentPidSetpointLbl.Text = "...";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 83);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 13);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "PID Setpoint:";
             // 
             // label5
             // 
@@ -849,22 +891,6 @@
             this.setConfigDataBtn.Text = "Set Config Data";
             this.setConfigDataBtn.UseVisualStyleBackColor = true;
             this.setConfigDataBtn.Click += new System.EventHandler(this.setConfigDataBtn_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 35);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 13);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "PID Setpoint";
-            // 
-            // pidSetpointTxtBox
-            // 
-            this.pidSetpointTxtBox.Location = new System.Drawing.Point(7, 51);
-            this.pidSetpointTxtBox.Name = "pidSetpointTxtBox";
-            this.pidSetpointTxtBox.Size = new System.Drawing.Size(163, 20);
-            this.pidSetpointTxtBox.TabIndex = 17;
             // 
             // label11
             // 
@@ -1242,29 +1268,15 @@
             this.timer2.Interval = 5;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // groupBox5
+            // getPidSetpointBtn
             // 
-            this.groupBox5.Controls.Add(this.setPidSetpointBtn);
-            this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Controls.Add(this.pidSetpointTxtBox);
-            this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Controls.Add(this.currentPidSetpointLbl);
-            this.groupBox5.Location = new System.Drawing.Point(8, 543);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(176, 163);
-            this.groupBox5.TabIndex = 25;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "PID Setpoint";
-            // 
-            // setPidSetpointBtn
-            // 
-            this.setPidSetpointBtn.Location = new System.Drawing.Point(10, 110);
-            this.setPidSetpointBtn.Name = "setPidSetpointBtn";
-            this.setPidSetpointBtn.Size = new System.Drawing.Size(160, 47);
-            this.setPidSetpointBtn.TabIndex = 31;
-            this.setPidSetpointBtn.Text = "Set PID Setpoint";
-            this.setPidSetpointBtn.UseVisualStyleBackColor = true;
-            this.setPidSetpointBtn.Click += new System.EventHandler(this.setPidSetpointBtn_Click);
+            this.getPidSetpointBtn.Location = new System.Drawing.Point(6, 122);
+            this.getPidSetpointBtn.Name = "getPidSetpointBtn";
+            this.getPidSetpointBtn.Size = new System.Drawing.Size(164, 32);
+            this.getPidSetpointBtn.TabIndex = 32;
+            this.getPidSetpointBtn.Text = "Get PID Setpoint";
+            this.getPidSetpointBtn.UseVisualStyleBackColor = true;
+            this.getPidSetpointBtn.Click += new System.EventHandler(this.getPidSetpointBtn_Click);
             // 
             // PidTuningHelper
             // 
@@ -1281,6 +1293,8 @@
             this.settingsGb.ResumeLayout(false);
             this.settingsGb.PerformLayout();
             this.tabPageGraph.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1292,8 +1306,6 @@
             this.graphGb.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lineChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1401,6 +1413,7 @@
         private System.Windows.Forms.TextBox pidOffsetTxtBox;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button setPidSetpointBtn;
+        private System.Windows.Forms.Button getPidSetpointBtn;
     }
 }
 

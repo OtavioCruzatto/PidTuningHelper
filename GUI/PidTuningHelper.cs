@@ -385,7 +385,6 @@ namespace PidTuningHelper
             currentKiLbl.Text = "...";
             currentKdLbl.Text = "...";
             currentPidIntervalLbl.Text = "...";
-            currentPidSetpointLbl.Text = "...";
             currentSamplingIntervalLbl.Text = "...";
             currentMovAverWinLbl.Text = "...";
             currentMinSumOfErrorsLbl.Text = "...";
@@ -645,7 +644,6 @@ namespace PidTuningHelper
                 currentKiLbl.Text = "...";
                 currentKdLbl.Text = "...";
                 currentPidIntervalLbl.Text = "...";
-                currentPidSetpointLbl.Text = "...";
                 currentSamplingIntervalLbl.Text = "...";
                 currentMovAverWinLbl.Text = "...";
                 currentMinSumOfErrorsLbl.Text = "...";
@@ -712,7 +710,12 @@ namespace PidTuningHelper
                 String errorMessage = "Parse failed";
                 MessageBox.Show(errorMessage, "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
 
+        private void getPidSetpointBtn_Click(object sender, EventArgs e)
+        {
+            currentPidSetpointLbl.Text = "...";
+            pidTuningHelperApp.AskForCurrentPidSetpointValue();
         }
     }
 }
