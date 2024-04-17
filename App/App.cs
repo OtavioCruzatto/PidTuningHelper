@@ -19,6 +19,9 @@ namespace PidTuningHelper.App
         private int processVariableValue;
         private int pointsCounter;
 
+        private int serialCommunicationCounter;
+        private bool currentPidControllerStatus;
+
         private SerialPort serialPort;
         private Chart lineChart;
         private string lineChartSerie = "processVariableSerie";
@@ -36,6 +39,7 @@ namespace PidTuningHelper.App
         private Label currentMaxControlledVariableLabel;
         private Label currentOffsetLabel;
         private Label currentBiasLabel;
+        private Label currentPidControllerStatusLabel;
 
         private TextBox kpTxtBox;
         private TextBox kiTxtBox;
@@ -71,6 +75,7 @@ namespace PidTuningHelper.App
             this.stateMachine = 0;
 
             this.processVariableValue = 0;
+            this.currentPidControllerStatus = false;
 
             this.dataPacketTx = new DataPacketTx(0xAA, 0x55);
             this.dataPacketRx = new DataPacketRx(0xAA, 0x55);
@@ -177,6 +182,28 @@ namespace PidTuningHelper.App
                     {
                         this.pointsCounter = this.lineChartMinX;
                         this.ClearChart();
+                    }
+                    break;
+
+                case ((byte) CommandsFromMicrocontroller.KeepAliveMessageWithPidControllerStatus):
+                    this.ClearSerialCommunicationCounter();
+
+                    if (this.payloadRxDataBytes[0] == 0x01)
+                    {
+                        this.currentPidControllerStatus = true;
+                    }
+                    else
+                    {
+                        this.currentPidControllerStatus = false;
+                    }
+
+                    if (this.currentPidControllerStatus == true)
+                    {
+                        this.currentPidControllerStatusLabel.Text = "RUNNING";
+                    }
+                    else
+                    {
+                        this.currentPidControllerStatusLabel.Text = "HALT";
                     }
                     break;
 
@@ -657,6 +684,21 @@ namespace PidTuningHelper.App
             this.pointsCounter = this.lineChartMinX;
         }
 
+        public void IncrementSerialCommunicationCounter()
+        {
+            this.serialCommunicationCounter++;
+        }
+
+        public void ClearSerialCommunicationCounter()
+        {
+            this.serialCommunicationCounter = 0;
+        }
+
+        public int GetSerialCommunicationCounter()
+        {
+            return this.serialCommunicationCounter;
+        }
+
         public void SetLineChart(Chart lineChart)
         {
             this.lineChart = lineChart;
@@ -737,6 +779,11 @@ namespace PidTuningHelper.App
             this.currentBiasLabel = currentBiasLabel;
         }
 
+        public void SetCurrentPidControllerStatusLabel(Label currentPidControllerStatusLabel)
+        {
+            this.currentPidControllerStatusLabel = currentPidControllerStatusLabel;
+        }
+
         public void SetKpTxtBox(TextBox kpTxtBox)
         {
             this.kpTxtBox = kpTxtBox;
@@ -801,6 +848,5 @@ namespace PidTuningHelper.App
         {
             this.biasTxtBox = biasTxtBox;
         }
-
     }
 }

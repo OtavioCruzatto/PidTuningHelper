@@ -40,6 +40,7 @@ namespace PidTuningHelper
             pidTuningHelperApp.SetCurrentMaxControlledVariableLabel(currentMaxContrVarLbl);
             pidTuningHelperApp.SetCurrentOffsetLabel(currentPidOffsetLbl);
             pidTuningHelperApp.SetCurrentBiasLabel(currentPidBiasLbl);
+            pidTuningHelperApp.SetCurrentPidControllerStatusLabel(currentPidControllerStatusLabel);
 
             pidTuningHelperApp.SetKpTxtBox(kpTxtBox);
             pidTuningHelperApp.SetKdTxtBox(kdTxtBox);
@@ -90,7 +91,7 @@ namespace PidTuningHelper
 
                     if (serialPort.IsOpen == true)
                     {
-                        this.SetItemsToConnectedMode();
+                        this.SetItemsToConnectedModeWithoutCommunication();
                     }
                     else
                     {
@@ -172,39 +173,6 @@ namespace PidTuningHelper
             }
         }
 
-        private void SetItemsToConnectedMode()
-        {
-            openBtn.Enabled = false;
-            comPortCb.Enabled = false;
-            baudrateCb.Enabled = false;
-            dataBitsCb.Enabled = false;
-            parityCb.Enabled = false;
-            stopBitsCb.Enabled = false;
-            flowControlCb.Enabled = false;
-            closeBtn.Enabled = true;
-            startBtn.Enabled = true;
-            stopBtn.Enabled = true;
-            loadDataBtn.Enabled = false;
-            startPidBtn.Enabled = true;
-            stopPidBtn.Enabled = true;
-            setConfigDataBtn.Enabled = true;
-            readConfigDataBtn.Enabled = true;
-            kpTxtBox.Enabled = true;
-            kiTxtBox.Enabled = true;
-            kdTxtBox.Enabled = true;
-            pidSetpointTxtBox.Enabled = true;
-            pidIntervalTxtBox.Enabled = true;
-            samplingIntervalTxtBox.Enabled = true;
-            movAverageWinTxtBox.Enabled = true;
-            pidOffsetTxtBox.Enabled = true;
-            minSumOfErrorsTxtBox.Enabled = true;
-            maxSumOfErrorsTxtBox.Enabled = true;
-            minControlledVarTxtBox.Enabled = true;
-            maxControlledVarTxtBox.Enabled = true;
-            pidBiasTxtBox.Enabled = true;
-            portStatusPb.Value = 100;
-        }
-
         private void closeBtn_Click(object sender, EventArgs e)
         {
             pidTuningHelperApp.ClearDataPacketRx();
@@ -238,6 +206,8 @@ namespace PidTuningHelper
             stopPidBtn.Enabled = false;
             setConfigDataBtn.Enabled = false;
             readConfigDataBtn.Enabled = false;
+            setPidSetpointBtn.Enabled = false;
+            getPidSetpointBtn.Enabled = false;
             kpTxtBox.Enabled = false;
             kiTxtBox.Enabled = false;
             kdTxtBox.Enabled = false;
@@ -252,6 +222,138 @@ namespace PidTuningHelper
             maxControlledVarTxtBox.Enabled = false;
             pidBiasTxtBox.Enabled = false;
             portStatusPb.Value = 0;
+            timer1.Enabled = false;
+
+            kpTxtBox.Clear();
+            kiTxtBox.Clear();
+            kdTxtBox.Clear();
+            pidSetpointTxtBox.Clear();
+            pidIntervalTxtBox.Clear();
+            samplingIntervalTxtBox.Clear();
+            movAverageWinTxtBox.Clear();
+            pidOffsetTxtBox.Clear();
+            minSumOfErrorsTxtBox.Clear();
+            maxSumOfErrorsTxtBox.Clear();
+            minControlledVarTxtBox.Clear();
+            maxControlledVarTxtBox.Clear();
+            pidBiasTxtBox.Clear();
+
+            currentPidControllerStatusLabel.Text = "...";
+            currentKpLbl.Text = "...";
+            currentKiLbl.Text = "...";
+            currentKdLbl.Text = "...";
+            currentPidIntervalLbl.Text = "...";
+            currentSamplingIntervalLbl.Text = "...";
+            currentMovAverWinLbl.Text = "...";
+            currentMinSumOfErrorsLbl.Text = "...";
+            currentMaxSumOfErrorsLbl.Text = "...";
+            currentMinContrVarLbl.Text = "...";
+            currentMaxContrVarLbl.Text = "...";
+            currentPidBiasLbl.Text = "...";
+            currentPidOffsetLbl.Text = "...";
+            currentPidSetpointLbl.Text = "...";
+        }
+
+        private void SetItemsToConnectedModeWithoutCommunication()
+        {
+            openBtn.Enabled = false;
+            comPortCb.Enabled = false;
+            baudrateCb.Enabled = false;
+            dataBitsCb.Enabled = false;
+            parityCb.Enabled = false;
+            stopBitsCb.Enabled = false;
+            flowControlCb.Enabled = false;
+            closeBtn.Enabled = true;
+            startBtn.Enabled = false;
+            stopBtn.Enabled = false;
+            saveDataBtn.Enabled = false;
+            loadDataBtn.Enabled = true;
+            startPidBtn.Enabled = false;
+            stopPidBtn.Enabled = false;
+            setConfigDataBtn.Enabled = false;
+            readConfigDataBtn.Enabled = false;
+            setPidSetpointBtn.Enabled = false;
+            getPidSetpointBtn.Enabled = false;
+            kpTxtBox.Enabled = false;
+            kiTxtBox.Enabled = false;
+            kdTxtBox.Enabled = false;
+            pidSetpointTxtBox.Enabled = false;
+            pidIntervalTxtBox.Enabled = false;
+            samplingIntervalTxtBox.Enabled = false;
+            movAverageWinTxtBox.Enabled = false;
+            pidOffsetTxtBox.Enabled = false;
+            minSumOfErrorsTxtBox.Enabled = false;
+            maxSumOfErrorsTxtBox.Enabled = false;
+            minControlledVarTxtBox.Enabled = false;
+            maxControlledVarTxtBox.Enabled = false;
+            pidBiasTxtBox.Enabled = false;
+            portStatusPb.Value = 50;
+            timer1.Enabled = true;
+
+            kpTxtBox.Clear();
+            kiTxtBox.Clear();
+            kdTxtBox.Clear();
+            pidSetpointTxtBox.Clear();
+            pidIntervalTxtBox.Clear();
+            samplingIntervalTxtBox.Clear();
+            movAverageWinTxtBox.Clear();
+            pidOffsetTxtBox.Clear();
+            minSumOfErrorsTxtBox.Clear();
+            maxSumOfErrorsTxtBox.Clear();
+            minControlledVarTxtBox.Clear();
+            maxControlledVarTxtBox.Clear();
+            pidBiasTxtBox.Clear();
+
+            currentPidControllerStatusLabel.Text = "...";
+            currentKpLbl.Text = "...";
+            currentKiLbl.Text = "...";
+            currentKdLbl.Text = "...";
+            currentPidIntervalLbl.Text = "...";
+            currentSamplingIntervalLbl.Text = "...";
+            currentMovAverWinLbl.Text = "...";
+            currentMinSumOfErrorsLbl.Text = "...";
+            currentMaxSumOfErrorsLbl.Text = "...";
+            currentMinContrVarLbl.Text = "...";
+            currentMaxContrVarLbl.Text = "...";
+            currentPidBiasLbl.Text = "...";
+            currentPidOffsetLbl.Text = "...";
+            currentPidSetpointLbl.Text = "...";
+        }
+
+        private void SetItemsToConnectedModeWithCommunication()
+        {
+            openBtn.Enabled = false;
+            comPortCb.Enabled = false;
+            baudrateCb.Enabled = false;
+            dataBitsCb.Enabled = false;
+            parityCb.Enabled = false;
+            stopBitsCb.Enabled = false;
+            flowControlCb.Enabled = false;
+            closeBtn.Enabled = true;
+            startBtn.Enabled = true;
+            stopBtn.Enabled = true;
+            loadDataBtn.Enabled = false;
+            startPidBtn.Enabled = true;
+            stopPidBtn.Enabled = true;
+            setConfigDataBtn.Enabled = true;
+            readConfigDataBtn.Enabled = true;
+            setPidSetpointBtn.Enabled = true;
+            getPidSetpointBtn.Enabled = true;
+            kpTxtBox.Enabled = true;
+            kiTxtBox.Enabled = true;
+            kdTxtBox.Enabled = true;
+            pidSetpointTxtBox.Enabled = true;
+            pidIntervalTxtBox.Enabled = true;
+            samplingIntervalTxtBox.Enabled = true;
+            movAverageWinTxtBox.Enabled = true;
+            pidOffsetTxtBox.Enabled = true;
+            minSumOfErrorsTxtBox.Enabled = true;
+            maxSumOfErrorsTxtBox.Enabled = true;
+            minControlledVarTxtBox.Enabled = true;
+            maxControlledVarTxtBox.Enabled = true;
+            pidBiasTxtBox.Enabled = true;
+            portStatusPb.Value = 100;
+            timer1.Enabled = true;
         }
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -289,6 +391,20 @@ namespace PidTuningHelper
             if (pidTuningHelperApp.LineChartContainsPoints() == true)
             {
                 saveDataBtn.Enabled = true;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            pidTuningHelperApp.IncrementSerialCommunicationCounter();
+
+            if (pidTuningHelperApp.GetSerialCommunicationCounter() >= (int) Delay._3000ms)
+            {
+                this.SetItemsToConnectedModeWithoutCommunication();
+            }
+            else
+            {
+                this.SetItemsToConnectedModeWithCommunication();
             }
         }
 
@@ -662,7 +778,6 @@ namespace PidTuningHelper
                 String errorMessage = "Parse failed";
                 MessageBox.Show(errorMessage, "Invalid value...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
 
         private void startPidBtn_Click(object sender, EventArgs e)

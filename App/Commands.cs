@@ -14,6 +14,7 @@
     {
         CurrentConfigDataValues = 0x80,
         CurrentPidSetpointValue = 0x81,
-        CurrentProcessVariableValue = 0x82
+        CurrentProcessVariableValue = 0x82,
+        KeepAliveMessageWithPidControllerStatus = 0x83
     }
 }
