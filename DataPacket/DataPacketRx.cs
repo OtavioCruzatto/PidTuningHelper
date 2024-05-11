@@ -42,6 +42,8 @@ namespace PidTuningHelper.DataPacket
 
         private bool valid = false;
 
+        private int counterIterations = 0;
+
         // END: General attributes
 
 
@@ -114,16 +116,23 @@ namespace PidTuningHelper.DataPacket
                 }
                 else if (this.payloadDataLength <= DataPacketRx.QTY_PAYLOAD_RX_DATA_BYTES)
                 {
-                    byte receivedCrc8 = this.dataPacket[this.starterBytesIndex + this.payloadDataLength + 4];
+                    this.counterIterations++;
+                    
                     byte[] dataPacketWithoutCrc8 = new byte[DataPacketRx.QTY_PACKET_RX_BYTES];
                     Array.Copy(this.dataPacket, this.starterBytesIndex, dataPacketWithoutCrc8, 0, this.payloadDataLength + 4);
-                    this.crc8 = Crc8.CalculatesCrc8(dataPacketWithoutCrc8, this.payloadDataLength + 4);
-
-                    if (this.crc8 == receivedCrc8)
+                    
+                    if (this.counterIterations >= this.payloadDataLength)
                     {
-                        this.SetPayloadData();
-                        this.currentRxByteIndex = 0;
-                        this.valid = true;
+                        this.counterIterations = 0;
+                        byte receivedCrc8 = this.dataPacket[this.starterBytesIndex + this.payloadDataLength + 4];
+                        this.crc8 = Crc8.CalculatesCrc8(dataPacketWithoutCrc8, this.payloadDataLength + 4);
+
+                        if (this.crc8 == receivedCrc8)
+                        {
+                            this.SetPayloadData();
+                            this.currentRxByteIndex = 0;
+                            this.valid = true;
+                        }
                     }
                 }
                 else
