@@ -208,12 +208,15 @@ namespace PidTuningHelper.DataPacket
 
         private void SetCommand(byte command)
         {
-            if ((command < 0x01) || (command > 0xfe))
+            if ((command >= 0x01) && (command <= 0xfe))
             {
-                throw new ArgumentOutOfRangeException("command", "Argument value shall be between 1 (0x00) and 254 (0xfe).");
+                this.command = command;
+                //throw new ArgumentOutOfRangeException("command", "Argument value shall be between 1 (0x00) and 254 (0xfe).");
             }
-
-            this.command = command;
+            else
+            {
+                this.Clear();
+            }
         }
 
         private void SetPayloadData()
